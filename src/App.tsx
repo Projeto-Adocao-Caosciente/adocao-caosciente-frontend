@@ -1,9 +1,11 @@
 import React from 'react';
+import {NextUIProvider} from "@nextui-org/react";
 
 function App() {
   return (
-    <div>
-    </div>
+      <NextUIProvider>
+          <div></div>
+      </NextUIProvider>
   );
 }
 
