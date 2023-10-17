@@ -1,4 +1,4 @@
-import axios, { AxiosResponse, Method } from 'axios/index';
+import axios, { AxiosResponse, Method } from 'axios/index'
 
 export type HttpRequest = {
   url: string
@@ -14,7 +14,7 @@ export enum HttpStatusCode {
   unauthorized = 401,
   forbidden = 403,
   notFound = 404,
-  serverError = 500
+  serverError = 500,
 }
 
 export type HttpResponse<T = any> = {
@@ -34,12 +34,12 @@ export class AxiosHttpClientImpl implements AxiosHttpClient {
       url: data.url,
       method: data.method,
       data: data.body,
-      headers: data.headers
+      headers: data.headers,
     })
 
     return {
       statusCode: axiosResponse.status,
-      body: axiosResponse.data
+      body: axiosResponse.data,
     }
   }
 }
