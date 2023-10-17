@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from 'react'
 
 export enum Status {
   idle,
@@ -12,7 +12,7 @@ export interface State<T> {
   status: Status
 }
 export function useFetch<T = unknown>(
-  fn: () => Promise<T>,
+  fn: () => Promise<T>
 ): {
   fetch: () => Promise<void>
   state: State<T>
@@ -20,7 +20,7 @@ export function useFetch<T = unknown>(
   const initialState: State<T> = {
     error: undefined,
     data: undefined,
-    status: Status.idle
+    status: Status.idle,
   }
 
   const [state, setState] = useState(initialState)
@@ -35,12 +35,13 @@ export function useFetch<T = unknown>(
       const result = await fn()
 
       setState({
-        data: result, status: Status.success,
+        data: result,
+        status: Status.success,
       })
     } catch (e) {
       setState({
         status: Status.error,
-        error: e as Error
+        error: e as Error,
       })
     }
   }

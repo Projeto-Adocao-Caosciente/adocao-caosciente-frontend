@@ -1,7 +1,7 @@
-import React from 'react';
-import { NextUIProvider } from '@nextui-org/react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { AppRoutes } from './routes/app-routes';
+import React from 'react'
+import { NextUIProvider } from '@nextui-org/react'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { AppRoutes } from './routes/app-routes'
 
 function App() {
   return (
@@ -19,4 +19,4 @@ function App() {
 function Home() {
   return <div></div>
 }
-export default App;
+export default App
