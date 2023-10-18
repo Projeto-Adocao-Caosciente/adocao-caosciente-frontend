@@ -8,12 +8,15 @@ import OngRegister from './presentation/pages/OngRegister'
 import ScrollTopButton from './presentation/components/ScrollTopButton'
 import { makePetPage } from './factories/pages/pet-page-factory'
 
+import Login from './presentation/pages/Login'
+
 function App() {
     return (
         <NextUIProvider>
             <BrowserRouter>
                 <Routes>
                     <Route path={AppRoutes.home} element={<Home />} />
+                    <Route path={AppRoutes.login} element={<Login />} />
                     <Route path={AppRoutes.ongEdit} element={<OngEdit />} />
                     <Route path={AppRoutes.ongRegister} element={<OngRegister />} />
                     <Route
