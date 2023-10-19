@@ -1,6 +1,10 @@
 import React from 'react'
 
+<<<<<<< HEAD
 export default function LinkIcon() {
+=======
+export default function UploadIcon() {
+>>>>>>> b0fc909 (CT-24: adicionada ultima seçao da página (botão de login e link para página de novo cadastro))
   return (
     <svg 
         xmlns="http://www.w3.org/2000/svg" 
