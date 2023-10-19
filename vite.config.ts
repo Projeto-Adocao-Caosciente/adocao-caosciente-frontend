@@ -6,23 +6,8 @@ export default defineConfig({
     // depending on your application, base can also be "/"
     base: '',
     plugins: [react(), viteTsconfigPaths()],
-    resolve: {
-        alias: [
-            {
-                find: './runtimeConfig',
-                replacement: './runtimeConfig.browser',
-            },
-        ],
-    },
     define: {
-        test: {
-            globals: true,
-            environment: 'jsdom',
-            setupFiles: './src/test/setup.ts',
-        },
-    },
-    build: {
-        rollupOptions: {},
+        global: 'globalThis',
     },
     server: {
         // this ensures that the browser opens upon server start
