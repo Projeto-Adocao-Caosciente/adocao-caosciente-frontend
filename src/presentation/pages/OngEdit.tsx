@@ -78,6 +78,9 @@ export default function OngEdit() {
                             maxRows={8}
                         />
                         <Input
+                            type="date"
+                            max={new Date().toISOString().split('T')[0]}
+                            min="1900-01-01"
                             placeholder="Data de fundação"
                             variant="bordered"
                             size="lg"
