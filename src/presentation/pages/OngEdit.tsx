@@ -29,7 +29,7 @@ export default function OngEdit() {
                     <InputFileImage handleImageUpload={setImage}/>
                     <article className="flex flex-1 flex-col gap-6">
                         <Input
-                            placeholder="CNPJ"
+                            placeholder="CNPJ (00.000.000/0000-00)"
                             variant="bordered"
                             size="lg"
                         />
