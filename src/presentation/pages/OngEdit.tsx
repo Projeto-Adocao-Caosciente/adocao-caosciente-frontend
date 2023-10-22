@@ -1,0 +1,115 @@
+import React, { useState } from 'react'
+import Navbar from '../components/Navbar'
+import {
+    Input,
+    Divider,
+    Select,
+    SelectItem,
+    Button,
+    Textarea,
+} from '@nextui-org/react'
+import UploadIcon from '../assets/UploadIcon'
+import InputFileImage from '../components/InputFileImage'
+
+export default function OngEdit() {
+    const [image, setImage] = useState<File>(new File([], ""))
+    return (
+        <>
+            <Navbar />
+            <main className="container">
+                <section className="flex justify-center mb-12">
+                    {/* TODO: Centralizar o placeholder */}
+                    <Input
+                        placeholder="Nome da ONG"
+                        variant="underlined"
+                        className="w-96"
+                    />
+                </section>
+                <section className="flex gap-6 xs:flex-col xs:items-center md:flex-row">
+                    <InputFileImage handleImageUpload={setImage}/>
+                    <article className="flex flex-1 flex-col gap-6">
+                        <Input
+                            placeholder="CNPJ"
+                            variant="bordered"
+                            size="lg"
+                        />
+                        <Input
+                            placeholder="Email"
+                            variant="bordered"
+                            size="lg"
+                        />
+                        <div className="flex gap-6">
+                            <Input
+                                placeholder="Estado"
+                                variant="bordered"
+                                size="lg"
+                            />
+                            <Input
+                                placeholder="Cidade"
+                                variant="bordered"
+                                size="lg"
+                            />
+                        </div>
+                    </article>
+                </section>
+                <Divider className="my-6" />
+                <section className="flex flex-col gap-2">
+                    <h3 className="text-xl font-bold">Contato:</h3>
+                    <Input
+                        placeholder="Telefone"
+                        variant="bordered"
+                        size="lg"
+                    />
+                </section>
+                <Divider className="my-6" />
+                <section className="flex flex-col gap-2">
+                    <h3 className="text-xl font-bold">
+                        Ajude-nos a conhecer a ONG:
+                    </h3>
+                    <article className="flex flex-col gap-6">
+                        <Textarea
+                            placeholder="Descreva seus programas e atividades"
+                            minRows={4}
+                            maxRows={8}
+                        />
+                        <Textarea
+                            placeholder="Missão da ONG"
+                            minRows={4}
+                            maxRows={8}
+                        />
+                        <Input
+                            placeholder="Data de fundação"
+                            variant="bordered"
+                            size="lg"
+                        />
+                    </article>
+                </section>
+                <Divider className="my-6" />
+                <section className="flex flex-col gap-2">
+                    <h3 className="text-xl font-bold">Dados de acesso:</h3>
+                    <article className="flex flex-col gap-6">
+                        <Input
+                            placeholder="Senha"
+                            variant="bordered"
+                            size="lg"
+                        />
+                        <Input
+                            placeholder="Confirmar senha"
+                            variant="bordered"
+                            size="lg"
+                        />
+                    </article>
+                </section>
+                <Divider className="my-6" />
+                <section className="flex flex-col gap-6">
+                    <Button color="primary" variant="solid" size="md">
+                        Cadastrar
+                    </Button>
+                    <Button color="danger" variant="flat" size="md">
+                        Cancelar
+                    </Button>
+                </section>
+            </main>
+        </>
+    )
+}
