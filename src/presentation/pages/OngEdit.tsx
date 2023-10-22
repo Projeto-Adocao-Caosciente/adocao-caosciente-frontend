@@ -12,11 +12,11 @@ import UploadIcon from '../assets/UploadIcon'
 import InputFileImage from '../components/InputFileImage'
 
 export default function OngEdit() {
-    const [image, setImage] = useState<File>(new File([], ""))
+    const [image, setImage] = useState<File>(new File([], ''))
     return (
         <>
             <Navbar />
-            <main className="container">
+            <main className="container-form">
                 <section className="flex justify-center mb-12">
                     {/* TODO: Centralizar o placeholder */}
                     <Input
@@ -26,7 +26,7 @@ export default function OngEdit() {
                     />
                 </section>
                 <section className="flex gap-6 xs:flex-col xs:items-center md:flex-row">
-                    <InputFileImage handleImageUpload={setImage}/>
+                    <InputFileImage handleImageUpload={setImage} />
                     <article className="flex flex-1 flex-col gap-6">
                         <Input
                             placeholder="CNPJ (00.000.000/0000-00)"

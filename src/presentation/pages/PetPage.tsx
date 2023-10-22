@@ -28,7 +28,7 @@ export default function PetPage({ interactor }: Props) {
         <>
             <Navbar />
             {/* FIXME: Ajeitar margem */}
-            <main className="px-5 md:px-0 mx-auto max-w-[600px] pt-4">
+            <main className="container-form">
                 <section className="mb-12">
                     <div className="sm:flex sm:justify-center">
                         <Input
