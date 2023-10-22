@@ -1,3 +1,15 @@
 @tailwind base;
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+    .container {
+        @apply xs:mx-8 sm:mx-16 md:mx-32 lg:mx-40 xl:mx-64;
+        @apply mb-10;
+    }
+
+};
+
 @tailwind components;
 @tailwind utilities;
