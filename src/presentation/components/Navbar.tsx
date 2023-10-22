@@ -9,12 +9,18 @@ import {
   DropdownMenu,
   Avatar,
 } from '@nextui-org/react'
+import { AppRoutes } from '../../routes/app-routes'
+import { useNavigate } from 'react-router-dom'
 
 export default function NavbarComponent() {
+  const navigate = useNavigate()
+  const navigateTo = (path: string) => {
+    navigate(path)
+  }
   // TODO: Ajeitar a navbar (margem errada, se possível definir margem global)
   return (
     <Navbar isBordered={false}>
-      <NavbarBrand>
+      <NavbarBrand onClick={() => navigateTo(AppRoutes.home)} className="cursor-pointer">
         {/* TODO: Adicionar LOGO aqui  */}
         {/* <AdocaoscienteLogo />  */}
         <p className="font-bold text-inherit">Projeto Adocação Cãosciente</p>
@@ -38,8 +44,9 @@ export default function NavbarComponent() {
               <p className="font-semibold">Logado como </p>
               <p className="font-semibold">email@adocaosciente.com.br</p>
             </DropdownItem>
-            <DropdownItem key="configurations">Configurações</DropdownItem>
-            <DropdownItem key="about_the_project">Sobre o projeto</DropdownItem>
+            <DropdownItem key="edit" onPress={() => navigateTo(AppRoutes.ongEdit)}>Editar cadastro</DropdownItem>
+            <DropdownItem key="configurations" onPress={() => navigateTo("#")}>Configurações</DropdownItem>
+            <DropdownItem key="about_the_project" onPress={() => navigateTo("#")}>Sobre o projeto</DropdownItem>
             <DropdownItem key="logout" color="danger">
               Sair
             </DropdownItem>
