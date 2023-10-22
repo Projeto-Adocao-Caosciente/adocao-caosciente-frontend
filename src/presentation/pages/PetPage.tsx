@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Navbar from '../components/Navbar'
 import {
     Input,
@@ -9,18 +9,21 @@ import {
     Textarea,
 } from '@nextui-org/react'
 import UploadIcon from '../assets/UploadIcon'
+import { useFetch } from '../hooks/use-fetch'
+import { SelectOption } from '../../domain/models/select-option'
+import { PetInteractor } from '../../domain/interactors/pet-interactor'
 
-export default function PetPage() {
-    const dummyList = [
-        {
-            label: 'Cegueira',
-            value: 'cegueira',
-        },
-        {
-            label: 'Surdez',
-            value: 'surdez',
-        },
-    ]
+type Props = {
+    interactor: PetInteractor
+}
+
+export default function PetPage({ interactor }: Props) {
+    const pet = useFetch<SelectOption[]>(() => interactor.getSpecialNeeds())
+
+    useEffect(() => {
+        pet.fetch().then()
+    }, [])
+
     return (
         <>
             <Navbar />
@@ -85,12 +88,9 @@ export default function PetPage() {
                         variant="bordered"
                         size="md"
                     >
-                        {dummyList.map((deficiencia) => (
-                            <SelectItem
-                                key={deficiencia.value}
-                                value={deficiencia.value}
-                            >
-                                {deficiencia.label}
+                        {(pet.state?.data ?? []).map((option) => (
+                            <SelectItem key={option.value} value={option.value}>
+                                {option.label}
                             </SelectItem>
                         ))}
                     </Select>
