@@ -56,7 +56,7 @@ export default function OngEdit() {
                 <section className="flex flex-col gap-2">
                     <h3 className="text-xl font-bold">Contato:</h3>
                     <Input
-                        placeholder="Telefone"
+                        placeholder="Telefone (00) 0 0000-0000"
                         variant="bordered"
                         size="lg"
                     />
