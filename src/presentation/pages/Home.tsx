@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <main className="xs:px-5 md:px-20 lg:px-40">
+      <main className="container">
         <h1 className="text-center xs:text-2xl md:text-3xl font-bold py-16">
           Bem-vindo de volta
           <br />
