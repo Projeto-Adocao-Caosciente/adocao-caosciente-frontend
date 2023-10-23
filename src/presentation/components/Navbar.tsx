@@ -19,7 +19,7 @@ export default function NavbarComponent() {
   }
   // TODO: Ajeitar a navbar (margem errada, se possível definir margem global)
   return (
-    <Navbar isBordered={false}>
+    <Navbar isBordered={false} className='mb-5'>
       <NavbarBrand onClick={() => navigateTo(AppRoutes.home)} className="cursor-pointer">
         {/* TODO: Adicionar LOGO aqui  */}
         {/* <AdocaoscienteLogo />  */}
