@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { AppRoutes } from './routes/app-routes'
 import Home from './presentation/pages/Home'
 import OngEdit from './presentation/pages/OngEdit'
+import OngRegister from './presentation/pages/OngRegister'
 import ScrollTopButton from './presentation/components/ScrollTopButton'
 import { makePetPage } from './factories/pages/pet-page-factory'
 
@@ -14,6 +15,7 @@ function App() {
                 <Routes>
                     <Route path={AppRoutes.home} element={<Home />} />
                     <Route path={AppRoutes.ongEdit} element={<OngEdit />} />
+                    <Route path={AppRoutes.ongRegister} element={<OngRegister />} />
                     <Route
                         path={AppRoutes.petRegister}
                         element={makePetPage()}
