@@ -14,7 +14,7 @@ export default function Login() {
         <main className="xs:mx-5 md:mx-20 lg:mx-72">
           {/* TODO: adicionar logo */}
           <header className="text-center text-4xl font-bold py-16">
-            Login
+            <h1 className="text-3xl font-bold">Login</h1>
           </header>
           <h2 className='text-center text-xl font-light'>
             Anuncie seus pets para adoção e gerencie seus formulários
