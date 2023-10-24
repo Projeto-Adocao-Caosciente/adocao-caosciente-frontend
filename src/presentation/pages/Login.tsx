@@ -1,7 +1,6 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
-import { Button, Divider, Input } from '@nextui-org/react'
-import { Link } from 'react-router-dom'
+import { Button, Divider, Input, Link } from '@nextui-org/react'
 import LinkIcon from '../assets/LinkIcon'
 
 export default function Login() {
@@ -39,7 +38,7 @@ export default function Login() {
             </Button>
             <p className='justify-center text-base font-light flex gap-2'>
               Não tem conta?  
-              <Link href={'/ong/cadastro'} className='text-primary flex gap-1'>
+              <Link href={''} className='text-primary flex gap-1'>
                 Cadastre-se 
                 <LinkIcon/>
               </Link>

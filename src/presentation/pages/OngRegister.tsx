@@ -13,6 +13,7 @@ import {
 import UploadIcon from '../assets/UploadIcon'
 import InputFileImage from '../components/InputFileImage'
 import LinkIcon from '../assets/LinkIcon'
+import { AppRoutes } from '../../routes/app-routes'
 
 export default function OngEdit() {
     const [image, setImage] = useState<File>(new File([], ''))
@@ -123,7 +124,7 @@ export default function OngEdit() {
                         Já possui conta?
                         <Link
                             // TODO: Adicionar redirecionamentos
-                            href={"#"}
+                            href={AppRoutes.login}
                             className="text-primary flex gap-1"
                         >
                             Acesse
