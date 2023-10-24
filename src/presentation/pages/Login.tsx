@@ -39,13 +39,13 @@ export default function Login() {
             <Button color="primary" variant="solid" size="lg">
               Login
             </Button>
-            <h2 className='justify-center text-lg font-light flex gap-2'>
+            <p className='justify-center text-base font-light flex gap-2'>
               Não tem conta?  
               <Link to={'/ong/cadastro'} className='text-primary flex felx-col gap-1'>
                 Cadastre-se 
                 <LinkIcon/>
               </Link>
-            </h2>
+            </p>
           </section>
         </main>
     </>
