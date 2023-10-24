@@ -10,7 +10,7 @@ export default function Home() {
     return (
         <>
             <Navbar />
-            <main className="container">
+            <main className="container mb-10">
                 <h1 className="text-center xs:text-2xl md:text-3xl font-bold py-16">
                     Bem-vindo de volta
                     <br />

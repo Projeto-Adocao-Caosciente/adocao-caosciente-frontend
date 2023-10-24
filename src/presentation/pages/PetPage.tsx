@@ -28,7 +28,7 @@ export default function PetPage({ interactor }: Props) {
         <>
             <Navbar />
             {/* FIXME: Ajeitar margem */}
-            <main className="container-form">
+            <main className="container-form mb-10">
                 <section className="mb-12">
                     <div className="sm:flex sm:justify-center">
                         <Input
@@ -109,7 +109,7 @@ export default function PetPage({ interactor }: Props) {
                     />
                 </section>
                 <Divider className="my-6" />
-                <section className="flex flex-col gap-6 pb-6 sm:pb-12 md:pb-24">
+                <section className="flex flex-col gap-6">
                     <Button color="primary" variant="solid" size="md">
                         Cadastrar
                     </Button>
