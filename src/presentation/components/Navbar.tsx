@@ -11,6 +11,7 @@ import {
 } from '@nextui-org/react'
 import { AppRoutes } from '../../routes/app-routes'
 import { useNavigate } from 'react-router-dom'
+import Logo from '../assets/Logo.png'
 
 export default function NavbarComponent() {
   const navigate = useNavigate()
@@ -19,11 +20,9 @@ export default function NavbarComponent() {
   }
   // TODO: Ajeitar a navbar (margem errada, se possível definir margem global)
   return (
-    <Navbar isBordered={false} className="mb-5">
+    <Navbar isBordered={false} className="mb-5 py-2 flex items-center">
       <NavbarBrand onClick={() => navigateTo(AppRoutes.home)} className="cursor-pointer">
-        {/* TODO: Adicionar LOGO aqui  */}
-        {/* <AdocaoscienteLogo />  */}
-        <p className="font-bold text-inherit">Projeto Adocação Cãosciente</p>
+        <img src={Logo}/>
       </NavbarBrand>
 
       <NavbarContent as="div" justify="end">

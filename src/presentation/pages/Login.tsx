@@ -3,14 +3,14 @@ import Navbar from '../components/Navbar'
 import { Button, Divider, Input, Link, Card } from '@nextui-org/react'
 import LinkIcon from '../assets/LinkIcon'
 import { AppRoutes } from '../../routes/app-routes'
+import Logo from '../assets/Logo.png'
 
 export default function Login() {
     return (
         <>
-            <main className="container flex justify-center items-center min-h-[100vh]">
+            <main className="container flex flex-col justify-center items-center min-h-[100vh]">
+                <img src={Logo} className='md:mb-10'/>
                 <Card className="md:px-6 pt-8 max-w-[400px] shadow-none md:shadow-medium">
-                    {/* TODO: adicionar logo */}
-
                     <header className="text-center">
                         <h1 className="text-3xl font-bold">Login</h1>
                     </header>
