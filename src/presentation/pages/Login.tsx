@@ -11,7 +11,7 @@ export default function Login() {
     {/* FEATURE: conectar ao banco e fazer checagens necessárias p/ funcionamento do botão de login*/}
     {/* FIX: remover navbar? */}
       <Navbar />
-        <main className="xs:mx-5 md:mx-20 lg:mx-72">
+        <main className="container">
           {/* TODO: adicionar logo */}
           <header className="text-center text-4xl font-bold py-16">
             <h1 className="text-3xl font-bold">Login</h1>
