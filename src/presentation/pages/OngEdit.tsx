@@ -16,7 +16,7 @@ export default function OngEdit() {
     return (
         <>
             <Navbar />
-            <main className="container-form">
+            <main className="container-form mb-10">
                 <section className="flex justify-center mb-12">
                     {/* TODO: Centralizar o placeholder */}
                     <Input

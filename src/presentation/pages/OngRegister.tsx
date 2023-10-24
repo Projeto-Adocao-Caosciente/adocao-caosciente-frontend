@@ -13,13 +13,14 @@ import {
 import UploadIcon from '../assets/UploadIcon'
 import InputFileImage from '../components/InputFileImage'
 import LinkIcon from '../assets/LinkIcon'
+import { AppRoutes } from '../../routes/app-routes'
 
 export default function OngEdit() {
     const [image, setImage] = useState<File>(new File([], ''))
     return (
         <>
             <Navbar />
-            <main className="container-form">
+            <main className="container-form mb-10">
                 <header className="text-center text-4xl font-bold flex flex-col mb-6">
                     <h1 className="text-3xl font-bold">Cadastre sua ONG</h1>
                     <h2 className="text-lg font-light">
@@ -123,7 +124,7 @@ export default function OngEdit() {
                         Já possui conta?
                         <Link
                             // TODO: Adicionar redirecionamentos
-                            href={"#"}
+                            href={AppRoutes.login}
                             className="text-primary flex gap-1"
                         >
                             Acesse
