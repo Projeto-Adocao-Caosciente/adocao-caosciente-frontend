@@ -9,12 +9,18 @@ import {
     LoginFieldsValidationWrapper,
     LoginFormFields,
 } from '../validations/login/form-fields-type'
+import { EyeSlashFilledIcon } from '../assets/EyeSlashFilledIcon'
+import { EyeFilledIcon } from '../assets/EyeFilledIcon'
 
 type LoginPageProps = {
     validationWrapper: LoginFieldsValidationWrapper
 }
 
 export default function LoginPage({ validationWrapper }: LoginPageProps) {
+    const [isVisible, setIsVisible] = React.useState(false)
+
+    const toggleVisibility = () => setIsVisible(!isVisible)
+
     const {
         register,
         handleSubmit,
@@ -60,6 +66,20 @@ export default function LoginPage({ validationWrapper }: LoginPageProps) {
                                 placeholder="Senha"
                                 variant="bordered"
                                 size="lg"
+                                endContent={
+                                    <button
+                                        className="focus:outline-none"
+                                        type="button"
+                                        onClick={toggleVisibility}
+                                    >
+                                        {isVisible ? (
+                                            <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                                        ) : (
+                                            <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                                        )}
+                                    </button>
+                                }
+                                type={isVisible ? 'text' : 'password'}
                                 isInvalid={getFieldState('password').invalid}
                                 errorMessage={errors.password?.message}
                                 {...register('password')}
