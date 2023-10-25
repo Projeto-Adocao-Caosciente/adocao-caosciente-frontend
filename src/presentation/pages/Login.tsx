@@ -1,22 +1,28 @@
 import React from 'react'
-import Navbar from '../components/Navbar'
 import { Button, Divider, Input, Link, Card } from '@nextui-org/react'
 import LinkIcon from '../assets/LinkIcon'
 import { AppRoutes } from '../../routes/app-routes'
 import Logo from '../assets/Logo.png'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import {
+    LoginFieldsValidationWrapper,
+    LoginFormFields,
+} from '../validations/login/form-fields-type'
+import { isFieldValid } from '../validations/core/validation-utils'
 
-type LoginFormFields = {
-    user: string
-    password: string
+type LoginPageProps = {
+    validationWrapper: LoginFieldsValidationWrapper
 }
 
-export default function Login() {
+export default function LoginPage({ validationWrapper }: LoginPageProps) {
     const {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm<LoginFormFields>()
+    } = useForm({
+        resolver: yupResolver<LoginFormFields>(validationWrapper.schema),
+    })
 
     const onSubmit: SubmitHandler<LoginFormFields> = (data) => console.log(data)
 
@@ -39,12 +45,16 @@ export default function Login() {
                                 placeholder="CNPJ"
                                 variant="bordered"
                                 size="lg"
+                                isInvalid={isFieldValid(errors, 'user')}
+                                errorMessage={errors.user?.message}
                                 {...register('user')}
                             />
                             <Input
                                 placeholder="Senha"
                                 variant="bordered"
                                 size="lg"
+                                isInvalid={isFieldValid(errors, 'password')}
+                                errorMessage={errors.password?.message}
                                 {...register('password')}
                             />
                         </section>
