@@ -8,11 +8,7 @@ export type LoginFormFields = {
 }
 
 export interface LoginFieldsValidationWrapper
-    extends FieldsValidationWrapper<LoginFormFields> {
-    onUserNotFulfilled: string
-    onUserPatternUnmatched: string
-    onPasswordNotFulfilled: string
-}
+    extends FieldsValidationWrapper<LoginFormFields> {}
 
 export class LoginFieldsValidationWrapperImpl
     implements LoginFieldsValidationWrapper
@@ -24,7 +20,17 @@ export class LoginFieldsValidationWrapperImpl
     onUserPatternUnmatched: string = 'O campo deve ser preenchido corretamente'
 
     patterns: FieldPatternMap<LoginFormFields> = {
-        user: /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/,
+        user: {
+            matcher: /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/,
+            apply: (value) =>
+                value
+                    .replace(/\D+/g, '')
+                    .replace(/(\d{2})(\d)/, '$1.$2')
+                    .replace(/(\d{3})(\d)/, '$1.$2')
+                    .replace(/(\d{3})(\d)/, '$1/$2')
+                    .replace(/(\d{4})(\d)/, '$1-$2')
+                    .replace(/(-\d{2})\d+?$/, '$1'),
+        },
         password: undefined,
     }
 
@@ -33,7 +39,7 @@ export class LoginFieldsValidationWrapperImpl
             user: yup
                 .string()
                 .required(this.onUserNotFulfilled)
-                .matches(<RegExp>this.patterns.user, {
+                .matches(<RegExp>this.patterns?.user?.matcher, {
                     message: this.onUserPatternUnmatched,
                 }),
             password: yup.string().required(this.onPasswordNotFulfilled),

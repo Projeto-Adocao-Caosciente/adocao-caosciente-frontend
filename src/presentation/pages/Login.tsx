@@ -9,7 +9,6 @@ import {
     LoginFieldsValidationWrapper,
     LoginFormFields,
 } from '../validations/login/form-fields-type'
-import { isFieldValid } from '../validations/core/validation-utils'
 
 type LoginPageProps = {
     validationWrapper: LoginFieldsValidationWrapper
@@ -19,12 +18,19 @@ export default function LoginPage({ validationWrapper }: LoginPageProps) {
     const {
         register,
         handleSubmit,
+        getFieldState,
         formState: { errors },
     } = useForm({
         resolver: yupResolver<LoginFormFields>(validationWrapper.schema),
     })
 
     const onSubmit: SubmitHandler<LoginFormFields> = (data) => console.log(data)
+
+    const applyUserPattern = (event: React.ChangeEvent<HTMLInputElement>) => {
+        event.target.value = validationWrapper.patterns.user!.apply(
+            event.target.value
+        )
+    }
 
     return (
         <>
@@ -45,7 +51,8 @@ export default function LoginPage({ validationWrapper }: LoginPageProps) {
                                 placeholder="CNPJ"
                                 variant="bordered"
                                 size="lg"
-                                isInvalid={isFieldValid(errors, 'user')}
+                                onInput={applyUserPattern}
+                                isInvalid={getFieldState('user').invalid}
                                 errorMessage={errors.user?.message}
                                 {...register('user')}
                             />
@@ -53,7 +60,7 @@ export default function LoginPage({ validationWrapper }: LoginPageProps) {
                                 placeholder="Senha"
                                 variant="bordered"
                                 size="lg"
-                                isInvalid={isFieldValid(errors, 'password')}
+                                isInvalid={getFieldState('password').invalid}
                                 errorMessage={errors.password?.message}
                                 {...register('password')}
                             />
