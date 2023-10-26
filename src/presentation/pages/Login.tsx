@@ -11,6 +11,7 @@ import {
 } from '../validations/login/form-fields-type'
 import { EyeSlashFilledIcon } from '../assets/EyeSlashFilledIcon'
 import { EyeFilledIcon } from '../assets/EyeFilledIcon'
+import axios from 'axios'
 
 type LoginPageProps = {
     validationWrapper: LoginFieldsValidationWrapper
@@ -30,7 +31,26 @@ export default function LoginPage({ validationWrapper }: LoginPageProps) {
         resolver: yupResolver<LoginFormFields>(validationWrapper.schema),
     })
 
-    const onSubmit: SubmitHandler<LoginFormFields> = (data) => console.log(data)
+    const onSubmit: SubmitHandler<LoginFormFields> = (data) => {
+        data.user = data.user.replaceAll(/[./-]/g,"")
+        const options = {
+            method: 'POST',
+            url: 'https://adocaosciente.onrender.com/login',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            data: data,
+        }
+
+        axios
+            .request(options)
+            .then(function (response) {
+                console.log(response.data)
+            })
+            .catch(function (error) {
+                console.error(error)
+            })
+    }
 
     const applyUserPattern = (event: React.ChangeEvent<HTMLInputElement>) => {
         event.target.value = validationWrapper.patterns.user!.apply(
