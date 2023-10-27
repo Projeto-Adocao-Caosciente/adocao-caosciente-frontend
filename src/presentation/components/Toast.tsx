@@ -8,7 +8,14 @@ import {
     FaExclamationCircle,
 } from 'react-icons/fa'
 
-export const displayIcon = (type) => {
+type ToastTypes = 'success' | 'info' | 'error' | 'warning' 
+
+interface ToastPropTypes {
+    message: string,
+    type: ToastTypes, // TODO: verificar tipo
+}
+
+export const displayIcon = (type: ToastTypes) => {
     switch (type) {
         case 'success':
             return <FaCheck />
@@ -24,18 +31,14 @@ export const displayIcon = (type) => {
 }
 
 const ToastMessage = ({ type, message }: ToastPropTypes) =>
-    toast[type](
+toast[type as ToastTypes](
         <div style={{ display: 'flex' }}>
             <div style={{ flexGrow: 1, fontSize: 15, padding: '8px 12px' }}>
                 {message}
             </div>
         </div>
     )
-
-interface ToastPropTypes {
-    message: string,
-    type: any, // TODO: verificar tipo
-}
+    
 
 ToastMessage.dismiss = toast.dismiss
 
