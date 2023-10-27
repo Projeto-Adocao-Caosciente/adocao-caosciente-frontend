@@ -8,6 +8,8 @@ import OngRegister from './presentation/pages/OngRegister'
 import ScrollTopButton from './presentation/components/ScrollTopButton'
 import { makePetPage } from './factories/pages/pet-page-factory'
 import { makeLoginPage } from './factories/pages/login-page-factory'
+import { ToastContainer } from 'react-toastify'
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
     return (
@@ -26,6 +28,16 @@ function App() {
                         element={makePetPage()}
                     ></Route>
                 </Routes>
+                <ToastContainer
+                    position="top-right"
+                    autoClose={8000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    draggable={false}
+                    pauseOnFocusLoss
+                    closeOnClick
+                    pauseOnHover
+                />
                 <ScrollTopButton />
             </BrowserRouter>
         </NextUIProvider>
