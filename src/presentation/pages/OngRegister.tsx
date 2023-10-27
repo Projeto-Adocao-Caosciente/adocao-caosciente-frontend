@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Navbar from '../components/Navbar'
 import { Input, Divider, Button, Textarea, Link } from '@nextui-org/react'
 import InputFileImage from '../components/InputFileImage'
@@ -14,14 +14,23 @@ import { fileToBase64 } from '../../utils/file-to-base64'
 import { useBoolean } from '../hooks/use-boolean'
 import { EyeSlashFilledIcon } from '../assets/EyeSlashFilledIcon'
 import { EyeFilledIcon } from '../assets/EyeFilledIcon'
+import { OngRegisterInteractor } from '../../domain/interactors/ong-register-interactor'
+import { useFetch } from '../hooks/use-fetch'
+import { useNavigate } from 'react-router'
+import useNotify from '../hooks/use-notify'
 
 type OngRegisterPageProps = {
     validationWrapper: OngRegisterFieldsValidationWrapper
+    interactor: OngRegisterInteractor
 }
 
 export default function OngRegister({
     validationWrapper,
+    interactor,
 }: OngRegisterPageProps) {
+    const navigate = useNavigate()
+    const { notify } = useNotify()
+
     const {
         register,
         handleSubmit,
@@ -32,10 +41,27 @@ export default function OngRegister({
         resolver: yupResolver<OngRegisterFormFields>(validationWrapper.schema),
     })
 
+    function onRegistered(_: void) {
+        notify('success', 'Cadastro efetuado com sucesso!')
+        registerFetch.setIdle()
+        navigate(AppRoutes.login)
+    }
+
+    function onRegisterFailed(_?: Error) {
+        notify('error', 'Não foi possível realizar o cadastro, tente novamente')
+        registerFetch.setIdle()
+    }
+
+    const registerFetch = useFetch<void>({
+        fn: (fields) => interactor.register({ ...fields }),
+        successListener: onRegistered,
+        errorListener: onRegisterFailed,
+    })
+
     const eyeToggle = useBoolean(false)
 
     const onSubmit: SubmitHandler<OngRegisterFormFields> = (data) =>
-        console.log(data)
+        registerFetch.fetch(data)
 
     const applyUserPattern = (event: React.ChangeEvent<HTMLInputElement>) => {
         event.target.value = validationWrapper.patterns.user!.apply(
@@ -52,7 +78,13 @@ export default function OngRegister({
     return (
         <>
             <Navbar />
-            <main className="container-form mb-10">
+            <main
+                className={`container-form mb-10 ${
+                    registerFetch.isLoading()
+                        ? 'pointer-events-none'
+                        : 'pointer-events-auto'
+                }`}
+            >
                 <header className="text-center text-4xl font-bold flex flex-col mb-6">
                     <h1 className="text-3xl font-bold">Cadastre sua ONG</h1>
                     <h2 className="text-lg font-light">
@@ -250,6 +282,7 @@ export default function OngRegister({
                             variant="solid"
                             size="md"
                             type="submit"
+                            isLoading={registerFetch.isLoading()}
                         >
                             Finalizar Cadastro
                         </Button>

@@ -18,7 +18,9 @@ type Props = {
 }
 
 export default function PetPage({ interactor }: Props) {
-    const pet = useFetch<SelectOption[]>(() => interactor.getSpecialNeeds())
+    const pet = useFetch<SelectOption[]>({
+        fn: () => interactor.getSpecialNeeds(),
+    })
 
     useEffect(() => {
         pet.fetch().then()
