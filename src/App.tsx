@@ -11,7 +11,6 @@ import { makeOngRegisterPage } from './factories/pages/ong-register-page-factory
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import ProtectedRoute from './proxies/protected-routes'
-import { makeOngRegisterPage } from './factories/pages/ong-register-page-factory'
 
 function App() {
     return (
