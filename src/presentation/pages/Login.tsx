@@ -12,6 +12,12 @@ import {
 import { EyeSlashFilledIcon } from '../assets/EyeSlashFilledIcon'
 import { EyeFilledIcon } from '../assets/EyeFilledIcon'
 import axios from 'axios'
+import useNotify from '../hooks/use-notify'
+import { useFetch } from '../hooks/use-fetch'
+import { LoginModel } from '../models/LoginModel';
+import { useDispatch } from 'react-redux'
+import { login } from '../reducer/authReducer'
+import { useNavigate } from 'react-router'
 
 type LoginPageProps = {
     validationWrapper: LoginFieldsValidationWrapper
@@ -31,8 +37,12 @@ export default function LoginPage({ validationWrapper }: LoginPageProps) {
         resolver: yupResolver<LoginFormFields>(validationWrapper.schema),
     })
 
+    const {notify} = useNotify()
+    
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
     const onSubmit: SubmitHandler<LoginFormFields> = (data) => {
-        data.user = data.user.replaceAll(/[./-]/g,"")
+        data.user = data.user.replaceAll(/[./-]/g, '')
         const options = {
             method: 'POST',
             url: 'https://adocaosciente.onrender.com/login',
@@ -45,10 +55,14 @@ export default function LoginPage({ validationWrapper }: LoginPageProps) {
         axios
             .request(options)
             .then(function (response) {
-                console.log(response.data)
+                // set access_token in localStorage
+                localStorage.setItem('access_token', response.data.access_token)
+                dispatch(login(response.data.user))
+                notify("success", "Login efetuado com sucesso!")
+                navigate(AppRoutes.home)
             })
             .catch(function (error) {
-                console.error(error)
+                notify("error", "Usuário ou senha invalidos!")
             })
     }
 

@@ -9,23 +9,30 @@ import ScrollTopButton from './presentation/components/ScrollTopButton'
 import { makePetPage } from './factories/pages/pet-page-factory'
 import { makeLoginPage } from './factories/pages/login-page-factory'
 import { ToastContainer } from 'react-toastify'
-import "react-toastify/dist/ReactToastify.css";
+import 'react-toastify/dist/ReactToastify.css'
+import ProtectedRoute from './proxies/protected-routes'
 
 function App() {
     return (
         <NextUIProvider>
             <BrowserRouter>
                 <Routes>
-                    <Route path={AppRoutes.home} element={<Home />} />
                     <Route path={AppRoutes.login} element={makeLoginPage()} />
-                    <Route path={AppRoutes.ongEdit} element={<OngEdit />} />
+                    <Route
+                        path={AppRoutes.home}
+                        element={<ProtectedRoute page={<Home />} />}
+                    />
+                    <Route
+                        path={AppRoutes.ongEdit}
+                        element={<ProtectedRoute page={<OngEdit />} />}
+                    />
                     <Route
                         path={AppRoutes.ongRegister}
                         element={<OngRegister />}
                     />
                     <Route
                         path={AppRoutes.petRegister}
-                        element={makePetPage()}
+                        element={<ProtectedRoute page={makePetPage()} />}
                     ></Route>
                 </Routes>
                 <ToastContainer
