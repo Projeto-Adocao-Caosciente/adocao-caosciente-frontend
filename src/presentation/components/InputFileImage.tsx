@@ -3,9 +3,13 @@ import UploadIcon from '../assets/UploadIcon'
 
 interface InputFileImageProps {
     handleImageUpload: (file: File) => void
+    hasError?: boolean
 }
 
-export default function InputFileImage({ handleImageUpload }: InputFileImageProps) {
+export default function InputFileImage({
+    handleImageUpload,
+    hasError = false,
+}: InputFileImageProps) {
     const [controller, setController] = useState<boolean>(false)
     const [imgUrl, setImgUrl] = useState<string>('')
     const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -15,14 +19,19 @@ export default function InputFileImage({ handleImageUpload }: InputFileImageProp
             handleImageUpload(file)
         }
     }
-    const defaultCSS =
-        'w-[210px] h-[210px] rounded-full border border-black flex justify-center items-center'
+    const defaultCSS = `w-[210px] h-[210px] rounded-full border ${
+        hasError ? 'border-rose-500' : 'border-black'
+    } flex justify-center items-center`
     return (
         <div className={`${defaultCSS} relative overflow-hidden object-cover`}>
             <img src={imgUrl} className="absolute w-[210px] h-[210px]" alt="" />
             {/* TODO: Tratar onMouseHover para dispositivos móveis (não deve ter) */}
-            {(imgUrl === "" || controller) && (
-                <div className="absolute w-[110px] h-[110px] rounded-full bg-gray-500 bg-opacity-50 flex justify-center items-center">
+            {(imgUrl === '' || controller) && (
+                <div
+                    className={`absolute w-[110px] h-[110px] rounded-full ${
+                        hasError ? 'bg-rose-500' : 'bg-gray-500'
+                    } bg-opacity-50 flex justify-center items-center`}
+                >
                     <UploadIcon height={75} width={75} />
                 </div>
             )}

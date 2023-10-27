@@ -4,10 +4,10 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { AppRoutes } from './routes/app-routes'
 import Home from './presentation/pages/Home'
 import OngEdit from './presentation/pages/OngEdit'
-import OngRegister from './presentation/pages/OngRegister'
 import ScrollTopButton from './presentation/components/ScrollTopButton'
 import { makePetPage } from './factories/pages/pet-page-factory'
 import { makeLoginPage } from './factories/pages/login-page-factory'
+import { makeOngRegisterPage } from './factories/pages/ong-register-page-factory'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import ProtectedRoute from './proxies/protected-routes'
@@ -28,7 +28,7 @@ function App() {
                     />
                     <Route
                         path={AppRoutes.ongRegister}
-                        element={<OngRegister />}
+                        element={makeOngRegisterPage()}
                     />
                     <Route
                         path={AppRoutes.petRegister}
