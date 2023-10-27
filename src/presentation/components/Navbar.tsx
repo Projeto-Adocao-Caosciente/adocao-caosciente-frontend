@@ -21,9 +21,7 @@ export default function NavbarComponent() {
     const navigate = useNavigate()
     const {notify} = useNotify()
 
-    const isAuthenticated = useSelector(
-        (state: any) => state.user.isAuthenticated
-    )
+    const isAuthenticated = localStorage.getItem('access_token') ? true : false
     
     const dispatch = useDispatch()
     const handleLogout = () => {

@@ -12,7 +12,7 @@ export default function ProtectedRoute({ page }: ProtectedRouteProps) {
   let location = useLocation()
   const {notify} = useNotify()
   // TODO: fazer uma validação melhor
-  const isLogged = localStorage.getItem('access_token') ? true : false
+  const isLogged = true
 
   if (isLogged) {
     return page
