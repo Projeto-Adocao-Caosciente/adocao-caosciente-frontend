@@ -8,7 +8,7 @@ import {
     FaExclamationCircle,
 } from 'react-icons/fa'
 
-type ToastTypes = 'success' | 'info' | 'error' | 'warning' 
+export type ToastTypes = 'success' | 'info' | 'error' | 'warning' 
 
 interface ToastPropTypes {
     message: string,
