@@ -11,12 +11,14 @@ export type ProtectedRouteProps = {
 export default function ProtectedRoute({ page }: ProtectedRouteProps) {
   let location = useLocation()
   const {notify} = useNotify()
-  const isLogged = useSelector((state: any) => state.auth.isAuthenticated)
+  // TODO: fazer uma validação melhor
+  const isLogged = localStorage.getItem('access_token') ? true : false
 
   if (isLogged) {
     return page
   } else {
     notify("error", "Você precisa estar logado para acessar essa página!")
+    localStorage.removeItem('access_token')
     return (
       <Navigate
         to={{ pathname: AppRoutes.login }}

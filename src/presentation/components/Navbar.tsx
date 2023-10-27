@@ -13,15 +13,16 @@ import { AppRoutes } from '../../routes/app-routes'
 import { useNavigate } from 'react-router-dom'
 import Logo from '../assets/Logo.png'
 import { useSelector, useDispatch } from 'react-redux';
-import { logout } from '../reducer/authReducer'
+import { logout } from '../reducer/userReducer'
 import useNotify from '../hooks/use-notify'
+import { OngModel } from '../models/ongModel'
 
 export default function NavbarComponent() {
     const navigate = useNavigate()
     const {notify} = useNotify()
 
     const isAuthenticated = useSelector(
-        (state: any) => state.auth.isAuthenticated
+        (state: any) => state.user.isAuthenticated
     )
     
     const dispatch = useDispatch()
@@ -32,6 +33,7 @@ export default function NavbarComponent() {
         notify("success", "Você foi deslogado com sucesso!")
     }
 
+    const ongData: OngModel = useSelector((state: any) => state.user.ong)
     return (
         <Navbar isBordered={false} className="mb-5 py-2 flex items-center">
             <NavbarBrand
@@ -46,13 +48,12 @@ export default function NavbarComponent() {
                     <Dropdown placement="bottom-end">
                         <DropdownTrigger>
                             <Avatar
-                                isBordered
                                 as="button"
                                 className="transition-transform"
                                 color="secondary"
-                                name="Chico Little"
+                                name={ongData.name}
                                 size="md"
-                                src="https://unsplash.it/200/200"
+                                src={ongData.logo}
                             />
                         </DropdownTrigger>
                         <DropdownMenu
@@ -62,7 +63,7 @@ export default function NavbarComponent() {
                             <DropdownItem key="profile" className="h-14 gap-2">
                                 <p className="font-semibold">Logado como </p>
                                 <p className="font-semibold">
-                                    email@adocaosciente.com.br
+                                    {ongData.email}
                                 </p>
                             </DropdownItem>
                             <DropdownItem
