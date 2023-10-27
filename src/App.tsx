@@ -8,6 +8,7 @@ import OngRegister from './presentation/pages/OngRegister'
 import ScrollTopButton from './presentation/components/ScrollTopButton'
 import { makePetPage } from './factories/pages/pet-page-factory'
 import { makeLoginPage } from './factories/pages/login-page-factory'
+import { makeOngRegisterPage } from './factories/pages/ong-register-page-factory'
 
 function App() {
     return (
@@ -19,7 +20,7 @@ function App() {
                     <Route path={AppRoutes.ongEdit} element={<OngEdit />} />
                     <Route
                         path={AppRoutes.ongRegister}
-                        element={<OngRegister />}
+                        element={makeOngRegisterPage()}
                     />
                     <Route
                         path={AppRoutes.petRegister}

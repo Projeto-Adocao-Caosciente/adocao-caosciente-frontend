@@ -1,6 +1,7 @@
 import * as yup from 'yup'
 import { FieldPatternMap } from '../core/field-pattern-map'
 import { FieldsValidationWrapper } from '../core/form-validation-wrapper'
+import { commonsPatternCNPJ } from '../core/commons-patterns'
 
 export type LoginFormFields = {
     user: string
@@ -13,26 +14,15 @@ export interface LoginFieldsValidationWrapper
 export class LoginFieldsValidationWrapperImpl
     implements LoginFieldsValidationWrapper
 {
-    onPasswordNotFulfilled: string = 'Campo obrigatório'
+    private readonly onPasswordNotFulfilled: string = 'Campo obrigatório'
 
-    onUserNotFulfilled: string = 'Campo obrigatório'
+    private readonly onUserNotFulfilled: string = 'Campo obrigatório'
 
-    onUserPatternUnmatched: string = 'O campo deve ser preenchido corretamente'
+    private readonly onUserPatternUnmatched: string =
+        'O campo deve ser preenchido corretamente'
 
     patterns: FieldPatternMap<LoginFormFields> = {
-        user: {
-            // Regex for CNPJ - 00.000.000/0000-00
-            matcher: /^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/,
-            apply: (value) =>
-                value
-                    .replace(/\D+/g, '')
-                    .replace(/(\d{2})(\d)/, '$1.$2')
-                    .replace(/(\d{3})(\d)/, '$1.$2')
-                    .replace(/(\d{3})(\d)/, '$1/$2')
-                    .replace(/(\d{4})(\d)/, '$1-$2')
-                    .replace(/(-\d{2})\d+?$/, '$1'),
-        },
-        password: undefined,
+        user: commonsPatternCNPJ,
     }
 
     schema = yup
