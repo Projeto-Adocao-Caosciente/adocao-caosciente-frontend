@@ -16,7 +16,7 @@ import useNotify from '../hooks/use-notify'
 import { useFetch } from '../hooks/use-fetch'
 import { LoginModel } from '../models/LoginModel';
 import { useDispatch } from 'react-redux'
-import { login } from '../reducer/authReducer'
+import { login } from '../reducer/userReducer'
 import { useNavigate } from 'react-router'
 
 type LoginPageProps = {

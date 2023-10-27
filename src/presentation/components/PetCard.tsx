@@ -14,16 +14,13 @@ interface PetCardProps {
   imageSrc: string
   imageAlt: string
   title: string
-  subtitle: string
-  description: string
-  githubLink: string
 }
 
 export default function PetCard({ imageSrc, imageAlt, title }: PetCardProps) {
   return (
     <Card>
       <CardHeader className="p-0">
-        <Image alt={imageAlt} radius="none" src={imageSrc} />
+        <Image alt={imageAlt} radius="none" src={imageSrc} className="object-cover"/>
       </CardHeader>
       <Divider />
       <CardBody className="p-5 gap-3">
