@@ -1,8 +1,9 @@
 import React from 'react'
 import toast from '../components/Toast'
+import { ToastTypes } from '../components/Toast'
 
 export default function useNotify() {
-    const notify = React.useCallback((type: string, message: string) => {
+    const notify = React.useCallback((type: ToastTypes, message: string) => {
         toast({ type, message })
     }, [])
 
