@@ -3,28 +3,28 @@ import { OngModel } from '../models/ongModel';
 
 interface stateType {
   isAuthenticated: boolean,
-  user: Partial<OngModel>
+  ong: Partial<OngModel>
 }
 
 const initialState: stateType = {
   isAuthenticated: false,
-  user: {}
+  ong: {}
 }
 
-const authSlice = createSlice({
-  name: "auth",
+const userSlice = createSlice({
+  name: "user",
   initialState,
   reducers: {
     login: (state, action) => {
       state.isAuthenticated = true
-      state.user = action.payload
+      state.ong = action.payload
     },
     logout: (state) => {
       state.isAuthenticated = false
-      state.user = {}
+      state.ong = {}
     },
   },
 })
 
-export const { login, logout } = authSlice.actions
-export default authSlice.reducer
+export const { login, logout } = userSlice.actions
+export default userSlice.reducer
