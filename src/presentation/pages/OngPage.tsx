@@ -153,7 +153,7 @@ export default function OngPage({
                             {...register('name')}
                         />
                     </section>
-                    <section className="flex gap-6 xs:flex-col xs:items-center md:flex-row">
+                    <section className="flex gap-6 flex-col items-center md:flex-row">
                         <InputFileImage
                             handleImageUpload={(file) =>
                                 fileToBase64(file, (base64) => {
