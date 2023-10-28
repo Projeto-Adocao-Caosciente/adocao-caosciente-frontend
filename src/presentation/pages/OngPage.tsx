@@ -5,8 +5,8 @@ import InputFileImage from '../components/InputFileImage'
 import LinkIcon from '../assets/LinkIcon'
 import { AppRoutes } from '../../routes/app-routes'
 import {
-    OngRegisterFieldsValidationWrapper,
-    OngRegisterFormFields,
+    OngFieldsValidationWrapper,
+    OngFormFields,
 } from '../validations/ong/form-fields-type'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -14,20 +14,22 @@ import { fileToBase64 } from '../../utils/file-to-base64'
 import { useBoolean } from '../hooks/use-boolean'
 import { EyeSlashFilledIcon } from '../assets/EyeSlashFilledIcon'
 import { EyeFilledIcon } from '../assets/EyeFilledIcon'
-import { OngRegisterInteractor } from '../../domain/interactors/ong-register-interactor'
+import { OngInteractor } from '../../domain/interactors/ong-interactor'
 import { useFetch } from '../hooks/use-fetch'
 import { useNavigate } from 'react-router'
 import useNotify from '../hooks/use-notify'
 
-type OngRegisterPageProps = {
-    validationWrapper: OngRegisterFieldsValidationWrapper
-    interactor: OngRegisterInteractor
+type OngPageProps = {
+    validationWrapper: OngFieldsValidationWrapper
+    interactor: OngInteractor
+    isEditing: boolean
 }
 
-export default function OngRegister({
+export default function OngPage({
     validationWrapper,
     interactor,
-}: OngRegisterPageProps) {
+    isEditing,
+}: OngPageProps) {
     const navigate = useNavigate()
     const { notify } = useNotify()
 
@@ -37,9 +39,13 @@ export default function OngRegister({
         setValue,
         getFieldState,
         formState: { errors },
-    } = useForm<OngRegisterFormFields>({
-        resolver: yupResolver<OngRegisterFormFields>(validationWrapper.schema),
+    } = useForm<OngFormFields>({
+        resolver: yupResolver<OngFormFields>(validationWrapper.schema),
     })
+
+    function deleteAccount() {
+        // TODO: implement ong deletion
+    }
 
     function onRegistered(_: void) {
         notify('success', 'Cadastro efetuado com sucesso!')
@@ -60,7 +66,7 @@ export default function OngRegister({
 
     const eyeToggle = useBoolean(false)
 
-    const onSubmit: SubmitHandler<OngRegisterFormFields> = (data) =>
+    const onSubmit: SubmitHandler<OngFormFields> = (data) =>
         registerFetch.fetch(data)
 
     const applyUserPattern = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -75,6 +81,41 @@ export default function OngRegister({
         )
     }
 
+    const pageTitle = isEditing
+        ? 'Atualize os dados da sua ONG'
+        : 'Cadastre sua ONG'
+
+    const pageDescription = isEditing
+        ? 'Deixe os dados cadastrais de sua ONG sempre atualizados'
+        : 'Assim, você pode cadastrar seus pets e gerenciar seus formulários de adoção'
+
+    const primaryButtonLabel = isEditing
+        ? 'Atualizar cadastro'
+        : 'Finalizar Cadastro'
+
+    const bottomContent = isEditing ? (
+        <Button
+            color="danger"
+            variant="flat"
+            size="md"
+            onClick={() => deleteAccount()}
+        >
+            Deletar conta
+        </Button>
+    ) : (
+        <p className="justify-center text-lg font-light flex gap-2">
+            Já possui conta?
+            <Link
+                // TODO: Adicionar redirecionamentos
+                href={AppRoutes.login}
+                className="text-primary flex gap-1"
+            >
+                Acesse
+                <LinkIcon />
+            </Link>
+        </p>
+    )
+
     return (
         <>
             <Navbar />
@@ -86,11 +127,8 @@ export default function OngRegister({
                 }`}
             >
                 <header className="text-center text-4xl font-bold flex flex-col mb-6">
-                    <h1 className="text-3xl font-bold">Cadastre sua ONG</h1>
-                    <h2 className="text-lg font-light">
-                        Assim, você pode cadastrar seus pets e gerenciar seus
-                        formulários de adoção
-                    </h2>
+                    <h1 className="text-3xl font-bold">{pageTitle}</h1>
+                    <h2 className="text-lg font-light">{pageDescription}</h2>
                 </header>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className={'hidden'}>
@@ -115,7 +153,7 @@ export default function OngRegister({
                             {...register('name')}
                         />
                     </section>
-                    <section className="flex gap-6 xs:flex-col xs:items-center md:flex-row">
+                    <section className="flex gap-6 flex-col items-center md:flex-row">
                         <InputFileImage
                             handleImageUpload={(file) =>
                                 fileToBase64(file, (base64) => {
@@ -128,6 +166,7 @@ export default function OngRegister({
                         />
                         <article className="flex flex-1 flex-col gap-6">
                             <Input
+                                isDisabled={isEditing}
                                 placeholder="CNPJ (00.000.000/0000-00)"
                                 variant="bordered"
                                 size="lg"
@@ -137,6 +176,7 @@ export default function OngRegister({
                                 {...register('user')}
                             />
                             <Input
+                                isDisabled={isEditing}
                                 placeholder="Email"
                                 variant="bordered"
                                 size="lg"
@@ -221,7 +261,11 @@ export default function OngRegister({
                         </article>
                     </section>
                     <Divider className="my-6" />
-                    <section className="flex flex-col gap-2">
+                    <section
+                        className={`flex flex-col gap-2 ${
+                            isEditing ? 'hidden' : 'block'
+                        }`}
+                    >
                         <h3 className="text-xl font-bold">Dados de acesso:</h3>
                         <article className="flex flex-col gap-6">
                             <Input
@@ -274,8 +318,8 @@ export default function OngRegister({
                                 {...register('passwordConfirmation')}
                             />
                         </article>
+                        <Divider className="my-6" />
                     </section>
-                    <Divider className="my-6" />
                     <section className="flex flex-col gap-6">
                         <Button
                             color="primary"
@@ -284,19 +328,9 @@ export default function OngRegister({
                             type="submit"
                             isLoading={registerFetch.isLoading()}
                         >
-                            Finalizar Cadastro
+                            {primaryButtonLabel}
                         </Button>
-                        <p className="justify-center text-lg font-light flex gap-2">
-                            Já possui conta?
-                            <Link
-                                // TODO: Adicionar redirecionamentos
-                                href={AppRoutes.login}
-                                className="text-primary flex gap-1"
-                            >
-                                Acesse
-                                <LinkIcon />
-                            </Link>
-                        </p>
+                        {bottomContent}
                     </section>
                 </form>
             </main>

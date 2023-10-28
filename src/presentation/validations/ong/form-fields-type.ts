@@ -6,7 +6,7 @@ import {
     commonsPatternPhone,
 } from '../core/commons-patterns'
 
-export type OngRegisterFormFields = {
+export type OngFormFields = {
     avatarBase64: string
     name: string
     user: string
@@ -21,11 +21,11 @@ export type OngRegisterFormFields = {
     passwordConfirmation: string
 }
 
-export interface OngRegisterFieldsValidationWrapper
-    extends FieldsValidationWrapper<OngRegisterFormFields> {}
+export interface OngFieldsValidationWrapper
+    extends FieldsValidationWrapper<OngFormFields> {}
 
-export class OngRegisterFieldsValidationWrapperImpl
-    implements OngRegisterFieldsValidationWrapper
+export class OngFieldsValidationWrapperImpl
+    implements OngFieldsValidationWrapper
 {
     private readonly onUserNotFulfilled: string = 'Campo obrigatório'
 
@@ -38,7 +38,7 @@ export class OngRegisterFieldsValidationWrapperImpl
         'Digite um telefone válido (99) 99999-9999'
     private readonly passwordUnmatchedMessage = 'As senhas não coincidem'
 
-    patterns: FieldPatternMap<OngRegisterFormFields> = {
+    patterns: FieldPatternMap<OngFormFields> = {
         user: commonsPatternCNPJ,
         phone: commonsPatternPhone,
     }

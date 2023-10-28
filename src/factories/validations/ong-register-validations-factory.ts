@@ -1,8 +1,7 @@
 import {
-    OngRegisterFieldsValidationWrapper,
-    OngRegisterFieldsValidationWrapperImpl,
+    OngFieldsValidationWrapper,
+    OngFieldsValidationWrapperImpl,
 } from '../../presentation/validations/ong/form-fields-type'
 
-export const makeOngRegisterValidation =
-    (): OngRegisterFieldsValidationWrapper =>
-        new OngRegisterFieldsValidationWrapperImpl()
+export const makeOngValidation = (): OngFieldsValidationWrapper =>
+    new OngFieldsValidationWrapperImpl()
