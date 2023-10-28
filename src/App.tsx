@@ -3,14 +3,13 @@ import { NextUIProvider } from '@nextui-org/react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { AppRoutes } from './routes/app-routes'
 import Home from './presentation/pages/Home'
-import OngEdit from './presentation/pages/OngEdit'
 import ScrollTopButton from './presentation/components/ScrollTopButton'
 import { makePetPage } from './factories/pages/pet-page-factory'
 import { makeLoginPage } from './factories/pages/login-page-factory'
-import { makeOngRegisterPage } from './factories/pages/ong-register-page-factory'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import ProtectedRoute from './proxies/protected-routes'
+import { makeOngPage } from './factories/pages/ong-page-factory'
 
 function App() {
     return (
@@ -24,11 +23,11 @@ function App() {
                     />
                     <Route
                         path={AppRoutes.ongEdit}
-                        element={<ProtectedRoute page={<OngEdit />} />}
+                        element={<ProtectedRoute page={makeOngPage(true)} />}
                     />
                     <Route
                         path={AppRoutes.ongRegister}
-                        element={makeOngRegisterPage()}
+                        element={makeOngPage()}
                     />
                     <Route
                         path={AppRoutes.petRegister}

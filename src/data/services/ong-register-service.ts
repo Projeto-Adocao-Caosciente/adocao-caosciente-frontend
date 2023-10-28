@@ -1,8 +1,8 @@
 import { AxiosHttpClient, HttpResponse } from '../http/http-client'
-import { OngRegisterFormFields } from '../../presentation/validations/ong/form-fields-type'
+import { OngFormFields } from '../../presentation/validations/ong/form-fields-type'
 
 export interface OngService {
-    register: (fields: OngRegisterFormFields) => Promise<HttpResponse<void>>
+    register: (fields: OngFormFields) => Promise<HttpResponse<void>>
 }
 
 export class OngServiceImpl implements OngService {
@@ -10,7 +10,7 @@ export class OngServiceImpl implements OngService {
 
     private readonly registeringPath = '/register'
 
-    register(fields: OngRegisterFormFields): Promise<HttpResponse<void>> {
+    register(fields: OngFormFields): Promise<HttpResponse<void>> {
         return this.httpClient.request({
             path: this.registeringPath,
             method: 'post',

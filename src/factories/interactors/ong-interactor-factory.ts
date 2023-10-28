@@ -1,8 +1,8 @@
 import {
-    OngRegisterInteractor,
-    OngRegisterInteractorImpl,
-} from '../../domain/interactors/ong-register-interactor'
+    OngInteractor,
+    OngInteractorImpl,
+} from '../../domain/interactors/ong-interactor'
 import { makeOngService } from '../services/ong-register-service-factory'
 
-export const makeOngRegisterInteractor = (): OngRegisterInteractor =>
-    new OngRegisterInteractorImpl(makeOngService())
+export const makeOngInteractor = (): OngInteractor =>
+    new OngInteractorImpl(makeOngService())
