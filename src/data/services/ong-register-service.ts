@@ -6,7 +6,7 @@ export interface OngService {
 }
 
 export class OngServiceImpl implements OngService {
-    constructor(private readonly httpClient: AxiosHttpClient<void>) {}
+    constructor(private readonly httpClient: AxiosHttpClient) {}
 
     private readonly registeringPath = '/register'
 
