@@ -14,7 +14,7 @@ const animalsSlice = createSlice({
     name: 'animals',
     initialState,
     reducers: {
-        setAnimals: (state, action) => {
+        setAnimals: (state: any, action: { payload: AnimalModel }) => {
             state.data = action.payload
         }
     },

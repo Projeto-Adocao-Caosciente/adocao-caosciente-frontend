@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo, useMemo } from 'react'
 import {
     Navbar,
     NavbarBrand,
@@ -10,38 +10,46 @@ import {
     Avatar,
 } from '@nextui-org/react'
 import { AppRoutes } from '../../routes/app-routes'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import Logo from '../assets/Logo.png'
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../reducer/userReducer'
 import useNotify from '../hooks/use-notify'
 import { OngModel } from '../models/ongModel'
+import useAuth from '../hooks/use-auth';
 
 export default function NavbarComponent() {
+    const {pathname} = useLocation()
     const navigate = useNavigate()
+    const {isAuthenticated, removeToken } = useAuth()
     const {notify} = useNotify()
-
-    const isAuthenticated = localStorage.getItem('access_token') ? true : false
     
     const dispatch = useDispatch()
+    const handleLogoClick = () => {
+        if (pathname !== AppRoutes.login && pathname !== AppRoutes.ongRegister)
+            navigate(AppRoutes.home)
+        else
+            navigate(AppRoutes.login)
+    }
+
     const handleLogout = () => {
         dispatch(logout())
-        localStorage.removeItem('access_token')
+        removeToken()
         navigate(AppRoutes.login)
         notify("success", "Você foi deslogado com sucesso!")
     }
-
+    console.log("I re-render")
     const ongData: OngModel = useSelector((state: any) => state.user.ong)
     return (
-        <Navbar isBordered={false} className="mb-5 py-2 flex items-center">
+        <Navbar isBordered={false} className="mb-7 pt-2 flex items-center">
             <NavbarBrand
-                onClick={() => navigate(AppRoutes.home)}
+                onClick={handleLogoClick}
                 className="cursor-pointer"
             >
                 <img src={Logo} />
             </NavbarBrand>
 
-            {isAuthenticated && (
+            {isAuthenticated() && (
                 <NavbarContent as="div" justify="end">
                     <Dropdown placement="bottom-end">
                         <DropdownTrigger>

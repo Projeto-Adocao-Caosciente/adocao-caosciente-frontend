@@ -106,9 +106,8 @@ export default function OngPage({
         <p className="justify-center text-lg font-light flex gap-2">
             Já possui conta?
             <Link
-                // TODO: Adicionar redirecionamentos
-                href={AppRoutes.login}
-                className="text-primary flex gap-1"
+                onClick={() => navigate(AppRoutes.login)}
+                className="text-primary flex gap-1 cursor-pointer"
             >
                 Acesse
                 <LinkIcon />
@@ -117,8 +116,6 @@ export default function OngPage({
     )
 
     return (
-        <>
-            <Navbar />
             <main
                 className={`container-form mb-10 ${
                     registerFetch.isLoading()
@@ -334,6 +331,5 @@ export default function OngPage({
                     </section>
                 </form>
             </main>
-        </>
     )
 }

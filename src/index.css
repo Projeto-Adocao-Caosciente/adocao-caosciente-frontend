@@ -5,7 +5,7 @@
         scroll-behavior: smooth;
     }
     .container {
-        @apply xs:mx-8 sm:mx-16 md:mx-32 lg:mx-40 xl:mx-64;
+        @apply xs:px-8 sm:px-16 md:px-32 lg:px-40 xl:px-64;
     }
     .container-form {
         @apply container mx-auto max-w-[600px] px-6;
