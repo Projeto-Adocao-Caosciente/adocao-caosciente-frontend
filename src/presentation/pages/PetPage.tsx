@@ -76,7 +76,13 @@ export default function PetPage({
         <>
             <Navbar />
             {/* FIXME: Ajeitar margem */}
-            <main className="container-form mb-10">
+            <main
+                className={`container-form mb-10 ${
+                    pet.isLoading()
+                        ? 'pointer-events-none'
+                        : 'pointer-events-auto'
+                }`}
+            >
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <section className="mb-12">
                         <div className="sm:flex sm:justify-center">
@@ -193,6 +199,7 @@ export default function PetPage({
                             variant="solid"
                             size="md"
                             type="submit"
+                            isLoading={pet.isLoading()}
                         >
                             Cadastrar
                         </Button>
