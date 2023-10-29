@@ -24,8 +24,8 @@ export type HttpResponse<T = any> = {
     body?: T
 }
 
-export interface AxiosHttpClient<T = any> {
-    request: (data: HttpRequest) => Promise<HttpResponse<T>>
+export interface AxiosHttpClient {
+    request: <T>(data: HttpRequest) => Promise<HttpResponse<T>>
 }
 
 export type AxiosHttpClientConfig = Pick<AxiosRequestConfig, 'timeout'>
@@ -36,7 +36,7 @@ export class AxiosHttpClientImpl implements AxiosHttpClient {
         private readonly config: AxiosHttpClientConfig
     ) {}
 
-    async request(data: HttpRequest): Promise<HttpResponse> {
+    async request<T>(data: HttpRequest): Promise<HttpResponse<T>> {
         let axiosResponse: AxiosResponse
         try {
             axiosResponse = await axios.request({

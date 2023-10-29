@@ -94,6 +94,7 @@ export function useFetch<T = unknown>({
                 status: Status.success,
             })
         } catch (e) {
+            console.log(e)
             setState({
                 status: Status.error,
                 error: e as Error,
