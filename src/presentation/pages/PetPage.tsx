@@ -73,142 +73,139 @@ export default function PetPage({
     }, [])
 
     return (
-        <>
-            <Navbar />
-            {/* FIXME: Ajeitar margem */}
-            <main
-                className={`container-form mb-10 ${
-                    pet.isLoading()
-                        ? 'pointer-events-none'
-                        : 'pointer-events-auto'
-                }`}
-            >
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <section className="mb-12">
-                        <div className="sm:flex sm:justify-center">
+        // FIXME: Ajeitar margem 
+        <main
+            className={`container-form mb-10 ${
+                pet.isLoading()
+                    ? 'pointer-events-none'
+                    : 'pointer-events-auto'
+            }`}
+        >
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <section className="mb-12">
+                    <div className="sm:flex sm:justify-center">
+                        <Input
+                            placeholder="Qual o nome do seu Pet?"
+                            variant="underlined"
+                            className="sm:w-96"
+                            isInvalid={getFieldState('name').invalid}
+                            errorMessage={errors.name?.message}
+                            {...register('name')}
+                        />
+                    </div>
+                </section>
+                <section className="flex gap-6 flex-col items-center md:flex-row">
+                    <InputFileImage
+                        handleImageUpload={(file) =>
+                            fileToBase64(file, (base64) => {
+                                setValue('photoBase64', base64, {
+                                    shouldValidate: true,
+                                })
+                            })
+                        }
+                        hasError={getFieldState('photoBase64').invalid}
+                    />
+                    <article className="flex flex-1 flex-col gap-6">
+                        <Input
+                            placeholder="Raça"
+                            variant="bordered"
+                            size="lg"
+                            isInvalid={getFieldState('breed').invalid}
+                            errorMessage={errors.breed?.message}
+                            {...register('breed')}
+                        />
+                        <Input
+                            placeholder="Tipo"
+                            variant="bordered"
+                            size="lg"
+                            isInvalid={getFieldState('kind').invalid}
+                            errorMessage={errors.kind?.message}
+                            {...register('kind')}
+                        />
+                        <div className="flex gap-6">
                             <Input
-                                placeholder="Qual o nome do seu Pet?"
-                                variant="underlined"
-                                className="sm:w-96"
-                                isInvalid={getFieldState('name').invalid}
-                                errorMessage={errors.name?.message}
-                                {...register('name')}
+                                placeholder="Altura"
+                                variant="bordered"
+                                size="lg"
+                                type="number"
+                                isInvalid={getFieldState('height').invalid}
+                                errorMessage={errors.height?.message}
+                                {...register('height')}
+                            />
+                            <Input
+                                placeholder="Peso"
+                                variant="bordered"
+                                size="lg"
+                                type="number"
+                                isInvalid={getFieldState('weight').invalid}
+                                errorMessage={errors.weight?.message}
+                                {...register('weight')}
                             />
                         </div>
-                    </section>
-                    <section className="flex gap-6 flex-col items-center md:flex-row">
-                        <InputFileImage
-                            handleImageUpload={(file) =>
-                                fileToBase64(file, (base64) => {
-                                    setValue('photoBase64', base64, {
-                                        shouldValidate: true,
-                                    })
-                                })
-                            }
-                            hasError={getFieldState('photoBase64').invalid}
-                        />
-                        <article className="flex flex-1 flex-col gap-6">
-                            <Input
-                                placeholder="Raça"
-                                variant="bordered"
-                                size="lg"
-                                isInvalid={getFieldState('breed').invalid}
-                                errorMessage={errors.breed?.message}
-                                {...register('breed')}
-                            />
-                            <Input
-                                placeholder="Tipo"
-                                variant="bordered"
-                                size="lg"
-                                isInvalid={getFieldState('kind').invalid}
-                                errorMessage={errors.kind?.message}
-                                {...register('kind')}
-                            />
-                            <div className="flex gap-6">
-                                <Input
-                                    placeholder="Altura"
-                                    variant="bordered"
-                                    size="lg"
-                                    type="number"
-                                    isInvalid={getFieldState('height').invalid}
-                                    errorMessage={errors.height?.message}
-                                    {...register('height')}
-                                />
-                                <Input
-                                    placeholder="Peso"
-                                    variant="bordered"
-                                    size="lg"
-                                    type="number"
-                                    isInvalid={getFieldState('weight').invalid}
-                                    errorMessage={errors.weight?.message}
-                                    {...register('weight')}
-                                />
-                            </div>
-                        </article>
-                    </section>
-                    <Divider className="my-6" />
-                    <section>
-                        <h3 className="text-xl font-bold mb-2">
-                            Necessidades Especiais:
-                        </h3>
-                        <Select
-                            placeholder="Selecione as opções"
-                            selectionMode="multiple"
-                            variant="bordered"
-                            size="md"
-                            value={''}
-                            defaultValue={''}
-                            isInvalid={getFieldState('specialNeeds').invalid}
-                            errorMessage={errors.specialNeeds?.message}
-                            {...register('specialNeeds')}
-                        >
-                            {(specialNeedsFetch.state?.data ?? []).map(
-                                (option: SelectOption) => (
-                                    <SelectItem
-                                        key={option.value}
-                                        value={option.value}
-                                    >
-                                        {option.label}
-                                    </SelectItem>
-                                )
-                            )}
-                        </Select>
-                    </section>
-                    <Divider className="my-6" />
-                    <section>
-                        <h3 className="text-xl font-bold mb-2">
-                            Informações adicionais:
-                        </h3>
-                        <Textarea
-                            label="Anotações:"
-                            labelPlacement="inside"
-                            variant="bordered"
-                            minRows={4}
-                            maxRows={8}
-                            isInvalid={
-                                getFieldState('additionalInformation').invalid
-                            }
-                            errorMessage={errors.additionalInformation?.message}
-                            {...register('additionalInformation')}
-                        />
-                    </section>
-                    <Divider className="my-6" />
-                    <section className="flex flex-col gap-6">
-                        <Button
-                            color="primary"
-                            variant="solid"
-                            size="md"
-                            type="submit"
-                            isLoading={pet.isLoading()}
-                        >
-                            Cadastrar
-                        </Button>
-                        <Button color="danger" variant="flat" size="md">
-                            Cancelar
-                        </Button>
-                    </section>
-                </form>
-            </main>
-        </>
+                    </article>
+                </section>
+                <Divider className="my-6" />
+                <section>
+                    <h3 className="text-xl font-bold mb-2">
+                        Necessidades Especiais:
+                    </h3>
+                    <Select
+                        placeholder="Selecione as opções"
+                        selectionMode="multiple"
+                        variant="bordered"
+                        size="md"
+                        value={''}
+                        defaultValue={''}
+                        isInvalid={getFieldState('specialNeeds').invalid}
+                        errorMessage={errors.specialNeeds?.message}
+                        {...register('specialNeeds')}
+                    >
+                        {(specialNeedsFetch.state?.data ?? []).map(
+                            (option: SelectOption) => (
+                                <SelectItem
+                                    key={option.value}
+                                    value={option.value}
+                                >
+                                    {option.label}
+                                </SelectItem>
+                            )
+                        )}
+                    </Select>
+                </section>
+                <Divider className="my-6" />
+                <section>
+                    <h3 className="text-xl font-bold mb-2">
+                        Informações adicionais:
+                    </h3>
+                    <Textarea
+                        label="Anotações:"
+                        labelPlacement="inside"
+                        variant="bordered"
+                        minRows={4}
+                        maxRows={8}
+                        isInvalid={
+                            getFieldState('additionalInformation').invalid
+                        }
+                        errorMessage={errors.additionalInformation?.message}
+                        {...register('additionalInformation')}
+                    />
+                </section>
+                <Divider className="my-6" />
+                <section className="flex flex-col gap-6">
+                    <Button
+                        color="primary"
+                        variant="solid"
+                        size="md"
+                        type="submit"
+                        isLoading={pet.isLoading()}
+                    >
+                        Cadastrar
+                    </Button>
+                    <Button color="danger" variant="flat" size="md">
+                        Cancelar
+                    </Button>
+                </section>
+            </form>
+        </main>
     )
 }
