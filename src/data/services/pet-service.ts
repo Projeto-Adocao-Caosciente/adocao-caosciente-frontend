@@ -10,7 +10,7 @@ export interface PetService {
 export class PetServiceImpl implements PetService {
     constructor(private readonly httpClient: AxiosHttpClient) {}
 
-    private readonly registeringPath = '/pet/register'
+    private readonly registeringPath = '/animal'
 
     // TODO: consumir via backend
     getSpecialNeeds(): Promise<SelectOptionResponse[]> {
@@ -27,11 +27,31 @@ export class PetServiceImpl implements PetService {
     }
 
     savePet(fields: PetFormFields): Promise<HttpResponse<void>> {
+        const specialNeeds = () => {
+            if (
+                typeof fields.specialNeeds === 'string' &&
+                fields.specialNeeds.length > 0
+            ) {
+                return fields.specialNeeds.split(',')
+            } else {
+                return []
+            }
+        }
+
         return this.httpClient.request({
             path: this.registeringPath,
             method: 'post',
             body: {
-                ...fields,
+                name: fields.name,
+                type: fields.kind,
+                breed: fields.breed,
+                height: fields.height,
+                weight: fields.weight,
+                special_needs: specialNeeds(),
+                adoption_requirements: [],
+                photo: fields.photoBase64,
+                adopter: '',
+                aditional_info: fields.additionalInformation,
             },
         })
     }
