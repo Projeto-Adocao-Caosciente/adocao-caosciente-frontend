@@ -1,11 +1,9 @@
-import axios, { AxiosResponse, Method } from 'axios'
-import { AxiosRequestConfig } from 'axios/index'
+import { AxiosInstance, AxiosResponse, Method, AxiosRequestConfig } from 'axios'
 
 export type HttpRequest = {
     path: string
     method: Method
     body?: any
-    headers?: any
 }
 
 export enum HttpStatusCode {
@@ -31,24 +29,20 @@ export interface AxiosHttpClient {
 export type AxiosHttpClientConfig = Pick<AxiosRequestConfig, 'timeout'>
 
 export class AxiosHttpClientImpl implements AxiosHttpClient {
-    constructor(
-        private readonly baseurl: string,
-        private readonly config: AxiosHttpClientConfig
-    ) {}
+    constructor(private readonly api: AxiosInstance) {}
 
     async request<T>(data: HttpRequest): Promise<HttpResponse<T>> {
         let axiosResponse: AxiosResponse
         try {
-            axiosResponse = await axios.request({
-                url: `${this.baseurl}${data.path}`,
+            axiosResponse = await this.api.request({
+                url: data.path,
                 method: data.method,
                 data: data.body,
-                headers: data.headers,
-                ...this.config,
             })
         } catch (error: any) {
             axiosResponse = error.response
         }
+
         return {
             statusCode: axiosResponse.status,
             body: axiosResponse.data,
