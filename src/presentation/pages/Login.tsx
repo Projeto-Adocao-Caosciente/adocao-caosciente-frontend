@@ -45,7 +45,6 @@ export default function LoginPage({
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
-
     const { notify } = useNotify()
     const { setToken } = useAuth()
 
@@ -98,6 +97,7 @@ export default function LoginPage({
                     <Divider className="my-6" />
                     <section className="flex justify-center gap-4 flex-col items-center mb-10">
                         <Input
+                            id="cnpj"
                             placeholder="CNPJ"
                             variant="bordered"
                             size="lg"
@@ -107,6 +107,7 @@ export default function LoginPage({
                             {...register('user')}
                         />
                         <Input
+                            id="password"
                             placeholder="Senha"
                             variant="bordered"
                             size="lg"
@@ -131,6 +132,7 @@ export default function LoginPage({
                     </section>
                     <section className="flex justify-center gap-6 flex-col mb-6">
                         <Button
+                            id="login-button"
                             color="primary"
                             variant="solid"
                             size="lg"
@@ -142,6 +144,7 @@ export default function LoginPage({
                         <p className="justify-center text-base font-light flex gap-2">
                             Não tem conta?
                             <Link
+                                id="register-linkup"
                                 className="text-primary flex gap-1 cursor-pointer"
                                 onClick={() => navigate(AppRoutes.ongRegister)}
                             >
