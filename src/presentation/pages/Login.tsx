@@ -13,8 +13,6 @@ import { EyeSlashFilledIcon } from '../assets/EyeSlashFilledIcon'
 import { EyeFilledIcon } from '../assets/EyeFilledIcon'
 import axios from 'axios'
 import useNotify from '../hooks/use-notify'
-import { useFetch } from '../hooks/use-fetch'
-import { LoginModel } from '../models/LoginModel';
 import { useDispatch } from 'react-redux'
 import { login } from '../reducer/userReducer'
 import { useNavigate } from 'react-router'
@@ -38,9 +36,9 @@ export default function LoginPage({ validationWrapper }: LoginPageProps) {
         resolver: yupResolver<LoginFormFields>(validationWrapper.schema),
     })
 
-    const {notify} = useNotify()
-    const {setToken} = useAuth()
-    
+    const { notify } = useNotify()
+    const { setToken } = useAuth()
+
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const onSubmit: SubmitHandler<LoginFormFields> = (data) => {
@@ -61,11 +59,11 @@ export default function LoginPage({ validationWrapper }: LoginPageProps) {
                 const accessToken = response.data.access_token
                 setToken(accessToken)
                 dispatch(login(response.data.user))
-                notify("success", "Login efetuado com sucesso!")
+                notify('success', 'Login efetuado com sucesso!')
                 navigate(AppRoutes.home)
             })
             .catch(function (error) {
-                notify("error", "Usuário ou senha invalidos!")
+                notify('error', 'Usuário ou senha invalidos!')
             })
     }
 
@@ -90,6 +88,7 @@ export default function LoginPage({ validationWrapper }: LoginPageProps) {
                     <Divider className="my-6" />
                     <section className="flex justify-center gap-4 flex-col items-center mb-10">
                         <Input
+                            id="cnpj"
                             placeholder="CNPJ"
                             variant="bordered"
                             size="lg"
@@ -99,6 +98,7 @@ export default function LoginPage({ validationWrapper }: LoginPageProps) {
                             {...register('user')}
                         />
                         <Input
+                            id="password"
                             placeholder="Senha"
                             variant="bordered"
                             size="lg"
@@ -123,6 +123,7 @@ export default function LoginPage({ validationWrapper }: LoginPageProps) {
                     </section>
                     <section className="flex justify-center gap-6 flex-col mb-6">
                         <Button
+                            id="login-button"
                             color="primary"
                             variant="solid"
                             size="lg"
@@ -133,6 +134,7 @@ export default function LoginPage({ validationWrapper }: LoginPageProps) {
                         <p className="justify-center text-base font-light flex gap-2">
                             Não tem conta?
                             <Link
+                                id="register-linkup"
                                 className="text-primary flex gap-1 cursor-pointer"
                                 onClick={() => navigate(AppRoutes.ongRegister)}
                             >
