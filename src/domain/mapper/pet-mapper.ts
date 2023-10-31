@@ -6,12 +6,14 @@ export interface PetMapper
     extends Mapper<SelectOptionResponse[], SelectOption[]> {}
 
 export class PetMapperImpl implements PetMapper {
-    map(selectOptionsResponse: SelectOptionResponse[]): SelectOption[] {
-        return selectOptionsResponse.map((value) => {
-            return {
-                label: value.name,
-                value: value.value,
-            }
-        })
+    map(selectOptionsResponse?: SelectOptionResponse[]): SelectOption[] {
+        return (
+            selectOptionsResponse?.map((value) => {
+                return {
+                    label: value.name,
+                    value: value.value,
+                }
+            }) ?? []
+        )
     }
 }
