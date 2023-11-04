@@ -12,40 +12,36 @@ import {
 import { AppRoutes } from '../../routes/app-routes'
 import { useLocation, useNavigate } from 'react-router-dom'
 import Logo from '../assets/Logo.png'
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux'
 import { logout } from '../reducer/userReducer'
 import useNotify from '../hooks/use-notify'
-import { OngModel } from '../models/ongModel'
-import useAuth from '../hooks/use-auth';
+import { OngModel } from '../models/ong-model'
+import useAuth from '../hooks/use-auth'
 
 export default function NavbarComponent() {
-    const {pathname} = useLocation()
+    const { pathname } = useLocation()
     const navigate = useNavigate()
-    const {isAuthenticated, removeToken } = useAuth()
-    const {notify} = useNotify()
-    
+    const { isAuthenticated, removeToken } = useAuth()
+    const { notify } = useNotify()
+
     const dispatch = useDispatch()
     const handleLogoClick = () => {
         if (pathname !== AppRoutes.login && pathname !== AppRoutes.ongRegister)
             navigate(AppRoutes.home)
-        else
-            navigate(AppRoutes.login)
+        else navigate(AppRoutes.login)
     }
 
     const handleLogout = () => {
         dispatch(logout())
         removeToken()
         navigate(AppRoutes.login)
-        notify("success", "Você foi deslogado com sucesso!")
+        notify('success', 'Você foi deslogado com sucesso!')
     }
-    console.log("I re-render")
+    console.log('I re-render')
     const ongData: OngModel = useSelector((state: any) => state.user.ong)
     return (
         <Navbar isBordered={false} className="mb-7 pt-2 flex items-center">
-            <NavbarBrand
-                onClick={handleLogoClick}
-                className="cursor-pointer"
-            >
+            <NavbarBrand onClick={handleLogoClick} className="cursor-pointer">
                 <img src={Logo} />
             </NavbarBrand>
 
@@ -68,9 +64,7 @@ export default function NavbarComponent() {
                         >
                             <DropdownItem key="profile" className="h-14 gap-2">
                                 <p className="font-semibold">Logado como </p>
-                                <p className="font-semibold">
-                                    {ongData.email}
-                                </p>
+                                <p className="font-semibold">{ongData.email}</p>
                             </DropdownItem>
                             <DropdownItem
                                 key="edit"
@@ -90,7 +84,11 @@ export default function NavbarComponent() {
                             >
                                 Sobre o projeto
                             </DropdownItem>
-                            <DropdownItem key="logout" color="danger" onClick={handleLogout}>
+                            <DropdownItem
+                                key="logout"
+                                color="danger"
+                                onClick={handleLogout}
+                            >
                                 Sair
                             </DropdownItem>
                         </DropdownMenu>

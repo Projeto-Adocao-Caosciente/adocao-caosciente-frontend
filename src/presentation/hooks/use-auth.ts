@@ -1,6 +1,4 @@
-import React from 'react'
 import { useCookies } from 'react-cookie'
-import { OngModel } from '../models/ongModel'
 
 export default function useAuth() {
     const [cookies, setCookie, removeCookie] = useCookies()
@@ -12,7 +10,7 @@ export default function useAuth() {
     const getToken = () => {
         return cookies.token
     }
-    
+
     const isAuthenticated = () => {
         return cookies.token !== undefined
     }
@@ -21,12 +19,10 @@ export default function useAuth() {
         removeCookie('token')
     }
 
-
     return {
         setToken,
         getToken,
         isAuthenticated,
-        removeToken
+        removeToken,
     }
-    
 }

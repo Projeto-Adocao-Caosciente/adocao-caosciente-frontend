@@ -1,7 +1,7 @@
 import { Mapper } from './mapper'
 import { Authorization } from '../models/authorization'
 import { AuthorizationResponse } from '../../data/model/authorization-response'
-import { OngModel } from '../../presentation/models/ongModel'
+import { OngModel } from '../../presentation/models/ong-model'
 
 export interface AuthorizationMapper
     extends Mapper<

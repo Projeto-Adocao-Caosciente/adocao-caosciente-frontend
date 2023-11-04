@@ -6,7 +6,7 @@ import { makeOngInteractor } from '../interactors/ong-interactor-factory'
 export const makeOngPage = (isEditing: boolean = false) => {
     return (
         <OngPage
-            validationWrapper={makeOngValidation()}
+            validationWrapper={makeOngValidation(isEditing)}
             interactor={makeOngInteractor()}
             isEditing={isEditing}
         />

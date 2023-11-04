@@ -6,7 +6,7 @@ import { LoginFormFields } from '../../presentation/validations/login/form-field
 import { Authorization } from '../models/authorization'
 import { AuthorizationMapper } from '../mapper/ong-mapper'
 import { AuthorizationResponse } from '../../data/model/authorization-response'
-import { OngModel } from '../../presentation/models/ongModel'
+import { OngModel } from '../../presentation/models/ong-model'
 
 export interface OngInteractor {
     register: (fields: OngFormFields) => Promise<void>

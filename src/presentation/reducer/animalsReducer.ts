@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { OngModel } from '../models/ongModel'
-import { AnimalModel } from '../models/AnimalModel'
+import { AnimalModel } from '../models/animal-model'
 
 interface stateType {
     data: AnimalModel[]
@@ -16,9 +15,9 @@ const animalsSlice = createSlice({
     reducers: {
         setAnimals: (state: any, action: { payload: AnimalModel }) => {
             state.data = action.payload
-        }
+        },
     },
 })
 
-export const {setAnimals} = animalsSlice.actions
+export const { setAnimals } = animalsSlice.actions
 export default animalsSlice.reducer

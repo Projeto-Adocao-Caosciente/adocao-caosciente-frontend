@@ -2,7 +2,7 @@ import { AxiosHttpClient, HttpResponse } from '../http/http-client'
 import { OngFormFields } from '../../presentation/validations/ong/form-fields-type'
 import { LoginFormFields } from '../../presentation/validations/login/form-fields-type'
 import { AuthorizationResponse } from '../model/authorization-response'
-import { OngModel } from '../../presentation/models/ongModel'
+import { OngModel } from '../../presentation/models/ong-model'
 
 export interface OngService {
     register: (fields: OngFormFields) => Promise<HttpResponse<void>>
