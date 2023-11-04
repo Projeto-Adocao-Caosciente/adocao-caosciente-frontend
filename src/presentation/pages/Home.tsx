@@ -1,20 +1,20 @@
-import { Button, Input, Link } from '@nextui-org/react'
-import React, { useEffect, useState } from 'react'
+import { Button, Input } from '@nextui-org/react'
+import React, { useEffect } from 'react'
 import PetCard from '../components/PetCard'
 import AddCircleSolidIcon from '../assets/AddCircleSolidIcon'
 import { AppRoutes } from '../../routes/app-routes'
-import { AnimalModel } from '../models/AnimalModel'
+import { AnimalModel } from '../models/animal-model'
 import axios from 'axios'
 import { Status, useFetch } from '../hooks/use-fetch'
 import { useDispatch, useSelector } from 'react-redux'
-import { OngModel } from '../models/ongModel'
+import { OngModel } from '../models/ong-model'
 import { setAnimals } from '../reducer/animalsReducer'
 import useAuth from '../hooks/use-auth'
 import { useNavigate } from 'react-router-dom'
 
 export default function Home() {
     const navigate = useNavigate()
-    const {getToken} = useAuth()
+    const { getToken } = useAuth()
     const access_token = getToken()
     const animalsRequest = useFetch<any>({
         fn: () =>

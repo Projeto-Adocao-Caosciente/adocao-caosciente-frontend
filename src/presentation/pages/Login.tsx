@@ -19,7 +19,7 @@ import { useNavigate } from 'react-router'
 import useAuth from '../hooks/use-auth'
 import { OngInteractor } from '../../domain/interactors/ong-interactor'
 import { Authorization } from '../../domain/models/authorization'
-import { OngModel } from '../models/ongModel'
+import { OngModel } from '../models/ong-model'
 
 type LoginPageProps = {
     validationWrapper: LoginFieldsValidationWrapper

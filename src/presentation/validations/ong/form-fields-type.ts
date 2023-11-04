@@ -5,6 +5,14 @@ import {
     commonsPatternCNPJ,
     commonsPatternPhone,
 } from '../core/commons-patterns'
+import { AnyObject, StringSchema } from 'yup'
+
+type PartialSchemaField = StringSchema<
+    string | undefined,
+    AnyObject,
+    undefined,
+    ''
+>
 
 export type OngFormFields = {
     avatarBase64: string
@@ -17,8 +25,8 @@ export type OngFormFields = {
     programsAndActivities: string
     mission: string
     foundationDate: string
-    password: string
-    passwordConfirmation: string
+    password?: string
+    passwordConfirmation?: string
 }
 
 export interface OngFieldsValidationWrapper
@@ -27,7 +35,7 @@ export interface OngFieldsValidationWrapper
 export class OngFieldsValidationWrapperImpl
     implements OngFieldsValidationWrapper
 {
-    private readonly onUserNotFulfilled: string = 'Campo obrigatório'
+    protected readonly onUserNotFulfilled: string = 'Campo obrigatório'
 
     private readonly onUserPatternUnmatched: string =
         'O campo deve ser preenchido corretamente'
@@ -70,11 +78,29 @@ export class OngFieldsValidationWrapperImpl
                 .required(this.missingFieldMessage),
             mission: yup.string().required(this.missingFieldMessage),
             foundationDate: yup.string().required(this.missingFieldMessage),
-            password: yup.string().required(this.missingFieldMessage),
-            passwordConfirmation: yup
-                .string()
-                .oneOf([yup.ref('password')], this.passwordUnmatchedMessage)
-                .required(this.missingFieldMessage),
+            password: this.getPasswordValidation(),
+            passwordConfirmation: this.getPasswordConfirmationValidation(),
         })
         .required()
+
+    protected getPasswordValidation(): PartialSchemaField {
+        return yup.string().required(this.missingFieldMessage)
+    }
+
+    protected getPasswordConfirmationValidation(): PartialSchemaField {
+        return yup
+            .string()
+            .oneOf([yup.ref('password')], this.passwordUnmatchedMessage)
+            .required(this.missingFieldMessage)
+    }
+}
+
+export class OngEditFieldsValidationWrapperImpl extends OngFieldsValidationWrapperImpl {
+    protected getPasswordValidation(): PartialSchemaField {
+        return yup.string()
+    }
+
+    protected getPasswordConfirmationValidation(): PartialSchemaField {
+        return yup.string()
+    }
 }
