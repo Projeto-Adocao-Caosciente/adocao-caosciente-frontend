@@ -1,1 +1,1 @@
-export const makeApiUrl = (): string => 'https://adocaosciente.onrender.com'
+export const makeApiUrl = (): string => import.meta.env.VITE_BASE_API_URL

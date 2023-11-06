@@ -1,0 +1,190 @@
+{
+  "uuid": "b0b6f204-c87b-48bf-b2f2-0655afa0ad5e",
+  "lastMigration": 29,
+  "name": "Mock",
+  "endpointPrefix": "",
+  "latency": 500,
+  "port": 3333,
+  "hostname": "",
+  "folders": [],
+  "routes": [
+    {
+      "uuid": "a61aaac2-9c02-46a3-9952-f6ad037b5dc8",
+      "type": "http",
+      "documentation": "NGO Authentication Route",
+      "method": "post",
+      "endpoint": "login",
+      "responses": [
+        {
+          "uuid": "37ac1001-fc9f-4951-885c-282e259e29b4",
+          "body": "{\n  \"accessToken\": \"{{faker 'string.uuid'}}\",\n  \"user\": {\n    \"id\": \"{{faker 'string.uuid'}}\",\n    \"cnpj\": \"12345678901234\",\n    \"name\": \"{{faker 'person.firstName'}} {{faker 'person.firstName'}}\",\n    \"email\": \"john.doe@email.com\",\n    \"logo\": \"{{faker 'string.uuid'}}\",\n    \"city\": \"{{faker 'location.city'}}\",\n    \"state\": \"{{faker 'location.state' abbreviated=true}}\",\n    \"phone\": \"(99) 99999-9999\",\n    \"mission\": \"{{faker 'lorem.sentence'}}\",\n    \"foundation\": \"{{now}}\",\n    \"description\": \"{{faker 'lorem.sentence'}}\"\n  }\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "1d481379-61e5-4a9f-aef4-f25b5c738182",
+      "type": "http",
+      "documentation": "NGO Register Route",
+      "method": "post",
+      "endpoint": "register",
+      "responses": [
+        {
+          "uuid": "b2cb8381-15f8-4488-a9a3-af7d79f10d2d",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 201,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "ba554424-021c-4da7-9f1b-cb90c65b22b8",
+      "type": "http",
+      "documentation": "Animal Register Route",
+      "method": "post",
+      "endpoint": "animal",
+      "responses": [
+        {
+          "uuid": "3a11433a-923b-497c-b804-806d03504cec",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 201,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "59e57f11-82af-4d28-bd09-c2a72550cc4e",
+      "type": "http",
+      "documentation": "Animal Register Route",
+      "method": "post",
+      "endpoint": "animals",
+      "responses": [
+        {
+          "uuid": "015b7c78-b836-408f-a0e1-239f7a425d1c",
+          "body": "[]",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    }
+  ],
+  "rootChildren": [
+    {
+      "type": "route",
+      "uuid": "a61aaac2-9c02-46a3-9952-f6ad037b5dc8"
+    },
+    {
+      "type": "route",
+      "uuid": "1d481379-61e5-4a9f-aef4-f25b5c738182"
+    },
+    {
+      "type": "route",
+      "uuid": "ba554424-021c-4da7-9f1b-cb90c65b22b8"
+    },
+    {
+      "type": "route",
+      "uuid": "59e57f11-82af-4d28-bd09-c2a72550cc4e"
+    }
+  ],
+  "proxyMode": false,
+  "proxyHost": "",
+  "proxyRemovePrefix": false,
+  "tlsOptions": {
+    "enabled": false,
+    "type": "CERT",
+    "pfxPath": "",
+    "certPath": "",
+    "keyPath": "",
+    "caPath": "",
+    "passphrase": ""
+  },
+  "cors": true,
+  "headers": [
+    {
+      "key": "Content-Type",
+      "value": "application/json"
+    },
+    {
+      "key": "Access-Control-Allow-Origin",
+      "value": "*"
+    },
+    {
+      "key": "Access-Control-Allow-Methods",
+      "value": "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS"
+    },
+    {
+      "key": "Access-Control-Allow-Headers",
+      "value": "Content-Type, Origin, Accept, Authorization, Content-Length, X-Requested-With"
+    }
+  ],
+  "proxyReqHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "proxyResHeaders": [
+    {
+      "key": "",
+      "value": ""
+    }
+  ],
+  "data": []
+}
