@@ -26,8 +26,10 @@
   },
   "scripts": {
     "start": "vite",
+    "start:mock": "vite --mode mock",
     "build": "tsc && vite build",
     "preview": "vite preview",
+    "preview:mock": "vite preview --mode mock",
     "prettier": "prettier --write ."
   },
   "eslintConfig": {
