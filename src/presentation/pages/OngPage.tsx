@@ -1,5 +1,5 @@
 import React from 'react'
-import { Input, Divider, Button, Textarea, Link } from '@nextui-org/react'
+import { Button, Divider, Input, Link, Textarea } from '@nextui-org/react'
 import InputFileImage from '../components/InputFileImage'
 import LinkIcon from '../assets/LinkIcon'
 import { AppRoutes } from '../../routes/app-routes'
@@ -7,7 +7,7 @@ import {
     OngFieldsValidationWrapper,
     OngFormFields,
 } from '../validations/ong/form-fields-type'
-import { Controller, SubmitHandler, useForm } from 'react-hook-form'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { fileToBase64 } from '../../utils/file-to-base64'
 import { useBoolean } from '../hooks/use-boolean'
@@ -51,8 +51,6 @@ export default function OngPage({
               foundationDate: moment(ong.foundation, 'DD-MM-YYYY')
                   .format('YYYY-MM-DD')
                   .toString(),
-              password: undefined,
-              passwordConfirmation: undefined,
           }
         : undefined
 
@@ -71,27 +69,39 @@ export default function OngPage({
         // TODO: implement ong deletion
     }
 
-    function onRegistered(_: void) {
-        notify('success', 'Cadastro efetuado com sucesso!')
+    function onSuccess(message: string, navigateTo?: AppRoutes) {
+        notify('success', message)
         registerFetch.setIdle()
-        navigate(AppRoutes.login)
+
+        if (navigateTo != null) {
+            navigate(AppRoutes.login)
+        }
     }
 
-    function onRegisterFailed(_?: Error) {
-        notify('error', 'Não foi possível realizar o cadastro, tente novamente')
+    function onFail(message: string) {
+        notify('error', message)
         registerFetch.setIdle()
     }
 
     const registerFetch = useFetch<void>({
         fn: (fields) => interactor.register({ ...fields }),
-        successListener: onRegistered,
-        errorListener: onRegisterFailed,
+        successListener: (_: void) =>
+            onSuccess('Cadastro efetuado com sucesso!', AppRoutes.login),
+        errorListener: (_?: Error) =>
+            onFail('Não foi possível realizar o cadastro, tente novamente'),
+    })
+
+    const editFetch = useFetch<void>({
+        fn: (fields) => interactor.edit({ ...fields }),
+        successListener: (_: void) => onSuccess('Edição efetuada com sucesso!'),
+        errorListener: (_?: Error) =>
+            onFail('Não foi possível realizar a edição, tente novamente'),
     })
 
     const eyeToggle = useBoolean(false)
 
     const onSubmit: SubmitHandler<OngFormFields> = (data) =>
-        registerFetch.fetch(data)
+        isEditing ? editFetch.fetch(data) : registerFetch.fetch(data)
 
     const applyUserPattern = (event: React.ChangeEvent<HTMLInputElement>) => {
         event.target.value = validationWrapper.patterns.user!.apply(
