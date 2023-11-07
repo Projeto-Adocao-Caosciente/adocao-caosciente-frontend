@@ -10,6 +10,7 @@ import { OngModel } from '../../presentation/models/ong-model'
 
 export interface OngInteractor {
     register: (fields: OngFormFields) => Promise<void>
+    edit: (fields: OngFormFields) => Promise<void>
     login: (fields: LoginFormFields) => Promise<Authorization<OngModel>>
 }
 
@@ -18,6 +19,17 @@ export class OngInteractorImpl implements OngInteractor {
         private readonly service: OngService,
         private readonly mapper: AuthorizationMapper
     ) {}
+
+    async edit(fields: OngFormFields): Promise<void> {
+        const httpResponse = await this.service.edit(fields)
+
+        switch (httpResponse.statusCode) {
+            case HttpStatusCode.ok:
+                return
+            default:
+                throw new UnexpectedError()
+        }
+    }
 
     async register(fields: OngFormFields): Promise<void> {
         const httpResponse = await this.service.register(fields)

@@ -6,6 +6,7 @@ import { OngModel } from '../../presentation/models/ong-model'
 
 export interface OngService {
     register: (fields: OngFormFields) => Promise<HttpResponse<void>>
+    edit: (fields: OngFormFields) => Promise<HttpResponse<void>>
     login: (
         fields: LoginFormFields
     ) => Promise<HttpResponse<AuthorizationResponse<OngModel>>>
@@ -15,7 +16,27 @@ export class OngServiceImpl implements OngService {
     constructor(private readonly httpClient: AxiosHttpClient) {}
 
     private readonly registeringPath = '/register'
+    private readonly editingPath = '/ong'
     private readonly loginPath = '/login'
+
+    edit(fields: OngFormFields): Promise<HttpResponse<void>> {
+        return this.httpClient.request({
+            path: this.editingPath,
+            method: 'put',
+            body: {
+                cnpj: fields.user.replaceAll(/[./-]/g, ''),
+                name: fields.name,
+                logo: fields.avatarBase64,
+                city: fields.city,
+                state: fields.state,
+                phone: fields.phone,
+                email: fields.email,
+                mission: fields.mission,
+                foundation: fields.foundationDate,
+                description: fields.programsAndActivities,
+            },
+        })
+    }
 
     register(fields: OngFormFields): Promise<HttpResponse<void>> {
         return this.httpClient.request({
