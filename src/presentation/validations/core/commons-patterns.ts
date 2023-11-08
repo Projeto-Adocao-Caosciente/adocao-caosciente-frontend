@@ -24,3 +24,25 @@ export const commonsPatternPhone: FieldPatternValue = {
             .replace(/(-\d{4})\d+?$/, '$1')
     },
 }
+
+export const commonsPatternNumeric: FieldPatternValue = {
+    // Regex that allows only '0,5 - 1,5 - 10,0' values
+    matcher: /[^0-9,]/,
+    apply: (value) => {
+        return value.replace(/[^0-9,]|(,.*?,)/g, '')
+    },
+}
+
+export const commonsPatternAlphabetic: FieldPatternValue = {
+    matcher: /[^a-zA-Z,]/,
+    apply: (value) => {
+        return value.replace(/[^a-zA-Z,]/g, '')
+    },
+}
+
+export const commonsPatternNumbersOnly: FieldPatternValue = {
+    matcher: /[^0-9]/,
+    apply: (value) => {
+        return value.replace(/[^0-9]/g, '')
+    },
+}

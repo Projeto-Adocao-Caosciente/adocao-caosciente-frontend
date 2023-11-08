@@ -1,6 +1,10 @@
 import * as yup from 'yup'
 import { FieldPatternMap } from '../core/field-pattern-map'
 import { FieldsValidationWrapper } from '../core/form-validation-wrapper'
+import {
+    commonsPatternAlphabetic,
+    commonsPatternNumeric,
+} from '../core/commons-patterns'
 
 export type PetFormFields = {
     name: string
@@ -21,7 +25,12 @@ export class PetFieldsValidationWrapperImpl
 {
     private readonly missingFieldMessage = 'Cambo obrigatório'
 
-    patterns: FieldPatternMap<PetFormFields> = {}
+    patterns: FieldPatternMap<PetFormFields> = {
+        breed: commonsPatternAlphabetic,
+        kind: commonsPatternAlphabetic,
+        weight: commonsPatternNumeric,
+        height: commonsPatternNumeric,
+    }
 
     schema = yup
         .object({
