@@ -72,13 +72,35 @@ export default function PetPage({
         specialNeedsFetch.fetch().then()
     }, [])
 
+    const applyWeightPattern = (event: React.ChangeEvent<HTMLInputElement>) => {
+        event.target.value = validationWrapper.patterns.weight!.apply(
+            event.target.value
+        )
+    }
+
+    const applyHeightPattern = (event: React.ChangeEvent<HTMLInputElement>) => {
+        event.target.value = validationWrapper.patterns.height!.apply(
+            event.target.value
+        )
+    }
+
+    const applyKindPattern = (event: React.ChangeEvent<HTMLInputElement>) => {
+        event.target.value = validationWrapper.patterns.kind!.apply(
+            event.target.value
+        )
+    }
+
+    const applyBreedPattern = (event: React.ChangeEvent<HTMLInputElement>) => {
+        event.target.value = validationWrapper.patterns.breed!.apply(
+            event.target.value
+        )
+    }
+
     return (
-        // FIXME: Ajeitar margem 
+        // FIXME: Ajeitar margem
         <main
             className={`container-form mb-10 ${
-                pet.isLoading()
-                    ? 'pointer-events-none'
-                    : 'pointer-events-auto'
+                pet.isLoading() ? 'pointer-events-none' : 'pointer-events-auto'
             }`}
         >
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -110,6 +132,8 @@ export default function PetPage({
                             placeholder="Raça"
                             variant="bordered"
                             size="lg"
+                            type="text"
+                            onInput={applyBreedPattern}
                             isInvalid={getFieldState('breed').invalid}
                             errorMessage={errors.breed?.message}
                             {...register('breed')}
@@ -118,6 +142,8 @@ export default function PetPage({
                             placeholder="Tipo"
                             variant="bordered"
                             size="lg"
+                            type="text"
+                            onInput={applyKindPattern}
                             isInvalid={getFieldState('kind').invalid}
                             errorMessage={errors.kind?.message}
                             {...register('kind')}
@@ -127,7 +153,14 @@ export default function PetPage({
                                 placeholder="Altura"
                                 variant="bordered"
                                 size="lg"
-                                type="number"
+                                endContent={
+                                    <div className="pointer-events-none flex items-center">
+                                        <span className="text-default-400 text-small">
+                                            cm
+                                        </span>
+                                    </div>
+                                }
+                                onInput={applyHeightPattern}
                                 isInvalid={getFieldState('height').invalid}
                                 errorMessage={errors.height?.message}
                                 {...register('height')}
@@ -136,7 +169,14 @@ export default function PetPage({
                                 placeholder="Peso"
                                 variant="bordered"
                                 size="lg"
-                                type="number"
+                                endContent={
+                                    <div className="pointer-events-none flex items-center">
+                                        <span className="text-default-400 text-small">
+                                            kg
+                                        </span>
+                                    </div>
+                                }
+                                onInput={applyWeightPattern}
                                 isInvalid={getFieldState('weight').invalid}
                                 errorMessage={errors.weight?.message}
                                 {...register('weight')}
