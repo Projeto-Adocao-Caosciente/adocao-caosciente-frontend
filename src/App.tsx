@@ -11,6 +11,7 @@ import ProtectedRoute from './proxies/protected-routes'
 import { makeOngPage } from './factories/pages/ong-page-factory'
 import Navbar from './presentation/components/Navbar'
 import { makeHomePage } from './factories/pages/home-page-factory'
+import Form from './presentation/pages/Form'
 
 function App() {
     const { pathname } = useLocation()
@@ -33,6 +34,7 @@ function App() {
                     path={AppRoutes.petRegister}
                     element={<ProtectedRoute page={makePetPage()} />}
                 ></Route>
+                <Route path={AppRoutes.form} element={<Form/>} />
             </Routes>
             <ToastContainer
                 position="top-right"

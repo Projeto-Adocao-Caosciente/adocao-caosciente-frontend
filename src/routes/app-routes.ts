@@ -4,6 +4,7 @@ enum AppRoutes {
     ongEdit = '/edit',
     ongRegister = '/register',
     petRegister = '/pet-register',
+    form = '/form',
 }
 
 export { AppRoutes }
