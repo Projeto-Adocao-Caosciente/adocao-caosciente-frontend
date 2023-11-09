@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import ProtectedRoute from './proxies/protected-routes'
 import { makeOngPage } from './factories/pages/ong-page-factory'
 import Navbar from './presentation/components/Navbar'
+import { makeHomePage } from './factories/pages/home-page-factory'
 
 function App() {
     const { pathname } = useLocation()
@@ -21,16 +22,13 @@ function App() {
                 <Route path={AppRoutes.login} element={makeLoginPage()} />
                 <Route
                     path={AppRoutes.home}
-                    element={<ProtectedRoute page={<Home />} />}
+                    element={<ProtectedRoute page={makeHomePage()} />}
                 />
                 <Route
                     path={AppRoutes.ongEdit}
                     element={<ProtectedRoute page={makeOngPage(true)} />}
                 />
-                <Route
-                    path={AppRoutes.ongRegister}
-                    element={makeOngPage()}
-                />
+                <Route path={AppRoutes.ongRegister} element={makeOngPage()} />
                 <Route
                     path={AppRoutes.petRegister}
                     element={<ProtectedRoute page={makePetPage()} />}

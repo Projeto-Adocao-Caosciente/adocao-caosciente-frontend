@@ -1,6 +1,5 @@
-export interface AnimalModel {
+export interface AnimalResponse {
     id: string
-    ong?: string
     name: string
     type: string
     breed: string
@@ -8,6 +7,7 @@ export interface AnimalModel {
     weight: string
     special_needs: string[]
     adoption_requirements: string[]
+    aditional_info: string
     photo: string
     adopter: string
 }
