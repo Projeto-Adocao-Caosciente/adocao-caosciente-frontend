@@ -99,12 +99,12 @@
       "uuid": "59e57f11-82af-4d28-bd09-c2a72550cc4e",
       "type": "http",
       "documentation": "Animal Register Route",
-      "method": "post",
-      "endpoint": "animals",
+      "method": "get",
+      "endpoint": "ong/animals",
       "responses": [
         {
           "uuid": "015b7c78-b836-408f-a0e1-239f7a425d1c",
-          "body": "[]",
+          "body": "{\n  \"message\": \"\",\n  \"data\": {\n    \"animals\": [\n      {{#repeat 2}}\n      {\n        \"id\": \"{{faker 'string.uuid'}}\",\n        \"name\": \"{{faker 'person.firstName'}} {{faker 'person.firstName'}}\",\n        \"type\": \"{{faker 'person.firstName'}}\",\n        \"breed\": \"{{faker 'person.firstName'}}\",\n        \"height\": \"67,5\",\n        \"weight\": \"5,3\",\n        \"special_needs\": [],\n        \"adoption_requirements\": [],\n        \"aditional_info\": \"Vesper aer solio voveo subiungo currus cometes brevis eveniet.\",\n        \"photo\": \"{{faker 'image.avatar'}}\",\n        \"adopter\": \"\"\n      }\n      {{/repeat}}\n    ]\n  }\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",

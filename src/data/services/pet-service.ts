@@ -1,16 +1,20 @@
 import { SelectOptionResponse } from '../model/select-option-response'
 import { PetFormFields } from '../../presentation/validations/pet/form-fields-type'
 import { AxiosHttpClient, HttpResponse } from '../http/http-client'
+import { AnimalModel } from '../../presentation/models/animal-model'
+import { AnimalsResponse } from '../model/animals-response'
 
 export interface PetService {
     getSpecialNeeds: () => Promise<SelectOptionResponse[]>
     savePet: (fields: PetFormFields) => Promise<HttpResponse<void>>
+    getAll: () => Promise<HttpResponse<AnimalsResponse>>
 }
 
 export class PetServiceImpl implements PetService {
     constructor(private readonly httpClient: AxiosHttpClient) {}
 
     private readonly registeringPath = '/animal'
+    private readonly getAllPath = '/ong/animals'
 
     // TODO: consumir via backend
     getSpecialNeeds(): Promise<SelectOptionResponse[]> {
@@ -53,6 +57,14 @@ export class PetServiceImpl implements PetService {
                 adopter: '',
                 aditional_info: fields.additionalInformation,
             },
+        })
+    }
+
+    getAll(): Promise<HttpResponse<AnimalsResponse>> {
+        return this.httpClient.request<AnimalsResponse>({
+            path: this.getAllPath,
+            method: 'get',
+            body: {},
         })
     }
 }
