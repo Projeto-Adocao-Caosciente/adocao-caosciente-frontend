@@ -4,7 +4,7 @@ import PetCard from '../components/PetCard'
 import AddCircleSolidIcon from '../assets/AddCircleSolidIcon'
 import { AppRoutes } from '../../routes/app-routes'
 import { AnimalModel } from '../models/animal-model'
-import { Status, useFetch } from '../hooks/use-fetch'
+import { useFetch } from '../hooks/use-fetch'
 import { useSelector } from 'react-redux'
 import { OngModel } from '../models/ong-model'
 import { useNavigate } from 'react-router-dom'
@@ -24,6 +24,41 @@ export default function Home({ interactor }: HomePageProps) {
     useEffect(() => {
         animalsRequest.fetch().then()
     }, [])
+
+    function buildAnimalsList(
+        animals: AnimalModel[] | undefined
+    ): React.JSX.Element {
+        if (animals && animals.length > 0) {
+            return (
+                <>
+                    {animals.map((animal: AnimalModel, index: number) => {
+                        return (
+                            <PetCard
+                                imageSrc={animal.photo}
+                                imageAlt="Imagem de um pet"
+                                title={animal.name}
+                                key={index + Math.random()}
+                            />
+                        )
+                    })}
+                </>
+            )
+        }
+
+        return <p>Nenhum pet cadastrado</p>
+    }
+
+    function handleListState(): React.JSX.Element {
+        if (animalsRequest.hasSucceeded()) {
+            return buildAnimalsList(animalsRequest.state.data)
+        }
+
+        if (animalsRequest.isLoading()) {
+            return <p>Carregando...</p>
+        }
+
+        return <p>Ocorreu um erro carregando os pets</p>
+    }
 
     const ongData: OngModel = useSelector((state: any) => state.user.ong)
     return (
@@ -61,27 +96,7 @@ export default function Home({ interactor }: HomePageProps) {
                 />
             </section>
             <section className="grid sm:grid-cols-2 lg:grid-cols-3 md:gap-8 xs:gap-4">
-                {animalsRequest.isLoading() && <p>Carregando...</p>}
-                {animalsRequest.hasSucceeded() &&
-                    (animalsRequest.state.data ?? []).map(
-                        (animal: AnimalModel, index: number) => {
-                            return (
-                                <PetCard
-                                    imageSrc={animal.photo}
-                                    imageAlt="Imagem de um cachorro"
-                                    title={animal.name}
-                                    key={index + Math.random()}
-                                />
-                            )
-                        }
-                    )}
-                {animalsRequest.hasError() && (
-                    <div className="flex justify-center items-center">
-                        <p className="text-2xl font-bold">
-                            Ocorreu um erro carregando os pets
-                        </p>
-                    </div>
-                )}
+                {handleListState()}
             </section>
         </main>
     )
