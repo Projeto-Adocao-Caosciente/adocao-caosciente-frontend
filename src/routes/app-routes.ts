@@ -3,6 +3,7 @@ enum AppRoutes {
     login = '/login',
     ongEdit = '/edit',
     ongRegister = '/register',
+    pet = '/pet/:id',
     petRegister = '/pet-register',
 }
 

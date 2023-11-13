@@ -11,12 +11,18 @@ import {
 } from '@nextui-org/react'
 
 interface PetCardProps {
+    id: string
     imageSrc: string
     imageAlt: string
     title: string
 }
 
-export default function PetCard({ imageSrc, imageAlt, title }: PetCardProps) {
+export default function PetCard({
+    id,
+    imageSrc,
+    imageAlt,
+    title,
+}: PetCardProps) {
     return (
         <Card>
             <Divider />
@@ -29,9 +35,17 @@ export default function PetCard({ imageSrc, imageAlt, title }: PetCardProps) {
                     className="w-full object-cover h-[200px]"
                 />
                 <div className={'flex flex-col w-full p-5 gap-3'}>
-                    <Button variant="solid" color="primary" size="md">
-                        Visualizar Detalhes
-                    </Button>
+                    <Link href={`pet/${id}`}>
+                        <Button
+                            className={'w-full'}
+                            variant="solid"
+                            color="primary"
+                            size="md"
+                        >
+                            Visualizar Detalhes
+                        </Button>
+                    </Link>
+
                     {/* TODO: Tratar segundo possível caso de quando o pet tiver formulários associados a ele */}
                     <Button variant="flat" color="danger" size="md">
                         Deletar Cadastro
