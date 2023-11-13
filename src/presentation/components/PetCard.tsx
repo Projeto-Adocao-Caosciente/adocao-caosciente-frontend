@@ -47,9 +47,9 @@ export default function PetCard({
                     </Link>
 
                     {/* TODO: Tratar segundo possível caso de quando o pet tiver formulários associados a ele */}
-                    <Button variant="flat" color="danger" size="md">
+                    {/*                    <Button variant="flat" color="danger" size="md">
                         Deletar Cadastro
-                    </Button>
+                    </Button>*/}
                 </div>
             </CardBody>
             <Divider />
