@@ -32,7 +32,11 @@ function App() {
                 <Route
                     path={AppRoutes.petRegister}
                     element={<ProtectedRoute page={makePetPage()} />}
-                ></Route>
+                />
+                <Route
+                    path={AppRoutes.pet}
+                    element={<ProtectedRoute page={makePetPage()} />}
+                />
             </Routes>
             <ToastContainer
                 position="top-right"

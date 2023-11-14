@@ -34,6 +34,7 @@ export default function Home({ interactor }: HomePageProps) {
                     {animals.map((animal: AnimalModel, index: number) => {
                         return (
                             <PetCard
+                                id={animal.id}
                                 imageSrc={animal.photo}
                                 imageAlt="Imagem de um pet"
                                 title={animal.name}
