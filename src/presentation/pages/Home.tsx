@@ -18,7 +18,7 @@ export default function Home({ interactor }: HomePageProps) {
     const navigate = useNavigate()
 
     const animalsRequest = useFetch<AnimalModel[]>({
-        fn: (args) => interactor.getAll(),
+        fn: (_) => interactor.getAll(),
     })
 
     useEffect(() => {
@@ -93,6 +93,7 @@ export default function Home({ interactor }: HomePageProps) {
                     variant="solid"
                     size="lg"
                     className="md:hidden"
+                    onClick={() => navigate(AppRoutes.petRegister)}
                     startContent={<AddCircleSolidIcon />}
                 />
             </section>

@@ -32,7 +32,7 @@ export default function PetCard({
                     radius="none"
                     src={imageSrc}
                     width="100%"
-                    className="w-full object-cover h-[200px]"
+                    className="w-full object-cover h-[200px] z-0"
                 />
                 <div className={'flex flex-col w-full p-5 gap-3'}>
                     <Link href={`pet/${id}`}>
