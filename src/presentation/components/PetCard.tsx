@@ -9,6 +9,7 @@ import {
     Image,
     Button,
 } from '@nextui-org/react'
+import { useNavigate } from 'react-router-dom'
 
 interface PetCardProps {
     id: string
@@ -23,6 +24,8 @@ export default function PetCard({
     imageAlt,
     title,
 }: PetCardProps) {
+    const navigate = useNavigate()
+
     return (
         <Card>
             <Divider />
@@ -35,16 +38,15 @@ export default function PetCard({
                     className="w-full object-cover h-[200px] z-0"
                 />
                 <div className={'flex flex-col w-full p-5 gap-3'}>
-                    <Link href={`pet/${id}`}>
-                        <Button
-                            className={'w-full'}
-                            variant="solid"
-                            color="primary"
-                            size="md"
-                        >
-                            Visualizar Detalhes
-                        </Button>
-                    </Link>
+                    <Button
+                        className={'w-full'}
+                        variant="solid"
+                        color="primary"
+                        size="md"
+                        onClick={() => navigate(`pet/${id}`)}
+                    >
+                        Visualizar Detalhes
+                    </Button>
 
                     {/* TODO: Tratar segundo possível caso de quando o pet tiver formulários associados a ele */}
                     {/*                    <Button variant="flat" color="danger" size="md">

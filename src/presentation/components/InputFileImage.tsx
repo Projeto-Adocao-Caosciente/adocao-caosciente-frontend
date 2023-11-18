@@ -1,17 +1,19 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import UploadIcon from '../assets/UploadIcon'
 
 interface InputFileImageProps {
     handleImageUpload: (file: File) => void
     hasError?: boolean
+    imageUrl?: string
 }
 
 export default function InputFileImage({
     handleImageUpload,
     hasError = false,
+    imageUrl = '',
 }: InputFileImageProps) {
     const [controller, setController] = useState<boolean>(false)
-    const [imgUrl, setImgUrl] = useState<string>('')
+    const [imgUrl, setImgUrl] = useState<string>(imageUrl)
     const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0]
         if (file) {

@@ -15,6 +15,7 @@ export interface State<T> {
 
 type UseFetchParams<T = unknown> = {
     fn: (...args: any[]) => Promise<T>
+    initialState?: State<T>
     loadingListener?: (() => void) | null
     errorListener?: ((error?: Error) => void) | null
     successListener?: ((data?: T) => void) | null
@@ -23,6 +24,11 @@ type UseFetchParams<T = unknown> = {
 
 export function useFetch<T = unknown>({
     fn,
+    initialState = {
+        error: undefined,
+        data: undefined,
+        status: Status.idle,
+    },
     loadingListener = null,
     errorListener = null,
     successListener = null,
@@ -36,12 +42,6 @@ export function useFetch<T = unknown>({
     isIdle: () => boolean
     setIdle: () => void
 } {
-    const initialState: State<T> = {
-        error: undefined,
-        data: undefined,
-        status: Status.idle,
-    }
-
     const [state, setState] = useState(initialState)
 
     useEffect(() => {

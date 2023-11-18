@@ -10,6 +10,7 @@ import ProtectedRoute from './proxies/protected-routes'
 import { makeOngPage } from './factories/pages/ong-page-factory'
 import Navbar from './presentation/components/Navbar'
 import { makeHomePage } from './factories/pages/home-page-factory'
+import { Select, SelectItem } from '@nextui-org/react'
 
 function App() {
     const { pathname } = useLocation()
