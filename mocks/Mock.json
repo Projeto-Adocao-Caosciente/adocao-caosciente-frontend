@@ -123,6 +123,64 @@
       ],
       "enabled": true,
       "responseMode": null
+    },
+    {
+      "uuid": "6a8885f6-9949-4756-b491-7d22e01280ab",
+      "type": "http",
+      "documentation": "Animal Get Route",
+      "method": "get",
+      "endpoint": "ong/animal/:id",
+      "responses": [
+        {
+          "uuid": "feca5dd4-4cd5-47c1-b8dd-f61d1ded4be1",
+          "body": "{\n  \"id\": \"{{faker 'string.uuid'}}\",\n  \"name\": \"{{faker 'person.firstName'}} {{faker 'person.firstName'}}\",\n  \"type\": \"{{faker 'person.firstName'}}\",\n  \"breed\": \"{{faker 'person.firstName'}}\",\n  \"height\": \"67,5\",\n  \"weight\": \"5,3\",\n  \"special_needs\": [\"cegueira\", \"surdez\"],\n  \"adoption_requirements\": [],\n  \"aditional_info\": \"Vesper aer solio voveo subiungo currus cometes brevis eveniet.\",\n  \"photo\": \"{{faker 'image.avatar'}}\",\n  \"adopter\": \"\"\n}",
+          "latency": 0,
+          "statusCode": 400,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "90c134c2-014c-467a-99e6-572f53f0ed5e",
+      "type": "http",
+      "documentation": "Animal Edit Route",
+      "method": "put",
+      "endpoint": "animal/:id",
+      "responses": [
+        {
+          "uuid": "c8b18750-2520-4ec4-8a69-113e5d77fa78",
+          "body": "{}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
     }
   ],
   "rootChildren": [
@@ -140,7 +198,15 @@
     },
     {
       "type": "route",
+      "uuid": "90c134c2-014c-467a-99e6-572f53f0ed5e"
+    },
+    {
+      "type": "route",
       "uuid": "59e57f11-82af-4d28-bd09-c2a72550cc4e"
+    },
+    {
+      "type": "route",
+      "uuid": "6a8885f6-9949-4756-b491-7d22e01280ab"
     }
   ],
   "proxyMode": false,

@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",
-    "@nextui-org/react": "^2.1.13",
+    "@nextui-org/react": "latest",
     "@reduxjs/toolkit": "^1.9.7",
     "@vitejs/plugin-react": "^4.1.0",
     "axios": "^1.5.1",
