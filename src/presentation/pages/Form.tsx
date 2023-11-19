@@ -1,12 +1,43 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Card, Divider, Input, Switch } from '@nextui-org/react'
 import AddCircleSolidIcon from '../assets/AddCircleSolidIcon'
+import QuestionCard from '../components/QuestionCard'
 import CheckMarkIcon from '../assets/CheckMarkIcon'
 import TrashCanIcon from '../assets/TrashCanIcon'
 import CancelRoundedFillIcon from '../assets/CancelRoundedFilledIcon'
+import { useForm } from 'react-hook-form'
+import { OngFormFields } from '../validations/ong/form-fields-type'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { set } from 'vue/types/umd'
+import { QuestionModel } from '../models/question-model'
 
 export default function Form({})
 {
+
+    const [numero_de_perguntas, setNumeroDePerguntas] = useState(1);
+    let tituloPergunta = " ";
+    let resposta = " ";
+    let correta = false;
+
+    let respostaMetaData = [{Resposta: resposta, ehCorreta: correta}]
+    let listaDeRespostas = [{respostaMetaData}];
+    let perguntaMetadata = [{Titulo: tituloPergunta, listaDeRespostas}];
+    let listaDePerguntas = [{perguntaMetadata}];
+
+    const [questionID, setQuestionID] = useState(0);
+    const [formQuestions, setFormQuestions] = useState<QuestionModel[]>([]);
+    
+    function handleAddQuestion()
+    {
+        setFormQuestions((prev : any) => ([...prev, {id : questionID}]));
+        setQuestionID(questionID + 1);
+        respostaMetaData.push({Resposta: resposta, ehCorreta: correta})
+    }
+
+    useEffect(() => {
+        console.log(formQuestions);
+    }, [formQuestions]);
+    
     return(
         <main className={"container-form mb-10"}>
             <header className="mb-12">
@@ -20,66 +51,12 @@ export default function Form({})
             </header>
 
             <section>
-            <Card className="md:px-6 py-8 shadow-none md:shadow-medium">
-                <div className="sm:flex sm:justify-center">
-                    <Input
-                        placeholder="Pergunta..." 
-                        variant="underlined"
-                        className="sm:w-96"
-                    />
-                </div>
-                <div className="sm:flex sm:justify-center">
-                    <Switch
-                        color="success"
-                        size="lg"
-                        thumbIcon={<CheckMarkIcon />}
-                        aria-label="Marcar como correta"
-                        value='correta'
-                    />
-                    <Input
-                        placeholder="Resposta..." 
-                        className="sm:w-96"
-                    />
-                    <Button
-                        isIconOnly
-                        color='danger'
-                        aria-label="Remover"
-                    >
-                        <TrashCanIcon />
-                    </Button>
-                </div>
-                <div className="flex justify-center ">
-                    <Button
-                        color="primary"
-                        variant="bordered"
-                        size="md"
-                        type="submit"
-                        endContent={<AddCircleSolidIcon />}
-                    >
-                        Adicionar Alternativa
-                    </Button>
-                </div>
-                <Divider/>
-                <section className="sm:flex sm:justify-evenly">
-                    <Button 
-                        color="danger" 
-                        variant="solid" 
-                        size="md"
-                        endContent={<CancelRoundedFillIcon />}
-                    >
-                        Cancelar
-                    </Button>
-                    <Button
-                            color="primary"
-                            variant="solid"
-                            size="md"
-                            type="submit"
-                            endContent={<AddCircleSolidIcon />}
-                    >
-                            Inserir Pergunta
-                    </Button>
-                </section>
-            </Card>
+                {
+                    formQuestions.map((question : QuestionModel) => 
+                        <QuestionCard key={questionID + Math.random()}
+                        id = {question.id}
+                        setQuestion = {setFormQuestions}/>)
+                }
             </section>
 
             <section className="flex flex-col gap-6">
@@ -89,6 +66,7 @@ export default function Form({})
                     size="md"
                     type="submit"
                     endContent={<AddCircleSolidIcon />}
+                    onClick={handleAddQuestion}
                 >
                     Nova pergunta
                 </Button>
