@@ -135,7 +135,7 @@
           "uuid": "feca5dd4-4cd5-47c1-b8dd-f61d1ded4be1",
           "body": "{\n  \"id\": \"{{faker 'string.uuid'}}\",\n  \"name\": \"{{faker 'person.firstName'}} {{faker 'person.firstName'}}\",\n  \"type\": \"{{faker 'person.firstName'}}\",\n  \"breed\": \"{{faker 'person.firstName'}}\",\n  \"height\": \"67,5\",\n  \"weight\": \"5,3\",\n  \"special_needs\": [\"cegueira\", \"surdez\"],\n  \"adoption_requirements\": [],\n  \"aditional_info\": \"Vesper aer solio voveo subiungo currus cometes brevis eveniet.\",\n  \"photo\": \"{{faker 'image.avatar'}}\",\n  \"adopter\": \"\"\n}",
           "latency": 0,
-          "statusCode": 400,
+          "statusCode": 200,
           "label": "",
           "headers": [],
           "bodyType": "INLINE",
@@ -181,6 +181,35 @@
       ],
       "enabled": true,
       "responseMode": null
+    },
+    {
+      "uuid": "5991c3c5-010d-4c6a-bbef-3f41b274a76c",
+      "type": "http",
+      "documentation": "Adopter Register Route",
+      "method": "post",
+      "endpoint": "adopter",
+      "responses": [
+        {
+          "uuid": "ff26886c-687b-4a17-9ed3-c40b9d4844b1",
+          "body": "{\r\n  \"message\": \"Adopter created successfully.\"\r\n}",
+          "latency": 0,
+          "statusCode": 201,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
     }
   ],
   "rootChildren": [
@@ -207,6 +236,10 @@
     {
       "type": "route",
       "uuid": "6a8885f6-9949-4756-b491-7d22e01280ab"
+    },
+    {
+      "type": "route",
+      "uuid": "5991c3c5-010d-4c6a-bbef-3f41b274a76c"
     }
   ],
   "proxyMode": false,

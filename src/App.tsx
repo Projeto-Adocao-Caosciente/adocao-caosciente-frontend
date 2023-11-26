@@ -10,8 +10,8 @@ import ProtectedRoute from './proxies/protected-routes'
 import { makeOngPage } from './factories/pages/ong-page-factory'
 import Navbar from './presentation/components/Navbar'
 import { makeHomePage } from './factories/pages/home-page-factory'
-import { Select, SelectItem } from '@nextui-org/react'
 import {makeAdopterHomePage} from "./factories/pages/adopter-home-page-factory";
+import {makeAdopterRegisterPage} from "./factories/pages/adopter-register-page-factory";
 
 function App() {
     const { pathname } = useLocation()
@@ -42,6 +42,7 @@ function App() {
                     path={AppRoutes.adopterHome}
                     element={<ProtectedRoute page={makeAdopterHomePage()} />}
                 />
+                <Route path={AppRoutes.adopterRegister} element={makeAdopterRegisterPage()} />
             </Routes>
             <ToastContainer
                 position="top-right"
