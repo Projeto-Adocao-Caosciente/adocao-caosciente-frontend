@@ -171,6 +171,7 @@ export default function PetPage({
                                 className="sm:w-96"
                                 isInvalid={getFieldState('name').invalid}
                                 errorMessage={errors.name?.message}
+                                isDisabled={hasPetId}
                                 {...register('name')}
                             />
                         </Skeleton>
@@ -186,6 +187,7 @@ export default function PetPage({
                                     })
                                 })
                             }
+                            isDisabled={hasPetId}
                             hasError={getFieldState('photoBase64').invalid}
                         />
                     </Skeleton>
@@ -199,6 +201,7 @@ export default function PetPage({
                                 onInput={applyBreedPattern}
                                 isInvalid={getFieldState('breed').invalid}
                                 errorMessage={errors.breed?.message}
+                                isDisabled={hasPetId}
                                 {...register('breed')}
                             />
                         </Skeleton>
@@ -212,6 +215,7 @@ export default function PetPage({
                                 onInput={applyKindPattern}
                                 isInvalid={getFieldState('kind').invalid}
                                 errorMessage={errors.kind?.message}
+                                isDisabled={hasPetId}
                                 {...register('kind')}
                             />
                         </Skeleton>
@@ -232,6 +236,7 @@ export default function PetPage({
                                     onInput={applyHeightPattern}
                                     isInvalid={getFieldState('height').invalid}
                                     errorMessage={errors.height?.message}
+                                    isDisabled={hasPetId}
                                     {...register('height')}
                                 />
                             </Skeleton>
@@ -250,6 +255,7 @@ export default function PetPage({
                                     onInput={applyWeightPattern}
                                     isInvalid={getFieldState('weight').invalid}
                                     errorMessage={errors.weight?.message}
+                                    isDisabled={hasPetId}
                                     {...register('weight')}
                                 />
                             </Skeleton>
@@ -271,6 +277,7 @@ export default function PetPage({
                         invalid={getFieldState('specialNeeds').invalid}
                         error={errors.specialNeeds?.message}
                         register={register('specialNeeds')}
+                        isDisabled={hasPetId}
                         isLoading={petDetailFetch.isLoading()}
                     />
                 </section>
@@ -291,6 +298,7 @@ export default function PetPage({
                             isInvalid={
                                 getFieldState('additionalInformation').invalid
                             }
+                            isDisabled={hasPetId}
                             errorMessage={errors.additionalInformation?.message}
                             {...register('additionalInformation')}
                         />
@@ -299,7 +307,7 @@ export default function PetPage({
                 <Divider className="my-6" />
                 <Skeleton isLoaded={!petDetailFetch.isLoading()}>
                     <section className="flex flex-col gap-6">
-                        <Button
+                        {!hasPetId ? <Button
                             color="primary"
                             variant="solid"
                             size="md"
@@ -311,14 +319,14 @@ export default function PetPage({
                             }
                         >
                             Cadastrar
-                        </Button>
+                        </Button> : null}
                         <Button
                             color="danger"
                             variant="flat"
                             size="md"
                             onClick={() => navigate(AppRoutes.home)}
                         >
-                            Cancelar
+                            {hasPetId ? 'Voltar' : 'Cancelar'}
                         </Button>
                     </section>
                 </Skeleton>
@@ -333,6 +341,7 @@ type SpecialNeedsSelectProps = {
     error?: string
     invalid: boolean
     register?: any
+    isDisabled: boolean
 }
 
 function SpecialNeedsSelect({
@@ -340,6 +349,7 @@ function SpecialNeedsSelect({
     selected,
     error,
     invalid,
+    isDisabled,
     register,
 }: SpecialNeedsSelectProps) {
     return (
@@ -352,6 +362,7 @@ function SpecialNeedsSelect({
                 defaultSelectedKeys={selected}
                 isInvalid={invalid}
                 errorMessage={error}
+                isDisabled={isDisabled}
                 {...register}
             >
                 {specialNeeds.map((option: SelectOption) => (
