@@ -11,6 +11,7 @@ import { makeOngPage } from './factories/pages/ong-page-factory'
 import Navbar from './presentation/components/Navbar'
 import { makeHomePage } from './factories/pages/home-page-factory'
 import { Select, SelectItem } from '@nextui-org/react'
+import {makeAdopterHomePage} from "./factories/pages/adopter-home-page-factory";
 
 function App() {
     const { pathname } = useLocation()
@@ -36,6 +37,10 @@ function App() {
                 <Route
                     path={AppRoutes.pet}
                     element={<ProtectedRoute page={makePetPage()} />}
+                />
+                <Route
+                    path={AppRoutes.adopterHome}
+                    element={<ProtectedRoute page={makeAdopterHomePage()} />}
                 />
             </Routes>
             <ToastContainer

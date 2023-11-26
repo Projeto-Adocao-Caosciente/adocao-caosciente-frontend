@@ -12,6 +12,7 @@ export interface PetService {
     savePet: (fields: PetFormFields) => Promise<HttpResponse<void>>
     editPet: (fields: PetFormFields, id: string) => Promise<HttpResponse<void>>
     getAll: () => Promise<HttpResponse<AnimalsResponse>>
+    getAllInAdoption: () => Promise<HttpResponse<AnimalsResponse>>
     get: (id: string) => Promise<HttpResponse<AnimalResponse>>
 }
 
@@ -21,6 +22,7 @@ export class PetServiceImpl implements PetService {
     private readonly registeringPath = '/animal'
     private readonly editingPath = '/animal'
     private readonly getAllPath = '/ong/animals'
+    private readonly getAllInAdoptionPath = '/adopter/animals'
     private readonly getPath = '/ong/animal'
 
     // TODO: consumir via backend
@@ -56,6 +58,13 @@ export class PetServiceImpl implements PetService {
     getAll(): Promise<HttpResponse<AnimalsResponse>> {
         return this.httpClient.request<AnimalsResponse>({
             path: this.getAllPath,
+            method: 'get',
+        })
+    }
+
+    getAllInAdoption(): Promise<HttpResponse<AnimalsResponse>> {
+        return this.httpClient.request<AnimalsResponse>({
+            path: this.getAllInAdoptionPath,
             method: 'get',
         })
     }

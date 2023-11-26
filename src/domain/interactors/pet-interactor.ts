@@ -15,6 +15,7 @@ export interface PetInteractor {
     savePet: (fields: PetFormFields) => Promise<void>
     editPet: (fields: PetFormFields, id: string) => Promise<void>
     getAll: () => Promise<AnimalModel[]>
+    getAllInAdoption: () => Promise<AnimalModel[]>
     get: (id: string) => Promise<AnimalModel>
 }
 
@@ -58,6 +59,17 @@ export class PetInteractorImpl implements PetInteractor {
 
     async getAll(): Promise<AnimalModel[]> {
         const httpResponse = await this.service.getAll()
+
+        switch (httpResponse.statusCode) {
+            case HttpStatusCode.ok:
+                return this.petsMapper.map(httpResponse.body)
+            default:
+                throw new UnexpectedError()
+        }
+    }
+
+    async getAllInAdoption(): Promise<AnimalModel[]> {
+        const httpResponse = await this.service.getAllInAdoption()
 
         switch (httpResponse.statusCode) {
             case HttpStatusCode.ok:

@@ -8,8 +8,8 @@ type HomeTemplateFilter = {
 
 type HomeTemplateHeading = {
     title: string
-    rightContent: React.JSX.Element
-    mobileRightContent: React.JSX.Element
+    rightContent?: React.JSX.Element
+    mobileRightContent?: React.JSX.Element
 }
 
 type HomeTemplateProps = {

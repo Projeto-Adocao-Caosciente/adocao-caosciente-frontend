@@ -1,21 +1,25 @@
 import React from 'react'
 import {
     Card,
-    CardHeader,
     CardBody,
     CardFooter,
     Divider,
-    Link,
     Image,
     Button,
 } from '@nextui-org/react'
 import { useNavigate } from 'react-router-dom'
+
+export enum PetCardVariant {
+    default,
+    adoption,
+}
 
 interface PetCardProps {
     id: string
     imageSrc: string
     imageAlt: string
     title: string
+    variant?: PetCardVariant
 }
 
 export default function PetCard({
@@ -23,6 +27,7 @@ export default function PetCard({
     imageSrc,
     imageAlt,
     title,
+    variant = PetCardVariant.default,
 }: PetCardProps) {
     const navigate = useNavigate()
 
@@ -47,6 +52,14 @@ export default function PetCard({
                     >
                         Visualizar Detalhes
                     </Button>
+                    {variant == PetCardVariant.adoption ? <Button
+                        className={'w-full'}
+                        variant="flat"
+                        color="primary"
+                        size="md"
+                    >
+                        Formulário de Adoção
+                    </Button> : null}
 
                     {/* TODO: Tratar segundo possível caso de quando o pet tiver formulários associados a ele */}
                     {/*                    <Button variant="flat" color="danger" size="md">
