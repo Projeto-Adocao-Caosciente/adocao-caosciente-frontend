@@ -13,6 +13,18 @@ export const commonsPatternCNPJ: FieldPatternValue = {
             .replace(/(-\d{2})\d+?$/, '$1'),
 }
 
+export const commonsPatternITR: FieldPatternValue = {
+    // Regex for ITR - 000.000.000-00
+    matcher: /^\d{3}\.\d{3}\.\d{3}-\d{2}$/,
+    apply: (value) =>
+        value
+            .replace(/\D+/g, '')
+            .replace(/(\d{3})(\d)/, '$1.$2')
+            .replace(/(\d{3})(\d)/, '$1.$2')
+            .replace(/(\d{3})(\d)/, '$1-$2')
+            .replace(/(-\d{2})\d+?$/, '$1'),
+}
+
 export const commonsPatternPhone: FieldPatternValue = {
     // Regex for Phone - (00) 00000-0000
     matcher: /^\(\d{2}\) \d{5}-\d{4}$/,
@@ -44,5 +56,16 @@ export const commonsPatternNumbersOnly: FieldPatternValue = {
     matcher: /[^0-9]/,
     apply: (value) => {
         return value.replace(/[^0-9]/g, '')
+    },
+}
+
+export const commonsPatternZipCode: FieldPatternValue = {
+    // Regex for ZipCode - 00000-000
+    matcher: /^\d{5}-\d{3}$/,
+    apply: (value) => {
+        return value
+            .replace(/\D+/g, '')
+            .replace(/(\d{5})(\d)/, '$1-$2')
+            .replace(/(-\d{3})\d+?$/, '$1')
     },
 }
