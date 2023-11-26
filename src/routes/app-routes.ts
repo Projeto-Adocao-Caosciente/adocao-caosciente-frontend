@@ -5,6 +5,8 @@ enum AppRoutes {
     ongRegister = '/register',
     pet = '/pet/:id',
     petRegister = '/pet-register',
+    // TODO: adopterHome to home
+    adopterHome = '/adopter-home',
 }
 
 export { AppRoutes }
