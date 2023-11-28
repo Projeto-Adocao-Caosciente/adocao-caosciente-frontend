@@ -176,6 +176,8 @@ export default function OngPage({
                 <section className="flex justify-center mb-12">
                     {/* TODO: Centralizar o placeholder */}
                     <Input
+                        minLength={2}
+                        maxLength={60}
                         placeholder="Nome da ONG"
                         variant="underlined"
                         className="w-96"
@@ -207,6 +209,7 @@ export default function OngPage({
                             {...register('user')}
                         />
                         <Input
+                            maxLength={60}
                             isDisabled={isEditing}
                             placeholder="Email"
                             variant="bordered"
@@ -217,6 +220,8 @@ export default function OngPage({
                         />
                         <div className="flex gap-6">
                             <Input
+                                minLength={2}
+                                maxLength={60}
                                 placeholder="Estado"
                                 variant="bordered"
                                 size="lg"
@@ -225,6 +230,8 @@ export default function OngPage({
                                 {...register('state')}
                             />
                             <Input
+                                minLength={2}
+                                maxLength={60}
                                 placeholder="Cidade"
                                 variant="bordered"
                                 size="lg"
@@ -258,6 +265,7 @@ export default function OngPage({
                             placeholder="Descreva seus programas e atividades"
                             minRows={4}
                             maxRows={8}
+                            maxLength={500}
                             isInvalid={
                                 getFieldState('programsAndActivities').invalid
                             }
@@ -268,6 +276,7 @@ export default function OngPage({
                             placeholder="Missão da ONG"
                             minRows={4}
                             maxRows={8}
+                            maxLength={500}
                             isInvalid={getFieldState('mission').invalid}
                             errorMessage={errors.mission?.message}
                             {...register('mission')}
@@ -276,7 +285,7 @@ export default function OngPage({
                         <Input
                             type="date"
                             max={new Date().toISOString().split('T')[0]}
-                            min="1900-01-01"
+                            min="1950-01-01"
                             placeholder="Data de fundação"
                             variant="bordered"
                             size="lg"
@@ -295,6 +304,8 @@ export default function OngPage({
                     <h3 className="text-xl font-bold">Dados de acesso:</h3>
                     <article className="flex flex-col gap-6">
                         <Input
+                            minLength={4}
+                            maxLength={60}
                             placeholder="Senha"
                             variant="bordered"
                             size="lg"
@@ -317,6 +328,8 @@ export default function OngPage({
                             {...register('password')}
                         />
                         <Input
+                            minLength={4}
+                            maxLength={60}
                             placeholder="Confirmar senha"
                             variant="bordered"
                             size="lg"

@@ -40,6 +40,9 @@ export class OngFieldsValidationWrapperImpl
     private readonly onUserPatternUnmatched: string =
         'O campo deve ser preenchido corretamente'
 
+    private readonly minLengthInvalidMessage = (field: string, length: string) =>  `O campo ${field} deve ter no mínimo ${length} caracteres`;
+    private readonly maxLengthInvalidMessage = (field: string, length: string) =>  `O campo ${field} deve ter no máximo ${length} caracteres`;
+
     private readonly invalidEmailMessage = 'Digite um email válido'
     private readonly missingFieldMessage = 'Cambo obrigatório'
     private readonly phoneInvalidMessage =
@@ -54,7 +57,11 @@ export class OngFieldsValidationWrapperImpl
     schema = yup
         .object({
             avatarBase64: yup.string().required(this.missingFieldMessage),
-            name: yup.string().required(this.missingFieldMessage),
+            name: yup
+                .string()
+                .min(2, this.minLengthInvalidMessage('nome', '2'))
+                .max(60, this.maxLengthInvalidMessage('nome', '60'))
+                .required(this.missingFieldMessage),
             user: yup
                 .string()
                 .required(this.onUserNotFulfilled)
@@ -64,9 +71,18 @@ export class OngFieldsValidationWrapperImpl
             email: yup
                 .string()
                 .email(this.invalidEmailMessage)
+                .max(60, this.maxLengthInvalidMessage('email', '60'))
                 .required(this.missingFieldMessage),
-            state: yup.string().required(this.missingFieldMessage),
-            city: yup.string().required(this.missingFieldMessage),
+            state: yup
+                .string()
+                .min(2, this.minLengthInvalidMessage('estado', '2'))
+                .max(60, this.maxLengthInvalidMessage('estado', '60'))
+                .required(this.missingFieldMessage),
+            city: yup
+                .string()
+                .min(2, this.minLengthInvalidMessage('cidade', '2'))
+                .max(60, this.maxLengthInvalidMessage('cidade', '60'))
+                .required(this.missingFieldMessage),
             phone: yup
                 .string()
                 .matches(<RegExp>this.patterns.phone?.matcher, {
@@ -75,21 +91,33 @@ export class OngFieldsValidationWrapperImpl
                 .required(this.missingFieldMessage),
             programsAndActivities: yup
                 .string()
+                .max(500, this.maxLengthInvalidMessage('programas e atividades', '500'))
                 .required(this.missingFieldMessage),
-            mission: yup.string().required(this.missingFieldMessage),
-            foundationDate: yup.string().required(this.missingFieldMessage),
+            mission: yup
+                .string()
+                .max(500, this.maxLengthInvalidMessage('missão', '500'))
+                .required(this.missingFieldMessage),
+            foundationDate: yup
+                .string()
+                .required(this.missingFieldMessage),
             password: this.getPasswordValidation(),
             passwordConfirmation: this.getPasswordConfirmationValidation(),
         })
         .required()
 
     protected getPasswordValidation(): PartialSchemaField {
-        return yup.string().required(this.missingFieldMessage)
+        return yup
+              .string()
+            .min(4, this.minLengthInvalidMessage('senha', '4'))
+            .max(60, this.maxLengthInvalidMessage('senha', '60'))
+            .required(this.missingFieldMessage)
     }
 
     protected getPasswordConfirmationValidation(): PartialSchemaField {
         return yup
             .string()
+            .min(4, this.minLengthInvalidMessage('confirmar senha', '4'))
+            .max(60, this.maxLengthInvalidMessage('confirmar senha', '60'))
             .oneOf([yup.ref('password')], this.passwordUnmatchedMessage)
             .required(this.missingFieldMessage)
     }
