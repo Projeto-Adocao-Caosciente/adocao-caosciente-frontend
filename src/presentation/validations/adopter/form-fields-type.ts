@@ -58,9 +58,9 @@ export class AdopterFieldsValidationWrapperImpl
         .object({
             name: yup
                 .string()
+                .required(this.missingFieldMessage)
                 .min(2, this.minLengthInvalidMessage('nome', '2'))
-                .max(60, this.maxLengthInvalidMessage('nome', '60'))
-                .required(this.missingFieldMessage),
+                .max(60, this.maxLengthInvalidMessage('nome', '60')),
             itr: yup
                 .string()
                 .required(this.missingFieldMessage)
@@ -75,8 +75,8 @@ export class AdopterFieldsValidationWrapperImpl
                 .required(this.missingFieldMessage),
             email: yup
                 .string()
-                .max(60, this.maxLengthInvalidMessage('email', '60'))
-                .required(this.missingFieldMessage).email(this.invalidEmailMessage),
+                .required(this.missingFieldMessage).email(this.invalidEmailMessage)
+                .max(60, this.maxLengthInvalidMessage('email', '60')),
             phone: yup
                 .string()
                 .matches(<RegExp>this.patterns.phone?.matcher, {
@@ -85,9 +85,9 @@ export class AdopterFieldsValidationWrapperImpl
                 .required(this.missingFieldMessage),
             address: yup
                 .string()
+                .required(this.missingFieldMessage)
                 .min(2, this.minLengthInvalidMessage('endereço', '2'))
-                .max(60, this.maxLengthInvalidMessage('endereço', '60'))
-                .required(this.missingFieldMessage),
+                .max(60, this.maxLengthInvalidMessage('endereço', '60')),
             zipCode: yup
                 .string()
                 .required(this.missingFieldMessage).matches(<RegExp>this.patterns?.zipCode?.matcher, {
@@ -95,14 +95,14 @@ export class AdopterFieldsValidationWrapperImpl
             }),
             city: yup
                 .string()
+                .required(this.missingFieldMessage)
                 .min(2, this.minLengthInvalidMessage('cidade', '2'))
-                .max(60, this.maxLengthInvalidMessage('cidade', '60'))
-                .required(this.missingFieldMessage),
+                .max(60, this.maxLengthInvalidMessage('cidade', '60')),
             state: yup
                 .string()
+                .required(this.missingFieldMessage)
                 .min(2, this.minLengthInvalidMessage('estado', '2'))
-                .max(60, this.maxLengthInvalidMessage('estado', '60'))
-                .required(this.missingFieldMessage),
+                .max(60, this.maxLengthInvalidMessage('estado', '60')),
             password: this.getPasswordValidation(),
             passwordConfirmation: this.getPasswordConfirmationValidation(),
         })
@@ -111,17 +111,17 @@ export class AdopterFieldsValidationWrapperImpl
     protected getPasswordValidation(): PartialSchemaField {
         return yup
             .string()
+            .required(this.missingFieldMessage)
             .min(4, this.minLengthInvalidMessage('senha', '4'))
             .max(60, this.maxLengthInvalidMessage('senha', '60'))
-            .required(this.missingFieldMessage)
     }
 
     protected getPasswordConfirmationValidation(): PartialSchemaField {
         return yup
             .string()
+            .required(this.missingFieldMessage)
             .min(4, this.minLengthInvalidMessage('confirmar senha', '4'))
             .max(60, this.maxLengthInvalidMessage('confirmar senha', '60'))
             .oneOf([yup.ref('password')], this.passwordUnmatchedMessage)
-            .required(this.missingFieldMessage)
     }
 }

@@ -23,6 +23,11 @@ export interface PetFieldsValidationWrapper
 export class PetFieldsValidationWrapperImpl
     implements PetFieldsValidationWrapper
 {
+
+    
+    private readonly minLengthInvalidMessage = (field: string, length: string) =>  `O campo ${field} deve ter no mínimo ${length} caracteres`;
+    private readonly maxLengthInvalidMessage = (field: string, length: string) =>  `O campo ${field} deve ter no máximo ${length} caracteres`;
+
     private readonly missingFieldMessage = 'Cambo obrigatório'
 
     patterns: FieldPatternMap<PetFormFields> = {
@@ -34,16 +39,36 @@ export class PetFieldsValidationWrapperImpl
 
     schema = yup
         .object({
-            name: yup.string().required(this.missingFieldMessage),
-            photoBase64: yup.string().required(this.missingFieldMessage),
-            breed: yup.string().required(this.missingFieldMessage),
-            kind: yup.string().required(this.missingFieldMessage),
-            height: yup.string().required(this.missingFieldMessage),
-            weight: yup.string().required(this.missingFieldMessage),
+            name: yup
+                .string()
+                .required(this.missingFieldMessage)
+                .min(2, this.minLengthInvalidMessage('nome', '2'))
+                .max(60, this.maxLengthInvalidMessage('nome', '60')),
+            photoBase64: yup
+                .string()
+                .required(this.missingFieldMessage),
+            breed: yup
+                .string()
+                .required(this.missingFieldMessage)
+                .min(2, this.minLengthInvalidMessage('raça', '2'))
+                .max(60, this.maxLengthInvalidMessage('raça', '60')),
+            kind: yup
+                .string()
+                .required(this.missingFieldMessage)
+                .min(2, this.minLengthInvalidMessage('espécie', '2'))
+                .max(60, this.maxLengthInvalidMessage('espécie', '60')),
+            height: yup
+                .string()
+                .required(this.missingFieldMessage),
+            weight: yup
+                .string()
+                .required(this.missingFieldMessage),
             specialNeeds: yup.lazy((val) =>
                 Array.isArray(val) ? yup.array().of(yup.string()) : yup.string()
             ),
-            additionalInformation: yup.string(),
+            additionalInformation: yup
+                .string()
+                .max(500, this.maxLengthInvalidMessage('informações adicionais', '500')),
         })
         .required()
 }
