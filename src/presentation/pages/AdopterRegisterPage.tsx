@@ -87,6 +87,9 @@ export default function AdopterRegisterPage({ validationWrapper, interactor }: A
         )
     }
 
+    const today = new Date();
+    const maxBirthDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+
     return (
         <main
             className={`container-form mb-10 ${
@@ -108,6 +111,8 @@ export default function AdopterRegisterPage({ validationWrapper, interactor }: A
                         </h3>
                         <div className={'flex flex-col gap-6'}>
                             <Input
+                                minLength={2}
+                                maxLength={60}
                                 placeholder='Nome completo'
                                 variant='bordered'
                                 size='lg'
@@ -127,8 +132,8 @@ export default function AdopterRegisterPage({ validationWrapper, interactor }: A
                                 />
                                 <Input
                                     type='date'
-                                    max={new Date().toISOString().split('T')[0]}
-                                    min='1900-01-01'
+                                    max={maxBirthDate.toISOString().split('T')[0]}
+                                    min='1950-01-01'
                                     placeholder='Data de nascimento'
                                     variant='bordered'
                                     size='lg'
@@ -162,6 +167,7 @@ export default function AdopterRegisterPage({ validationWrapper, interactor }: A
                     </h3>
                     <article className={'flex flex-col gap-6'}>
                         <Input
+                            maxLength={60}
                             placeholder='Email'
                             variant='bordered'
                             size='lg'
@@ -188,6 +194,8 @@ export default function AdopterRegisterPage({ validationWrapper, interactor }: A
                     <article className='flex flex-col gap-6'>
                         <div className={'flex flex-col gap-6 sm:flex-row'}>
                             <Input
+                                minLength={2}
+                                maxLength={60}
                                 placeholder='Endereço'
                                 variant='bordered'
                                 size='lg'
@@ -207,6 +215,8 @@ export default function AdopterRegisterPage({ validationWrapper, interactor }: A
                         </div>
                         <div className={'flex flex-col gap-6 sm:flex-row'}>
                             <Input
+                                minLength={2}
+                                maxLength={60}
                                 placeholder='Cidade'
                                 variant='bordered'
                                 size='lg'
@@ -215,6 +225,8 @@ export default function AdopterRegisterPage({ validationWrapper, interactor }: A
                                 {...register('city')}
                             />
                             <Input
+                                minLength={2}
+                                maxLength={60}
                                 placeholder='Estado'
                                 variant='bordered'
                                 size='lg'
@@ -232,6 +244,8 @@ export default function AdopterRegisterPage({ validationWrapper, interactor }: A
                     <h3 className='text-xl font-bold'>Dados de acesso:</h3>
                     <article className='flex flex-col gap-6'>
                         <Input
+                            minLength={4}
+                            maxLength={60}
                             placeholder='Senha'
                             variant='bordered'
                             size='lg'
@@ -254,6 +268,8 @@ export default function AdopterRegisterPage({ validationWrapper, interactor }: A
                             {...register('password')}
                         />
                         <Input
+                            minLength={4}
+                            maxLength={60}
                             placeholder='Confirmar senha'
                             variant='bordered'
                             size='lg'
