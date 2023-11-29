@@ -11,12 +11,11 @@ import { makeLoginPage } from './factories/pages/login-page-factory'
 import ProtectedRoute from './proxies/protected-routes'
 import { makeHomePage } from './factories/pages/home-page-factory'
 import {
-    makeProxyAdopterAuthenticatedRule,
+    makeProxyAuthenticatedRule,
     makeProxyNGOAuthenticatedRule,
 } from './factories/proxies/proxy-rule-solver-factory'
 import { makeOngPage } from './factories/pages/ong-page-factory'
 import { makePetPage } from './factories/pages/pet-page-factory'
-import { makeAdopterHomePage } from './factories/pages/adopter-home-page-factory'
 import { makeAdopterRegisterPage } from './factories/pages/adopter-register-page-factory'
 
 function App() {
@@ -32,7 +31,7 @@ function App() {
                     element={
                         <ProtectedRoute
                             page={makeHomePage()}
-                            ruleSolver={makeProxyNGOAuthenticatedRule()}
+                            ruleSolver={makeProxyAuthenticatedRule()}
                         />
                     }
                 />
@@ -56,15 +55,6 @@ function App() {
                         <ProtectedRoute
                             page={makePetPage()}
                             ruleSolver={makeProxyNGOAuthenticatedRule()}
-                        />
-                    }
-                />
-                <Route
-                    path={AppRoutes.adopterHome}
-                    element={
-                        <ProtectedRoute
-                            page={makeAdopterHomePage()}
-                            ruleSolver={makeProxyAdopterAuthenticatedRule()}
                         />
                     }
                 />

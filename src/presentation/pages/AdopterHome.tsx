@@ -1,17 +1,17 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import PetCard, { PetCardVariant } from '../components/PetCard'
 import { AnimalModel } from '../../domain/models/animal-model'
 import { useFetch } from '../hooks/use-fetch'
-import { useNavigate } from 'react-router-dom'
 import HomeTemplate from '../templating/HomeTemplate'
 import { PetInteractor } from '../../domain/interactors/pet-interactor'
+import { AuthContext } from '../contexts/AuthContext'
 
 type AdopterHomePageProps = {
     interactor: PetInteractor
 }
 
 export default function AdopterHome({ interactor }: AdopterHomePageProps) {
-    const navigate = useNavigate()
+    const { user } = useContext(AuthContext)
 
     const animalsRequest = useFetch<AnimalModel[]>({
         fn: (_) => interactor.getAllInAdoption(),
@@ -60,8 +60,8 @@ export default function AdopterHome({ interactor }: AdopterHomePageProps) {
 
     return (
         <HomeTemplate
-            name={'Adotante'}
-            filter={{ label: 'Filtro por nome', onChange: (value) => {} }}
+            name={user?.name ?? 'Adotante'}
+            filter={{ label: 'Filtro por nome', onChange: (_) => {} }}
             heading={{
                 title: 'Seus Processos de Adoção',
             }}
