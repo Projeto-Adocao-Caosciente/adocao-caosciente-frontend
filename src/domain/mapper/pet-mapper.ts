@@ -1,5 +1,5 @@
 import { Mapper } from './mapper'
-import { AnimalModel } from '../../presentation/models/animal-model'
+import { AnimalModel } from '../models/animal-model'
 import { AnimalResponse } from '../../data/model/animal-response'
 
 export interface PetMapper extends Mapper<AnimalResponse, AnimalModel> {}

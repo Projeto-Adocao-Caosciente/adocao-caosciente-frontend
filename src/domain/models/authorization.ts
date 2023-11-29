@@ -1,4 +1,3 @@
-export type Authorization<T> = {
+export type Authorization = {
     accessToken: string
-    user: T
 }

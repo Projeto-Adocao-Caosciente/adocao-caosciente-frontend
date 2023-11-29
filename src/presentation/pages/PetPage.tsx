@@ -22,7 +22,7 @@ import {
 import { AppRoutes } from '../../routes/app-routes'
 import { useNavigate } from 'react-router'
 import useNotify from '../hooks/use-notify'
-import { AnimalModel } from '../models/animal-model'
+import { AnimalModel } from '../../domain/models/animal-model'
 import { useParams } from 'react-router-dom'
 
 type PetPageProps = {
@@ -314,19 +314,21 @@ export default function PetPage({
                 <Divider className="my-6" />
                 <Skeleton isLoaded={!petDetailFetch.isLoading()}>
                     <section className="flex flex-col gap-6">
-                        {!hasPetId ? <Button
-                            color="primary"
-                            variant="solid"
-                            size="md"
-                            type="submit"
-                            isLoading={
-                                hasPetId
-                                    ? petEdit.isLoading()
-                                    : petRegister.isLoading()
-                            }
-                        >
-                            Cadastrar
-                        </Button> : null}
+                        {!hasPetId ? (
+                            <Button
+                                color="primary"
+                                variant="solid"
+                                size="md"
+                                type="submit"
+                                isLoading={
+                                    hasPetId
+                                        ? petEdit.isLoading()
+                                        : petRegister.isLoading()
+                                }
+                            >
+                                Cadastrar
+                            </Button>
+                        ) : null}
                         <Button
                             color="danger"
                             variant="flat"

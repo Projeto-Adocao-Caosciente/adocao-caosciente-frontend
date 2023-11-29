@@ -1,15 +1,9 @@
 import { AxiosHttpClient, HttpResponse } from '../http/http-client'
 import { OngFormFields } from '../../presentation/validations/ong/form-fields-type'
-import { LoginFormFields } from '../../presentation/validations/login/form-fields-type'
-import { AuthorizationResponse } from '../model/authorization-response'
-import { OngModel } from '../../presentation/models/ong-model'
 
 export interface OngService {
     register: (fields: OngFormFields) => Promise<HttpResponse<void>>
     edit: (fields: OngFormFields) => Promise<HttpResponse<void>>
-    login: (
-        fields: LoginFormFields
-    ) => Promise<HttpResponse<AuthorizationResponse<OngModel>>>
 }
 
 export class OngServiceImpl implements OngService {
@@ -17,7 +11,6 @@ export class OngServiceImpl implements OngService {
 
     private readonly registeringPath = '/register'
     private readonly editingPath = '/ong'
-    private readonly loginPath = '/login'
 
     edit(fields: OngFormFields): Promise<HttpResponse<void>> {
         return this.httpClient.request({
@@ -53,19 +46,6 @@ export class OngServiceImpl implements OngService {
                 mission: fields.mission,
                 foundation: fields.foundationDate,
                 description: fields.programsAndActivities,
-                password: fields.password,
-            },
-        })
-    }
-
-    login(
-        fields: LoginFormFields
-    ): Promise<HttpResponse<AuthorizationResponse<OngModel>>> {
-        return this.httpClient.request({
-            path: this.loginPath,
-            method: 'post',
-            body: {
-                user: fields.user.replaceAll(/[./-]/g, ''),
                 password: fields.password,
             },
         })

@@ -19,7 +19,7 @@ import { useNavigate } from 'react-router'
 import useNotify from '../hooks/use-notify'
 import { useSelector } from 'react-redux'
 import moment from 'moment'
-import { OngModel } from '../models/ong-model'
+import { OngModel } from '../../domain/models/ong-model'
 
 type OngPageProps = {
     validationWrapper: OngFieldsValidationWrapper
