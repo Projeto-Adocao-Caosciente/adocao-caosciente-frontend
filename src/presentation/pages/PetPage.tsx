@@ -166,6 +166,8 @@ export default function PetPage({
                     <div className="sm:flex sm:justify-center">
                         <Skeleton isLoaded={!petDetailFetch.isLoading()}>
                             <Input
+                                minLength={2}
+                                maxLength={60}
                                 placeholder="Qual o nome do seu Pet?"
                                 variant="underlined"
                                 className="sm:w-96"
@@ -194,6 +196,8 @@ export default function PetPage({
                     <article className="flex flex-1 flex-col gap-6">
                         <Skeleton isLoaded={!petDetailFetch.isLoading()}>
                             <Input
+                                minLength={2}
+                                maxLength={60}
                                 placeholder="Raça"
                                 variant="bordered"
                                 size="lg"
@@ -208,6 +212,8 @@ export default function PetPage({
 
                         <Skeleton isLoaded={!petDetailFetch.isLoading()}>
                             <Input
+                                minLength={2}
+                                maxLength={60}
                                 placeholder="Tipo"
                                 variant="bordered"
                                 size="lg"
@@ -290,6 +296,7 @@ export default function PetPage({
                     </Skeleton>
                     <Skeleton isLoaded={!petDetailFetch.isLoading()}>
                         <Textarea
+                            maxLength={500}
                             label="Anotações:"
                             labelPlacement="inside"
                             variant="bordered"

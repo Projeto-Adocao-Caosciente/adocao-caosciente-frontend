@@ -105,6 +105,9 @@ export default function AdopterRegisterPage({
         )
     }
 
+    const today = new Date();
+    const maxBirthDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+
     return (
         <main
             className={`container-form mb-10 ${
@@ -126,9 +129,11 @@ export default function AdopterRegisterPage({
                         <h3 className="text-xl font-bold">Dados pessoais</h3>
                         <div className={'flex flex-col gap-6'}>
                             <Input
-                                placeholder="Nome completo"
-                                variant="bordered"
-                                size="lg"
+                                minLength={2}
+                                maxLength={60}
+                                placeholder='Nome completo'
+                                variant='bordered'
+                                size='lg'
                                 isInvalid={getFieldState('name').invalid}
                                 errorMessage={errors.name?.message}
                                 {...register('name')}
@@ -144,15 +149,13 @@ export default function AdopterRegisterPage({
                                     {...register('itr')}
                                 />
                                 <Input
-                                    type="date"
-                                    max={new Date().toISOString().split('T')[0]}
-                                    min="1900-01-01"
-                                    placeholder="Data de nascimento"
-                                    variant="bordered"
-                                    size="lg"
-                                    isInvalid={
-                                        getFieldState('birthdate').invalid
-                                    }
+                                    type='date'
+                                    max={maxBirthDate.toISOString().split('T')[0]}
+                                    min='1950-01-01'
+                                    placeholder='Data de nascimento'
+                                    variant='bordered'
+                                    size='lg'
+                                    isInvalid={getFieldState('birthdate').invalid}
                                     errorMessage={errors.birthdate?.message}
                                     {...register('birthdate')}
                                 />
@@ -183,10 +186,11 @@ export default function AdopterRegisterPage({
                     <h3 className="text-xl font-bold">Contato</h3>
                     <article className={'flex flex-col gap-6'}>
                         <Input
-                            placeholder="Email"
-                            variant="bordered"
-                            size="lg"
                             type="email"
+                            maxLength={60}
+                            placeholder='Email'
+                            variant='bordered'
+                            size='lg'
                             isInvalid={getFieldState('email').invalid}
                             errorMessage={errors.email?.message}
                             {...register('email')}
@@ -208,9 +212,11 @@ export default function AdopterRegisterPage({
                     <article className="flex flex-col gap-6">
                         <div className={'flex flex-col gap-6 sm:flex-row'}>
                             <Input
-                                placeholder="Endereço"
-                                variant="bordered"
-                                size="lg"
+                                minLength={2}
+                                maxLength={60}
+                                placeholder='Endereço'
+                                variant='bordered'
+                                size='lg'
                                 isInvalid={getFieldState('address').invalid}
                                 errorMessage={errors.address?.message}
                                 {...register('address')}
@@ -227,17 +233,21 @@ export default function AdopterRegisterPage({
                         </div>
                         <div className={'flex flex-col gap-6 sm:flex-row'}>
                             <Input
-                                placeholder="Cidade"
-                                variant="bordered"
-                                size="lg"
+                                minLength={2}
+                                maxLength={60}
+                                placeholder='Cidade'
+                                variant='bordered'
+                                size='lg'
                                 isInvalid={getFieldState('city').invalid}
                                 errorMessage={errors.city?.message}
                                 {...register('city')}
                             />
                             <Input
-                                placeholder="Estado"
-                                variant="bordered"
-                                size="lg"
+                                minLength={2}
+                                maxLength={60}
+                                placeholder='Estado'
+                                variant='bordered'
+                                size='lg'
                                 isInvalid={getFieldState('state').invalid}
                                 errorMessage={errors.state?.message}
                                 {...register('state')}
@@ -250,9 +260,11 @@ export default function AdopterRegisterPage({
                     <h3 className="text-xl font-bold">Dados de acesso:</h3>
                     <article className="flex flex-col gap-6">
                         <Input
-                            placeholder="Senha"
-                            variant="bordered"
-                            size="lg"
+                            minLength={4}
+                            maxLength={60}
+                            placeholder='Senha'
+                            variant='bordered'
+                            size='lg'
                             endContent={
                                 <button
                                     className="focus:outline-none"
@@ -272,9 +284,11 @@ export default function AdopterRegisterPage({
                             {...register('password')}
                         />
                         <Input
-                            placeholder="Confirmar senha"
-                            variant="bordered"
-                            size="lg"
+                            minLength={4}
+                            maxLength={60}
+                            placeholder='Confirmar senha'
+                            variant='bordered'
+                            size='lg'
                             endContent={
                                 <button
                                     className="focus:outline-none"
