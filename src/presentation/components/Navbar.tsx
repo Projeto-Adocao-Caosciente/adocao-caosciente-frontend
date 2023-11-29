@@ -63,7 +63,7 @@ export default function NavbarComponent() {
                             </DropdownItem>
                             <DropdownItem
                                 key="edit"
-                                onPress={() => navigate(AppRoutes.ongEdit)}
+                                onPress={() => navigate(AppRoutes.edit)}
                             >
                                 Editar cadastro
                             </DropdownItem>

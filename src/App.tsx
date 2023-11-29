@@ -36,8 +36,13 @@ function App() {
                     }
                 />
                 <Route
-                    path={AppRoutes.ongEdit}
-                    element={<ProtectedRoute page={makeOngPage(true)} />}
+                    path={AppRoutes.edit}
+                    element={
+                        <ProtectedRoute
+                            page={makeOngPage(true)}
+                            ruleSolver={makeProxyNGOAuthenticatedRule()}
+                        />
+                    }
                 />
                 <Route path={AppRoutes.ongRegister} element={makeOngPage()} />
                 <Route
