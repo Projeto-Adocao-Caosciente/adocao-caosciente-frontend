@@ -22,8 +22,8 @@ export type OngFormFields = {
     state: string
     city: string
     phone: string
-    programsAndActivities: string
-    mission: string
+    programsAndActivities?: string
+    mission?: string
     foundationDate: string
     password?: string
     passwordConfirmation?: string
@@ -40,8 +40,14 @@ export class OngFieldsValidationWrapperImpl
     private readonly onUserPatternUnmatched: string =
         'O campo deve ser preenchido corretamente'
 
-    private readonly minLengthInvalidMessage = (field: string, length: string) =>  `O campo ${field} deve ter no mínimo ${length} caracteres`;
-    private readonly maxLengthInvalidMessage = (field: string, length: string) =>  `O campo ${field} deve ter no máximo ${length} caracteres`;
+    private readonly minLengthInvalidMessage = (
+        field: string,
+        length: string
+    ) => `O campo ${field} deve ter no mínimo ${length} caracteres`
+    private readonly maxLengthInvalidMessage = (
+        field: string,
+        length: string
+    ) => `O campo ${field} deve ter no máximo ${length} caracteres`
 
     private readonly invalidEmailMessage = 'Digite um email válido'
     private readonly missingFieldMessage = 'Cambo obrigatório'
@@ -91,15 +97,17 @@ export class OngFieldsValidationWrapperImpl
                 .required(this.missingFieldMessage),
             programsAndActivities: yup
                 .string()
-                .required(this.missingFieldMessage)
-                .max(500, this.maxLengthInvalidMessage('programas e atividades', '500')),
+                .max(
+                    500,
+                    this.maxLengthInvalidMessage(
+                        'programas e atividades',
+                        '500'
+                    )
+                ),
             mission: yup
                 .string()
-                .required(this.missingFieldMessage)
                 .max(500, this.maxLengthInvalidMessage('missão', '500')),
-            foundationDate: yup
-                .string()
-                .required(this.missingFieldMessage),
+            foundationDate: yup.string().required(this.missingFieldMessage),
             password: this.getPasswordValidation(),
             passwordConfirmation: this.getPasswordConfirmationValidation(),
         })
