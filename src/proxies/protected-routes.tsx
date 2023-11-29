@@ -4,24 +4,35 @@ import { AppRoutes } from '../routes/app-routes'
 import useNotify from '../presentation/hooks/use-notify'
 import { AuthContext } from '../presentation/contexts/AuthContext'
 import LoadingPage from '../presentation/pages/LoadingPage'
+import { ProxyRuleSolver } from './proxy-rule-solver'
+import { makeProxyAuthenticatedRule } from '../factories/proxies/proxy-rule-solver-factory'
 
 export type ProtectedRouteProps = {
     page: JSX.Element
+    ruleSolver?: ProxyRuleSolver
 }
 
-export default function ProtectedRoute({ page }: ProtectedRouteProps) {
+export default function ProtectedRoute({
+    page,
+    ruleSolver = makeProxyAuthenticatedRule(),
+}: ProtectedRouteProps) {
     let location = useLocation()
     const { notify } = useNotify()
-    const { isAuthenticated, isGettingProfile } = useContext(AuthContext)
+    const { user, isAuthenticated, isGettingProfile } = useContext(AuthContext)
 
     if (isGettingProfile) {
         return <LoadingPage />
     }
 
-    if (isAuthenticated()) {
+    if (
+        ruleSolver.pass({
+            isAuthenticated: isAuthenticated(),
+            userType: user?.type,
+        })
+    ) {
         return page
     } else {
-        notify('error', 'Você precisa estar logado para acessar essa página!')
+        notify('error', 'Você não tem autorização para acessar essa página!')
         return (
             <Navigate
                 to={{ pathname: AppRoutes.login }}

@@ -2,18 +2,22 @@ import React from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import { AppRoutes } from './routes/app-routes'
 import ScrollTopButton from './presentation/components/ScrollTopButton'
-import { makePetPage } from './factories/pages/pet-page-factory'
-import { makeLoginPage } from './factories/pages/login-page-factory'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import ProtectedRoute from './proxies/protected-routes'
-import { makeOngPage } from './factories/pages/ong-page-factory'
 import Navbar from './presentation/components/Navbar'
-import { makeHomePage } from './factories/pages/home-page-factory'
-import { makeAdopterHomePage } from './factories/pages/adopter-home-page-factory'
-import { makeAdopterRegisterPage } from './factories/pages/adopter-register-page-factory'
 import { AuthProvider } from './presentation/contexts/AuthContext'
 import { makeAuthenticator } from './factories/interactors/authenticator-interactor-factory'
+import { makeLoginPage } from './factories/pages/login-page-factory'
+import ProtectedRoute from './proxies/protected-routes'
+import { makeHomePage } from './factories/pages/home-page-factory'
+import {
+    makeProxyAdopterAuthenticatedRule,
+    makeProxyNGOAuthenticatedRule,
+} from './factories/proxies/proxy-rule-solver-factory'
+import { makeOngPage } from './factories/pages/ong-page-factory'
+import { makePetPage } from './factories/pages/pet-page-factory'
+import { makeAdopterHomePage } from './factories/pages/adopter-home-page-factory'
+import { makeAdopterRegisterPage } from './factories/pages/adopter-register-page-factory'
 
 function App() {
     const { pathname } = useLocation()
@@ -25,7 +29,12 @@ function App() {
                 <Route path={AppRoutes.login} element={makeLoginPage()} />
                 <Route
                     path={AppRoutes.home}
-                    element={<ProtectedRoute page={makeHomePage()} />}
+                    element={
+                        <ProtectedRoute
+                            page={makeHomePage()}
+                            ruleSolver={makeProxyNGOAuthenticatedRule()}
+                        />
+                    }
                 />
                 <Route
                     path={AppRoutes.ongEdit}
@@ -34,15 +43,30 @@ function App() {
                 <Route path={AppRoutes.ongRegister} element={makeOngPage()} />
                 <Route
                     path={AppRoutes.petRegister}
-                    element={<ProtectedRoute page={makePetPage()} />}
+                    element={
+                        <ProtectedRoute
+                            page={makePetPage()}
+                            ruleSolver={makeProxyNGOAuthenticatedRule()}
+                        />
+                    }
                 />
                 <Route
                     path={AppRoutes.pet}
-                    element={<ProtectedRoute page={makePetPage()} />}
+                    element={
+                        <ProtectedRoute
+                            page={makePetPage()}
+                            ruleSolver={makeProxyNGOAuthenticatedRule()}
+                        />
+                    }
                 />
                 <Route
                     path={AppRoutes.adopterHome}
-                    element={<ProtectedRoute page={makeAdopterHomePage()} />}
+                    element={
+                        <ProtectedRoute
+                            page={makeAdopterHomePage()}
+                            ruleSolver={makeProxyAdopterAuthenticatedRule()}
+                        />
+                    }
                 />
                 <Route
                     path={AppRoutes.adopterRegister}
