@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Button, Divider, Input, Link, Textarea } from '@nextui-org/react'
 import InputFileImage from '../components/InputFileImage'
 import LinkIcon from '../assets/LinkIcon'
@@ -17,9 +17,9 @@ import { OngInteractor } from '../../domain/interactors/ong-interactor'
 import { useFetch } from '../hooks/use-fetch'
 import { useNavigate } from 'react-router'
 import useNotify from '../hooks/use-notify'
-import { useSelector } from 'react-redux'
 import moment from 'moment'
 import { OngModel } from '../../domain/models/ong-model'
+import { AuthContext } from '../contexts/AuthContext'
 
 type OngPageProps = {
     validationWrapper: OngFieldsValidationWrapper
@@ -35,20 +35,25 @@ export default function OngPage({
     const navigate = useNavigate()
     const { notify } = useNotify()
 
-    const ong: OngModel = useSelector((state: any) => state.user.ong)
+    const { user } = useContext(AuthContext)
 
     const values = isEditing
         ? {
-              avatarBase64: ong.logo,
-              name: ong.name,
-              user: validationWrapper.patterns.user!.apply(ong.cnpj),
-              email: ong.email,
-              state: ong.state,
-              city: ong.city,
-              phone: validationWrapper.patterns.phone!.apply(ong.phone),
-              programsAndActivities: ong.description,
-              mission: ong.mission,
-              foundationDate: moment(ong.foundation, 'DD-MM-YYYY')
+              avatarBase64: user?.photo ?? '',
+              name: user?.name ?? '',
+              user: validationWrapper.patterns.user!.apply(
+                  user?.document ?? ''
+              ),
+              email: user?.email ?? '',
+              state: user?.state ?? '',
+              city: user?.city ?? '',
+              phone: validationWrapper.patterns.phone!.apply(user?.phone ?? ''),
+              programsAndActivities: (user as OngModel).description ?? '',
+              mission: (user as OngModel).mission ?? '',
+              foundationDate: moment(
+                  (user as OngModel).foundation ?? '',
+                  'DD-MM-YYYY'
+              )
                   .format('YYYY-MM-DD')
                   .toString(),
           }
