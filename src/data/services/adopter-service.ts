@@ -9,7 +9,7 @@ export interface AdopterService {
 export class AdopterServiceImpl implements AdopterService {
     constructor(private readonly httpClient: AxiosHttpClient) {}
 
-    private readonly registeringPath = '/adopter'
+    private readonly path = '/auth/register_adopter'
 
     edit(fields: AdopterFormFields): Promise<HttpResponse<void>> {
         throw new Error('unimplemented method: AdopterServiceImpl.edit')
@@ -17,7 +17,7 @@ export class AdopterServiceImpl implements AdopterService {
 
     register(fields: AdopterFormFields): Promise<HttpResponse<void>> {
         return this.httpClient.request({
-            path: this.registeringPath,
+            path: this.path,
             method: 'post',
             body: {
                 cpf: fields.itr,
