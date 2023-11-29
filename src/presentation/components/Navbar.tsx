@@ -47,12 +47,14 @@ export default function NavbarComponent() {
 
             {isAuthenticated() && (
                 <NavbarContent as="div" justify="end">
+                    
+                    <span>{ongData.name}</span>
                     <Dropdown placement="bottom-end">
                         <DropdownTrigger>
                             <Avatar
                                 as="button"
                                 className="transition-transform"
-                                color="secondary"
+                                color="default"
                                 name={ongData.name}
                                 size="md"
                                 src={ongData.logo}
@@ -71,18 +73,6 @@ export default function NavbarComponent() {
                                 onPress={() => navigate(AppRoutes.ongEdit)}
                             >
                                 Editar cadastro
-                            </DropdownItem>
-                            <DropdownItem
-                                key="configurations"
-                                onPress={() => navigate('#')}
-                            >
-                                Configurações
-                            </DropdownItem>
-                            <DropdownItem
-                                key="about_the_project"
-                                onPress={() => navigate('#')}
-                            >
-                                Sobre o projeto
                             </DropdownItem>
                             <DropdownItem
                                 key="logout"
