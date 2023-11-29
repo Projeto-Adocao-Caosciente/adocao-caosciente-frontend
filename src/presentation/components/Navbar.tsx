@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from 'react'
+import React, { useContext } from 'react'
 import {
     Navbar,
     NavbarBrand,
@@ -10,52 +10,47 @@ import {
     Avatar,
 } from '@nextui-org/react'
 import { AppRoutes } from '../../routes/app-routes'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import Logo from '../assets/Logo.png'
-import { useSelector, useDispatch } from 'react-redux'
-import { logout } from '../reducer/user-reducer'
+import { AuthContext } from '../contexts/AuthContext'
 import useNotify from '../hooks/use-notify'
-import { OngModel } from '../../domain/models/ong-model'
-import useAuth from '../hooks/use-auth'
 
 export default function NavbarComponent() {
-    const { pathname } = useLocation()
-    const navigate = useNavigate()
     const { notify } = useNotify()
+    const navigate = useNavigate()
 
-    const dispatch = useDispatch()
+    const { isAuthenticated, user, logout } = useContext(AuthContext)
+
     const handleLogoClick = () => {
-        if (pathname !== AppRoutes.login && pathname !== AppRoutes.ongRegister)
-            navigate(AppRoutes.home)
+        if (isAuthenticated()) navigate(AppRoutes.home)
         else navigate(AppRoutes.login)
     }
 
-    /*const handleLogout = () => {
-        dispatch(logout())
-        removeToken()
-        navigate(AppRoutes.login)
+    const handleLogout = () => {
+        logout()
         notify('success', 'Você foi deslogado com sucesso!')
-    }*/
-    const ongData: OngModel = useSelector((state: any) => state.user.ong)
+    }
+
     return (
         <Navbar isBordered={false} className="mb-7 pt-2 flex items-center">
             <NavbarBrand onClick={handleLogoClick} className="cursor-pointer">
-                <img src={Logo} />
+                <img src={Logo} alt={'Logo'} />
             </NavbarBrand>
 
-            {/*{isAuthenticated() && (
+            {isAuthenticated() && (
                 <NavbarContent as="div" justify="end">
-                    
-                    <span>{ongData.name}</span>
+                    <div className={'hidden sm:flex sm:flex-col'}>
+                        <span className={'font-bold'}>{user?.name}</span>
+                        <span>{user?.typeName}</span>
+                    </div>
                     <Dropdown placement="bottom-end">
                         <DropdownTrigger>
                             <Avatar
                                 as="button"
                                 className="transition-transform"
                                 color="default"
-                                name={ongData.name}
-                                size="md"
-                                src={ongData.logo}
+                                name={user?.name}
+                                size="lg"
                             />
                         </DropdownTrigger>
                         <DropdownMenu
@@ -64,7 +59,7 @@ export default function NavbarComponent() {
                         >
                             <DropdownItem key="profile" className="h-14 gap-2">
                                 <p className="font-semibold">Logado como </p>
-                                <p className="font-semibold">{ongData.email}</p>
+                                <p className="font-semibold">{user?.email}</p>
                             </DropdownItem>
                             <DropdownItem
                                 key="edit"
@@ -82,7 +77,7 @@ export default function NavbarComponent() {
                         </DropdownMenu>
                     </Dropdown>
                 </NavbarContent>
-            )}*/}
+            )}
         </Navbar>
     )
 }

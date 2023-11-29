@@ -17,7 +17,7 @@ type HomePageProps = {
 export default function Home({ interactor }: HomePageProps) {
     const navigate = useNavigate()
 
-    const { getUsername } = useContext(AuthContext)
+    const { user } = useContext(AuthContext)
 
     const animalsRequest = useFetch<AnimalModel[]>({
         fn: (_) => interactor.getAll(),
@@ -65,7 +65,7 @@ export default function Home({ interactor }: HomePageProps) {
 
     return (
         <HomeTemplate
-            name={getUsername()}
+            name={user?.name ?? ''}
             filter={{ label: 'Pesquisar por nome', onChange: (value) => {} }}
             heading={{
                 title: 'Pets cadastrados',

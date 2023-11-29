@@ -1,21 +1,20 @@
 import { Mapper } from './mapper'
 import { ProfileResponse } from '../../data/model/profile-response'
-import { UserProfileModel, UserType } from '../models/user-profile-model'
+import { UserType } from '../models/user-profile-model'
 import { InvalidProfileTypeError } from '../exceptions/invalid-profile-type'
 import { OngModel } from '../models/ong-model'
 import { AdopterModel } from '../models/adopter-model'
 import { AdopterProfileResponse } from '../../data/model/adopter-profile-response'
 import { NGOProfileResponse } from '../../data/model/ngo-profile-response'
+import { UserBaseModel } from '../models/user-base-model'
 
 export interface ProfileMapper
-    extends Mapper<Partial<ProfileResponse>, UserProfileModel> {}
+    extends Mapper<Partial<ProfileResponse>, UserBaseModel> {}
 
 export class ProfileMapperImpl implements ProfileMapper {
-    map(
-        profileResponse: Partial<ProfileResponse> | undefined
-    ): UserProfileModel {
+    map(profileResponse: Partial<ProfileResponse> | undefined): UserBaseModel {
         let userType: UserType
-        let userData: OngModel | AdopterModel
+        let userData: UserBaseModel
 
         if (profileResponse?.type == UserType.ngo) {
             userType = UserType.ngo
@@ -23,6 +22,10 @@ export class ProfileMapperImpl implements ProfileMapper {
             const ngoData = profileResponse.user as NGOProfileResponse
 
             userData = <OngModel>{
+                type: userType,
+                typeName: 'ONG',
+                document: ngoData.cnpj,
+                photo: ngoData.logo,
                 ...ngoData,
             }
         } else if (profileResponse?.type == UserType.adopter) {
@@ -31,7 +34,9 @@ export class ProfileMapperImpl implements ProfileMapper {
             const adopterData = profileResponse.user as AdopterProfileResponse
 
             userData = <AdopterModel>{
-                itr: adopterData.cpf,
+                type: userType,
+                typeName: 'Adotante',
+                document: adopterData.cpf,
                 zipCode: adopterData.cep,
                 ...adopterData,
             }
@@ -39,9 +44,6 @@ export class ProfileMapperImpl implements ProfileMapper {
             throw new InvalidProfileTypeError()
         }
 
-        return {
-            type: userType,
-            data: userData,
-        }
+        return userData
     }
 }

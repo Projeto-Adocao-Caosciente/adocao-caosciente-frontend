@@ -5,10 +5,11 @@ import { UnexpectedError } from '../exceptions/unexpected-error'
 import { AuthorizationMapper } from '../mapper/authorization-mapper'
 import { UserProfileModel } from '../models/user-profile-model'
 import { ProfileMapper } from '../mapper/profile-mapper'
+import { UserBaseModel } from '../models/user-base-model'
 
 export interface AuthInteractor {
     authenticate: (user: string, password: string) => Promise<Authorization>
-    profile: () => Promise<UserProfileModel>
+    profile: () => Promise<UserBaseModel>
 }
 
 export class AuthInteractorImpl implements AuthInteractor {
@@ -34,7 +35,7 @@ export class AuthInteractorImpl implements AuthInteractor {
         }
     }
 
-    async profile(): Promise<UserProfileModel> {
+    async profile(): Promise<UserBaseModel> {
         const userResponse = await this.service.profile()
 
         if (userResponse.statusCode == HttpStatusCode.ok) {

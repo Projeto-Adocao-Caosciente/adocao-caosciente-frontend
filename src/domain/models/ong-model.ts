@@ -1,12 +1,6 @@
-export interface OngModel {
-    id: string
-    cnpj: string
-    name: string
-    email: string
-    logo: string
-    city: string
-    state: string
-    phone: string
+import { UserBaseModel } from './user-base-model'
+
+export interface OngModel extends UserBaseModel {
     mission: string
     foundation: string
     description: string

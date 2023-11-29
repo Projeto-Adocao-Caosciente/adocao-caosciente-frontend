@@ -5,25 +5,20 @@ import React, {
     useState,
 } from 'react'
 import { AuthInteractor } from '../../domain/interactors/auth-interactor'
-import {
-    UserProfileModel,
-    UserType,
-} from '../../domain/models/user-profile-model'
 import { LoginFormFields } from '../validations/login/form-fields-type'
 import useAuth from '../hooks/use-auth'
 import { useBoolean } from '../hooks/use-boolean'
-import { AdopterModel } from '../../domain/models/adopter-model'
-import { OngModel } from '../../domain/models/ong-model'
+import { UserBaseModel } from '../../domain/models/user-base-model'
 
 type AuthContextType = {
     isAuthenticated: () => boolean
-    user: UserProfileModel | null
-    getUsername: () => string
+    user: UserBaseModel | null
     authenticate: (
         fields: LoginFormFields,
         onAuthenticated: () => void,
         onFailed: () => void
     ) => Promise<void>
+    logout: () => void
     isAuthenticating: boolean
     isGettingProfile: boolean
 }
@@ -40,7 +35,7 @@ export function AuthProvider({
 }: PropsWithChildren<AuthProviderProps>) {
     const { setToken, removeToken, getToken } = useAuth()
 
-    const [user, setUser] = useState<UserProfileModel | null>(null)
+    const [user, setUser] = useState<UserBaseModel | null>(null)
     const isAuthenticated = useBoolean(false)
     const isAuthenticating = useBoolean(false)
     const isGettingProfile = useBoolean(true)
@@ -58,14 +53,6 @@ export function AuthProvider({
             isGettingProfile.setFalse()
         }
     }, [])
-
-    function getUsername() {
-        if (user?.type == UserType.adopter) {
-            return (user.data as AdopterModel)?.name ?? ''
-        }
-
-        return (user?.data as OngModel)?.name ?? ''
-    }
 
     function fetchProfile() {
         isGettingProfile.setTrue()
@@ -100,7 +87,7 @@ export function AuthProvider({
 
             onAuthenticated()
         } catch (exception) {
-            //isAuthenticated.setFalse()
+            isAuthenticated.setFalse()
             onFailed()
         } finally {
             isAuthenticating.setFalse()
@@ -121,9 +108,9 @@ export function AuthProvider({
         <AuthContext.Provider
             value={{
                 user,
-                getUsername,
-                isAuthenticated: () => isAuthenticated.value,
                 authenticate,
+                logout: () => unauthenticated(),
+                isAuthenticated: () => isAuthenticated.value,
                 isAuthenticating: isAuthenticating.value,
                 isGettingProfile: isGettingProfile.value,
             }}
