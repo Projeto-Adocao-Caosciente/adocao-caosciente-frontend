@@ -1,7 +1,10 @@
 import * as yup from 'yup'
 import { FieldPatternMap } from '../core/field-pattern-map'
 import { FieldsValidationWrapper } from '../core/form-validation-wrapper'
-import { commonsPatternCNPJ } from '../core/commons-patterns'
+import {
+    commonsPatternCNPJ,
+    commonsPatternCNPJITR,
+} from '../core/commons-patterns'
 
 export type LoginFormFields = {
     user: string
@@ -22,7 +25,7 @@ export class LoginFieldsValidationWrapperImpl
         'O campo deve ser preenchido corretamente'
 
     patterns: FieldPatternMap<LoginFormFields> = {
-        user: commonsPatternCNPJ,
+        user: commonsPatternCNPJITR,
     }
 
     schema = yup

@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
-import PetCard, {PetCardVariant} from '../components/PetCard'
-import { AnimalModel } from '../models/animal-model'
+import PetCard, { PetCardVariant } from '../components/PetCard'
+import { AnimalModel } from '../../domain/models/animal-model'
 import { useFetch } from '../hooks/use-fetch'
 import { useNavigate } from 'react-router-dom'
 import HomeTemplate from '../templating/HomeTemplate'
-import {PetInteractor} from "../../domain/interactors/pet-interactor";
+import { PetInteractor } from '../../domain/interactors/pet-interactor'
 
 type AdopterHomePageProps = {
     interactor: PetInteractor

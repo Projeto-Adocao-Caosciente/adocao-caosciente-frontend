@@ -1,7 +1,7 @@
 import { SelectOptionResponse } from '../model/select-option-response'
 import { PetFormFields } from '../../presentation/validations/pet/form-fields-type'
 import { AxiosHttpClient, HttpRequest, HttpResponse } from '../http/http-client'
-import { AnimalModel } from '../../presentation/models/animal-model'
+import { AnimalModel } from '../../domain/models/animal-model'
 import { AnimalsResponse } from '../model/animals-response'
 import { AnimalResponse } from '../model/animal-response'
 import { string } from 'yup'

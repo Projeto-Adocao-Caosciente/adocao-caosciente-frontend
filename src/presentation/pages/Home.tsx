@@ -1,15 +1,14 @@
 import { Button } from '@nextui-org/react'
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import PetCard from '../components/PetCard'
 import AddCircleSolidIcon from '../assets/AddCircleSolidIcon'
 import { AppRoutes } from '../../routes/app-routes'
-import { AnimalModel } from '../models/animal-model'
+import { AnimalModel } from '../../domain/models/animal-model'
 import { useFetch } from '../hooks/use-fetch'
 import { useNavigate } from 'react-router-dom'
 import { PetInteractor } from '../../domain/interactors/pet-interactor'
 import HomeTemplate from '../templating/HomeTemplate'
-import { OngModel } from '../models/ong-model'
-import { useSelector } from 'react-redux'
+import { AuthContext } from '../contexts/AuthContext'
 
 type HomePageProps = {
     interactor: PetInteractor
@@ -18,6 +17,8 @@ type HomePageProps = {
 export default function Home({ interactor }: HomePageProps) {
     const navigate = useNavigate()
 
+    const { getUsername } = useContext(AuthContext)
+
     const animalsRequest = useFetch<AnimalModel[]>({
         fn: (_) => interactor.getAll(),
     })
@@ -25,8 +26,6 @@ export default function Home({ interactor }: HomePageProps) {
     useEffect(() => {
         animalsRequest.fetch().then()
     }, [])
-
-    const ngo: OngModel = useSelector((state: any) => state.user.ong)
 
     function buildAnimalsList(
         animals: AnimalModel[] | undefined
@@ -66,7 +65,7 @@ export default function Home({ interactor }: HomePageProps) {
 
     return (
         <HomeTemplate
-            name={ngo.name}
+            name={getUsername()}
             filter={{ label: 'Pesquisar por nome', onChange: (value) => {} }}
             heading={{
                 title: 'Pets cadastrados',

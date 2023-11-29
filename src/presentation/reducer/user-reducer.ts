@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { OngModel } from '../models/ong-model'
+import { OngModel } from '../../domain/models/ong-model'
 
 const storedUser = localStorage.getItem('user')
 const initialState = {

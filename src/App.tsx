@@ -10,14 +10,16 @@ import ProtectedRoute from './proxies/protected-routes'
 import { makeOngPage } from './factories/pages/ong-page-factory'
 import Navbar from './presentation/components/Navbar'
 import { makeHomePage } from './factories/pages/home-page-factory'
-import {makeAdopterHomePage} from "./factories/pages/adopter-home-page-factory";
-import {makeAdopterRegisterPage} from "./factories/pages/adopter-register-page-factory";
+import { makeAdopterHomePage } from './factories/pages/adopter-home-page-factory'
+import { makeAdopterRegisterPage } from './factories/pages/adopter-register-page-factory'
+import { AuthProvider } from './presentation/contexts/AuthContext'
+import { makeAuthenticator } from './factories/interactors/authenticator-interactor-factory'
 
 function App() {
     const { pathname } = useLocation()
     const isNavbarVisible = pathname !== AppRoutes.login
     return (
-        <>
+        <AuthProvider authenticator={makeAuthenticator()}>
             {isNavbarVisible && <Navbar />}
             <Routes>
                 <Route path={AppRoutes.login} element={makeLoginPage()} />
@@ -42,7 +44,10 @@ function App() {
                     path={AppRoutes.adopterHome}
                     element={<ProtectedRoute page={makeAdopterHomePage()} />}
                 />
-                <Route path={AppRoutes.adopterRegister} element={makeAdopterRegisterPage()} />
+                <Route
+                    path={AppRoutes.adopterRegister}
+                    element={makeAdopterRegisterPage()}
+                />
             </Routes>
             <ToastContainer
                 position="top-right"
@@ -55,7 +60,7 @@ function App() {
                 pauseOnHover
             />
             <ScrollTopButton />
-        </>
+        </AuthProvider>
     )
 }
 

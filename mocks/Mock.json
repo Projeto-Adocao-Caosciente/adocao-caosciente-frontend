@@ -17,7 +17,7 @@
       "responses": [
         {
           "uuid": "37ac1001-fc9f-4951-885c-282e259e29b4",
-          "body": "{\n  \"accessToken\": \"{{faker 'string.uuid'}}\",\n  \"user\": {\n    \"id\": \"{{faker 'string.uuid'}}\",\n    \"cnpj\": \"12345678901234\",\n    \"name\": \"{{faker 'person.firstName'}} {{faker 'person.firstName'}}\",\n    \"email\": \"john.doe@email.com\",\n    \"logo\": \"{{faker 'string.uuid'}}\",\n    \"city\": \"{{faker 'location.city'}}\",\n    \"state\": \"{{faker 'location.state' abbreviated=true}}\",\n    \"phone\": \"(99) 99999-9999\",\n    \"mission\": \"{{faker 'lorem.sentence'}}\",\n    \"foundation\": \"{{now}}\",\n    \"description\": \"{{faker 'lorem.sentence'}}\"\n  }\n}",
+          "body": "{\n  \"message\": \"\",\n  \"data\": {\n    \"access_token\": \"{{faker 'string.uuid'}}\"\n  }\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -46,7 +46,7 @@
       "responses": [
         {
           "uuid": "b2cb8381-15f8-4488-a9a3-af7d79f10d2d",
-          "body": "{}",
+          "body": "{\n  \"message\": \"null\"\n  \"data\": {}\n}",
           "latency": 0,
           "statusCode": 201,
           "label": "",
@@ -75,7 +75,7 @@
       "responses": [
         {
           "uuid": "3a11433a-923b-497c-b804-806d03504cec",
-          "body": "{}",
+          "body": "{\n  \"message\": \"null\"\n  \"data\": {}\n}",
           "latency": 0,
           "statusCode": 201,
           "label": "",
@@ -133,7 +133,7 @@
       "responses": [
         {
           "uuid": "feca5dd4-4cd5-47c1-b8dd-f61d1ded4be1",
-          "body": "{\n  \"id\": \"{{faker 'string.uuid'}}\",\n  \"name\": \"{{faker 'person.firstName'}} {{faker 'person.firstName'}}\",\n  \"type\": \"{{faker 'person.firstName'}}\",\n  \"breed\": \"{{faker 'person.firstName'}}\",\n  \"height\": \"67,5\",\n  \"weight\": \"5,3\",\n  \"special_needs\": [\"cegueira\", \"surdez\"],\n  \"adoption_requirements\": [],\n  \"aditional_info\": \"Vesper aer solio voveo subiungo currus cometes brevis eveniet.\",\n  \"photo\": \"{{faker 'image.avatar'}}\",\n  \"adopter\": \"\"\n}",
+          "body": "{\n  \"message\": \"\",\n  \"data\": {\n    \"id\": \"{{faker 'string.uuid'}}\",\n    \"name\": \"{{faker 'person.firstName'}} {{faker 'person.firstName'}}\",\n    \"type\": \"{{faker 'person.firstName'}}\",\n    \"breed\": \"{{faker 'person.firstName'}}\",\n    \"height\": \"67,5\",\n    \"weight\": \"5,3\",\n    \"special_needs\": [\n      \"cegueira\",\n      \"surdez\"\n    ],\n    \"adoption_requirements\": [],\n    \"aditional_info\": \"Vesper aer solio voveo subiungo currus cometes brevis eveniet.\",\n    \"photo\": \"{{faker 'image.avatar'}}\",\n    \"adopter\": \"\"\n  }\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -162,7 +162,7 @@
       "responses": [
         {
           "uuid": "c8b18750-2520-4ec4-8a69-113e5d77fa78",
-          "body": "{}",
+          "body": "{\n  \"message\": \"null\"\n  \"data\": {}\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -191,9 +191,38 @@
       "responses": [
         {
           "uuid": "ff26886c-687b-4a17-9ed3-c40b9d4844b1",
-          "body": "{\r\n  \"message\": \"Adopter created successfully.\"\r\n}",
+          "body": "{\n  \"message\": \"Adopter created successfully.\",\n  \"data\": {}\n}",
           "latency": 0,
           "statusCode": 201,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id"
+        }
+      ],
+      "enabled": true,
+      "responseMode": null
+    },
+    {
+      "uuid": "bf7d06e3-8cfa-423b-afa3-c2138bbcf612",
+      "type": "http",
+      "documentation": "NGO Authentication Route",
+      "method": "get",
+      "endpoint": "auth/profile",
+      "responses": [
+        {
+          "uuid": "1b8375c8-9251-40a4-a945-5eb9627d3e13",
+          "body": "{\n  \"message\": \"\",\n  \"data\": {\n    \"type\": 1,\n    \"user\": {\n      \"id\": \"{{faker 'string.uuid'}}\",\n      \"cnpj\": \"12345678901234\",\n      \"name\": \"{{faker 'person.firstName'}} {{faker 'person.firstName'}}\",\n      \"email\": \"john.doe@email.com\",\n      \"logo\": \"{{faker 'string.uuid'}}\",\n      \"city\": \"{{faker 'location.city'}}\",\n      \"state\": \"{{faker 'location.state' abbreviated=true}}\",\n      \"phone\": \"(99) 99999-9999\",\n      \"mission\": \"{{faker 'lorem.sentence'}}\",\n      \"foundation\": \"{{now}}\",\n      \"description\": \"{{faker 'lorem.sentence'}}\"\n    }\n  }\n}",
+          "latency": 0,
+          "statusCode": 200,
           "label": "",
           "headers": [],
           "bodyType": "INLINE",
@@ -240,6 +269,10 @@
     {
       "type": "route",
       "uuid": "5991c3c5-010d-4c6a-bbef-3f41b274a76c"
+    },
+    {
+      "type": "route",
+      "uuid": "bf7d06e3-8cfa-423b-afa3-c2138bbcf612"
     }
   ],
   "proxyMode": false,

@@ -8,7 +8,6 @@ enum AppRoutes {
     // TODO: adopterHome to home
     adopterHome = '/adopter-home',
     adopterRegister = '/adopter-register',
-    adopterLogin = '/adopter-login',
 }
 
 export { AppRoutes }

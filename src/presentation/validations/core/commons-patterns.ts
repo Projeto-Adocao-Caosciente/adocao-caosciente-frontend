@@ -13,6 +13,27 @@ export const commonsPatternCNPJ: FieldPatternValue = {
             .replace(/(-\d{2})\d+?$/, '$1'),
 }
 
+export const commonsPatternCNPJITR: FieldPatternValue = {
+    // Regex for CNPJ or ITR - 00.000.000/0000-00 / 000.000.000-00
+    matcher: /^(?:\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}|\d{3}\.\d{3}\.\d{3}-\d{2})$/,
+    apply: (value) => {
+        const itrMaskedValue = commonsPatternITR.apply(value)
+
+        if (value.length < 14) {
+            return itrMaskedValue
+        }
+
+        if (
+            commonsPatternITR.matcher!.test(itrMaskedValue) &&
+            value.length <= 14
+        ) {
+            return itrMaskedValue
+        }
+
+        return commonsPatternCNPJ.apply(value)
+    },
+}
+
 export const commonsPatternITR: FieldPatternValue = {
     // Regex for ITR - 000.000.000-00
     matcher: /^\d{3}\.\d{3}\.\d{3}-\d{2}$/,

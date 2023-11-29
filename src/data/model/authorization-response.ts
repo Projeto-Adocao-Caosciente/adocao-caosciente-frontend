@@ -1,4 +1,3 @@
-export type AuthorizationResponse<T> = {
+export type AuthorizationResponse = {
     access_token: string
-    user: T
 }

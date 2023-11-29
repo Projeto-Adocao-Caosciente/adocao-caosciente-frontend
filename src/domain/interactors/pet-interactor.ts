@@ -4,7 +4,7 @@ import { PetSpecialNeedsMapper } from '../mapper/pet-special-needs-mapper'
 import { PetFormFields } from '../../presentation/validations/pet/form-fields-type'
 import { HttpStatusCode } from '../../data/http/http-client'
 import { UnexpectedError } from '../exceptions/unexpected-error'
-import { AnimalModel } from '../../presentation/models/animal-model'
+import { AnimalModel } from '../models/animal-model'
 import { PetsMapper } from '../mapper/pets-mapper'
 import { PetMapper } from '../mapper/pet-mapper'
 import { PetInvalidFoundError } from '../exceptions/pet-invalid-error'
@@ -62,7 +62,7 @@ export class PetInteractorImpl implements PetInteractor {
 
         switch (httpResponse.statusCode) {
             case HttpStatusCode.ok:
-                return this.petsMapper.map(httpResponse.body)
+                return this.petsMapper.map(httpResponse.body?.data)
             default:
                 throw new UnexpectedError()
         }
@@ -73,7 +73,7 @@ export class PetInteractorImpl implements PetInteractor {
 
         switch (httpResponse.statusCode) {
             case HttpStatusCode.ok:
-                return this.petsMapper.map(httpResponse.body)
+                return this.petsMapper.map(httpResponse.body?.data)
             default:
                 throw new UnexpectedError()
         }
@@ -86,7 +86,7 @@ export class PetInteractorImpl implements PetInteractor {
 
         switch (httpResponse.statusCode) {
             case HttpStatusCode.ok:
-                return this.petMapper.map(httpResponse.body)
+                return this.petMapper.map(httpResponse.body?.data)
             case HttpStatusCode.notFound:
                 throw new PetNotFoundError()
             default:
