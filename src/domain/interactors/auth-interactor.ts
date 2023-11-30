@@ -9,7 +9,7 @@ import { UserBaseModel } from '../models/user-base-model'
 
 export interface AuthInteractor {
     authenticate: (user: string, password: string) => Promise<Authorization>
-    profile: () => Promise<UserBaseModel>
+    profile: (accessToken?: string) => Promise<UserBaseModel>
 }
 
 export class AuthInteractorImpl implements AuthInteractor {
@@ -35,8 +35,10 @@ export class AuthInteractorImpl implements AuthInteractor {
         }
     }
 
-    async profile(): Promise<UserBaseModel> {
-        const userResponse = await this.service.profile()
+    async profile(accessToken?: string): Promise<UserBaseModel> {
+        console.log('asdjasdjasjaskdjkasbdjkas ', accessToken)
+
+        const userResponse = await this.service.profile(accessToken)
 
         if (userResponse.statusCode == HttpStatusCode.ok) {
             return this.profileMapper.map(userResponse.body?.data)

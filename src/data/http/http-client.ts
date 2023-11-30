@@ -4,6 +4,7 @@ export type HttpRequest = {
     path: string
     method: Method
     body?: any
+    customHeaders?: AxiosRequestConfig['headers']
 }
 
 export enum HttpStatusCode {
@@ -33,11 +34,13 @@ export class AxiosHttpClientImpl implements AxiosHttpClient {
 
     async request<T>(data: HttpRequest): Promise<HttpResponse<T>> {
         let axiosResponse: AxiosResponse
+        console.log('asdjasdjasjaskdjkasbdjkas ', data.customHeaders)
         try {
             axiosResponse = await this.api.request({
                 url: data.path,
                 method: data.method,
                 data: data.body,
+                headers: data.customHeaders,
             })
         } catch (error: any) {
             axiosResponse = error.response

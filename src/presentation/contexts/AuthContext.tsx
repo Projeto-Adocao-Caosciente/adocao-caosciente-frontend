@@ -79,9 +79,11 @@ export function AuthProvider({
                 fields.user,
                 fields.password
             )
-            await setJwt(authorization.accessToken)
+            setJwt(authorization.accessToken)
 
-            const user = await authenticator.profile()
+            console.log('asdjasdjasjaskdjkasbdjkas ', authorization.accessToken)
+
+            const user = await authenticator.profile(authorization.accessToken)
             setUser(user)
             isAuthenticated.setTrue()
 
