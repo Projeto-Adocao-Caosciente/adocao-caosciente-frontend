@@ -9,11 +9,14 @@ export interface OngService {
 export class OngServiceImpl implements OngService {
     constructor(private readonly httpClient: AxiosHttpClient) {}
 
-    private readonly path = '/auth/register_ong'
+    private readonly path = {
+        register: '/auth/register_ong',
+        edit: '/ong',
+    }
 
     edit(fields: OngFormFields): Promise<HttpResponse<void>> {
         return this.httpClient.request({
-            path: this.path,
+            path: this.path.register,
             method: 'put',
             body: {
                 cnpj: fields.user.replaceAll(/[./-]/g, ''),
@@ -32,8 +35,8 @@ export class OngServiceImpl implements OngService {
 
     register(fields: OngFormFields): Promise<HttpResponse<void>> {
         return this.httpClient.request({
-            path: this.path,
-            method: 'post',
+            path: this.path.edit,
+            method: 'patch',
             body: {
                 cnpj: fields.user.replaceAll(/[./-]/g, ''),
                 name: fields.name,

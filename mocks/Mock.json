@@ -17,7 +17,7 @@
       "responses": [
         {
           "uuid": "37ac1001-fc9f-4951-885c-282e259e29b4",
-          "body": "{\n  \"message\": \"\",\n  \"data\": {\n    \"access_token\": \"{{faker 'string.uuid'}}\"\n  }\n}",
+          "body": "{\n  \"message\": \"\",\n  \"data\": {\n    \"access_token\": \"{{faker 'string.uuid'}}\"\n  }\n} ",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -104,7 +104,7 @@
       "responses": [
         {
           "uuid": "015b7c78-b836-408f-a0e1-239f7a425d1c",
-          "body": "{\n  \"message\": \"\",\n  \"data\": {\n    \"animals\": [\n      {{#repeat 2}}\n      {\n        \"id\": \"{{faker 'string.uuid'}}\",\n        \"name\": \"{{faker 'person.firstName'}} {{faker 'person.firstName'}}\",\n        \"type\": \"{{faker 'person.firstName'}}\",\n        \"breed\": \"{{faker 'person.firstName'}}\",\n        \"height\": \"67,5\",\n        \"weight\": \"5,3\",\n        \"special_needs\": [],\n        \"adoption_requirements\": [],\n        \"aditional_info\": \"Vesper aer solio voveo subiungo currus cometes brevis eveniet.\",\n        \"photo\": \"{{faker 'image.avatar'}}\",\n        \"adopter\": \"\"\n      }\n      {{/repeat}}\n    ]\n  }\n}",
+          "body": "{\n  \"message\": \"\",\n  \"data\": [\n      {{#repeat 2}}\n      {\n        \"id\": \"{{faker 'string.uuid'}}\",\n        \"name\": \"{{faker 'person.firstName'}} {{faker 'person.firstName'}}\",\n        \"type\": \"{{faker 'person.firstName'}}\",\n        \"breed\": \"{{faker 'person.firstName'}}\",\n        \"height\": \"67,5\",\n        \"weight\": \"5,3\",\n        \"special_needs\": [],\n        \"adoption_requirements\": [],\n        \"aditional_info\": \"Vesper aer solio voveo subiungo currus cometes brevis eveniet.\",\n        \"photo\": \"{{faker 'image.avatar'}}\",\n        \"adopter\": \"\"\n      }\n      {{/repeat}}\n  ]\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",

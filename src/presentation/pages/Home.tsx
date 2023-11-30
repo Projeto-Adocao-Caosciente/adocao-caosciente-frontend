@@ -1,8 +1,8 @@
+import React from 'react'
 import { PetInteractor } from '../../domain/interactors/pet-interactor'
 import { renderByUserType } from '../../utils/render-by-user-type'
-import AdopterHome from './AdopterHome'
-import React from 'react'
 import NGOHome from './NGOHome'
+import AdopterHome from './AdopterHome'
 
 type HomePageProps = {
     interactor: PetInteractor
