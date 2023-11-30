@@ -3,8 +3,10 @@ import { useCookies } from 'react-cookie'
 export default function useAuth() {
     const [cookies, setCookie, removeCookie] = useCookies()
 
-    const setToken = (token: string) =>
+    const setToken = async (token: string) => {
         setCookie('token', token, { maxAge: 3600 })
+        return Promise.resolve()
+    }
 
     const getToken: () => Partial<string> = () => cookies.token
 
