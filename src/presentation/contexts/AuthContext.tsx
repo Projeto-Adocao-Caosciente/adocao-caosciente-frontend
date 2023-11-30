@@ -79,7 +79,7 @@ export function AuthProvider({
                 fields.user,
                 fields.password
             )
-            setJwt(authorization.accessToken)
+            await setJwt(authorization.accessToken)
 
             const user = await authenticator.profile()
             setUser(user)
