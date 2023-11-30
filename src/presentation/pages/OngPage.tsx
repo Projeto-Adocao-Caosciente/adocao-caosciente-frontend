@@ -137,9 +137,9 @@ export default function OngPage({
             color="danger"
             variant="flat"
             size="md"
-            onClick={() => deleteAccount()}
+            onClick={() => navigate(-1)}
         >
-            Deletar conta
+            Cancelar
         </Button>
     ) : (
         <p className="justify-center text-lg font-light flex gap-2">

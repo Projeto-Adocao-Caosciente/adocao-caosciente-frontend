@@ -6,7 +6,7 @@ export interface PetsMapper extends Mapper<AnimalsResponse, AnimalModel[]> {}
 
 export class PetsMapperImpl implements PetsMapper {
     map(response?: AnimalsResponse): AnimalModel[] {
-        return (response?.data.animals ?? []).map((animalResponse) => {
+        return (response ?? []).map((animalResponse) => {
             return {
                 id: animalResponse.id,
                 name: animalResponse.name,
