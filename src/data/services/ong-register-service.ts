@@ -16,8 +16,8 @@ export class OngServiceImpl implements OngService {
 
     edit(fields: OngFormFields): Promise<HttpResponse<void>> {
         return this.httpClient.request({
-            path: this.path.register,
-            method: 'put',
+            path: this.path.edit,
+            method: 'patch',
             body: {
                 cnpj: fields.user.replaceAll(/[./-]/g, ''),
                 name: fields.name,
@@ -35,8 +35,8 @@ export class OngServiceImpl implements OngService {
 
     register(fields: OngFormFields): Promise<HttpResponse<void>> {
         return this.httpClient.request({
-            path: this.path.edit,
-            method: 'patch',
+            path: this.path.register,
+            method: 'post',
             body: {
                 cnpj: fields.user.replaceAll(/[./-]/g, ''),
                 name: fields.name,
