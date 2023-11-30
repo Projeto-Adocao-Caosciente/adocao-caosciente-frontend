@@ -14,9 +14,10 @@ export class AuthServiceImpl implements AuthService {
     constructor(private readonly httpClient: AxiosHttpClient) {}
 
     private readonly path = {
-        authenticate: 'login',
+        authenticate: '/auth/login',
         profile: '/auth/profile',
     }
+
     authenticate(
         user: string,
         password: string
