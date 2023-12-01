@@ -19,11 +19,11 @@ export interface PetService {
 export class PetServiceImpl implements PetService {
     constructor(private readonly httpClient: AxiosHttpClient) {}
 
-    private readonly registeringPath = '/animal'
-    private readonly editingPath = '/animal'
+    private readonly registeringPath = '/animals'
+    private readonly editingPath = '/animals'
     private readonly getAllPath = '/ong/animals'
     private readonly getAllInAdoptionPath = '/adopter/animals'
-    private readonly getPath = '/ong/animal'
+    private readonly getPath = '/ong/animals'
 
     // TODO: consumir via backend
     getSpecialNeeds(): Promise<SelectOptionResponse[]> {
