@@ -1,20 +1,29 @@
 import { SelectOptionResponse } from '../model/select-option-response'
 import { PetFormFields } from '../../presentation/validations/pet/form-fields-type'
-import { AxiosHttpClient, HttpResponse } from '../http/http-client'
-import { AnimalModel } from '../../presentation/models/animal-model'
+import { AxiosHttpClient, HttpRequest, HttpResponse } from '../http/http-client'
+import { AnimalModel } from '../../domain/models/animal-model'
 import { AnimalsResponse } from '../model/animals-response'
+import { AnimalResponse } from '../model/animal-response'
+import { string } from 'yup'
+import { Method } from 'axios'
 
 export interface PetService {
     getSpecialNeeds: () => Promise<SelectOptionResponse[]>
     savePet: (fields: PetFormFields) => Promise<HttpResponse<void>>
+    editPet: (fields: PetFormFields, id: string) => Promise<HttpResponse<void>>
     getAll: () => Promise<HttpResponse<AnimalsResponse>>
+    getAllInAdoption: () => Promise<HttpResponse<AnimalsResponse>>
+    get: (id: string) => Promise<HttpResponse<AnimalResponse>>
 }
 
 export class PetServiceImpl implements PetService {
     constructor(private readonly httpClient: AxiosHttpClient) {}
 
-    private readonly registeringPath = '/animal'
+    private readonly registeringPath = 'ong/animals'
+    private readonly editingPath = 'ong/animals'
     private readonly getAllPath = '/ong/animals'
+    private readonly getAllInAdoptionPath = '/adopter/animals'
+    private readonly getPath = '/ong/animals'
 
     // TODO: consumir via backend
     getSpecialNeeds(): Promise<SelectOptionResponse[]> {
@@ -31,20 +40,61 @@ export class PetServiceImpl implements PetService {
     }
 
     savePet(fields: PetFormFields): Promise<HttpResponse<void>> {
+        return this._makePetSaveAndUpdateRequest(
+            fields,
+            this.registeringPath,
+            'post'
+        )
+    }
+
+    editPet(fields: PetFormFields, id: string): Promise<HttpResponse<void>> {
+        return this._makePetSaveAndUpdateRequest(
+            fields,
+            `${this.editingPath}/${id}`,
+            'put'
+        )
+    }
+
+    getAll(): Promise<HttpResponse<AnimalsResponse>> {
+        return this.httpClient.request<AnimalsResponse>({
+            path: this.getAllPath,
+            method: 'get',
+        })
+    }
+
+    getAllInAdoption(): Promise<HttpResponse<AnimalsResponse>> {
+        return this.httpClient.request<AnimalsResponse>({
+            path: this.getAllInAdoptionPath,
+            method: 'get',
+        })
+    }
+
+    get(id: string): Promise<HttpResponse<AnimalResponse>> {
+        return this.httpClient.request<AnimalResponse>({
+            path: `${this.getPath}/${id}`,
+            method: 'get',
+        })
+    }
+
+    _makePetSaveAndUpdateRequest(
+        fields: PetFormFields,
+        path: string,
+        method: Method
+    ): Promise<HttpResponse<void>> {
         const specialNeeds = () => {
             if (
                 typeof fields.specialNeeds === 'string' &&
                 fields.specialNeeds.length > 0
             ) {
                 return fields.specialNeeds.split(',')
-            } else {
-                return []
             }
+
+            return fields.specialNeeds
         }
 
         return this.httpClient.request({
-            path: this.registeringPath,
-            method: 'post',
+            path: path,
+            method: method,
             body: {
                 name: fields.name,
                 type: fields.kind,
@@ -57,14 +107,6 @@ export class PetServiceImpl implements PetService {
                 adopter: '',
                 aditional_info: fields.additionalInformation,
             },
-        })
-    }
-
-    getAll(): Promise<HttpResponse<AnimalsResponse>> {
-        return this.httpClient.request<AnimalsResponse>({
-            path: this.getAllPath,
-            method: 'get',
-            body: {},
         })
     }
 }

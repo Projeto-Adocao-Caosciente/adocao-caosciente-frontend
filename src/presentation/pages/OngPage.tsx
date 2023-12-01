@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Button, Divider, Input, Link, Textarea } from '@nextui-org/react'
 import InputFileImage from '../components/InputFileImage'
 import LinkIcon from '../assets/LinkIcon'
@@ -17,9 +17,10 @@ import { OngInteractor } from '../../domain/interactors/ong-interactor'
 import { useFetch } from '../hooks/use-fetch'
 import { useNavigate } from 'react-router'
 import useNotify from '../hooks/use-notify'
-import { useSelector } from 'react-redux'
 import moment from 'moment'
-import { OngModel } from '../models/ong-model'
+import { OngModel } from '../../domain/models/ong-model'
+import { AuthContext } from '../contexts/AuthContext'
+import { FieldConflict } from '../../domain/exceptions/field-conflict-error'
 
 type OngPageProps = {
     validationWrapper: OngFieldsValidationWrapper
@@ -35,20 +36,25 @@ export default function OngPage({
     const navigate = useNavigate()
     const { notify } = useNotify()
 
-    const ong: OngModel = useSelector((state: any) => state.user.ong)
+    const { user } = useContext(AuthContext)
 
     const values = isEditing
         ? {
-              avatarBase64: ong.logo,
-              name: ong.name,
-              user: validationWrapper.patterns.user!.apply(ong.cnpj),
-              email: ong.email,
-              state: ong.state,
-              city: ong.city,
-              phone: validationWrapper.patterns.phone!.apply(ong.phone),
-              programsAndActivities: ong.description,
-              mission: ong.mission,
-              foundationDate: moment(ong.foundation, 'DD-MM-YYYY')
+              avatarBase64: user?.photo ?? '',
+              name: user?.name ?? '',
+              user: validationWrapper.patterns.user!.apply(
+                  user?.document ?? ''
+              ),
+              email: user?.email ?? '',
+              state: user?.state ?? '',
+              city: user?.city ?? '',
+              phone: validationWrapper.patterns.phone!.apply(user?.phone ?? ''),
+              programsAndActivities: (user as OngModel).description ?? '',
+              mission: (user as OngModel).mission ?? '',
+              foundationDate: moment(
+                  (user as OngModel).foundation ?? '',
+                  'DD-MM-YYYY'
+              )
                   .format('YYYY-MM-DD')
                   .toString(),
           }
@@ -74,7 +80,7 @@ export default function OngPage({
         registerFetch.setIdle()
 
         if (navigateTo != null) {
-            navigate(AppRoutes.login)
+            navigate(navigateTo)
         }
     }
 
@@ -87,15 +93,15 @@ export default function OngPage({
         fn: (fields) => interactor.register({ ...fields }),
         successListener: (_: void) =>
             onSuccess('Cadastro efetuado com sucesso!', AppRoutes.login),
-        errorListener: (_?: Error) =>
-            onFail('Não foi possível realizar o cadastro, tente novamente'),
+        errorListener: (error?: Error) =>       
+            error instanceof FieldConflict ? onFail(error.message) : onFail('Não foi possível realizar o cadastro, tente novamente'),
     })
 
     const editFetch = useFetch<void>({
         fn: (fields) => interactor.edit({ ...fields }),
-        successListener: (_: void) => onSuccess('Edição efetuada com sucesso!'),
-        errorListener: (_?: Error) =>
-            onFail('Não foi possível realizar a edição, tente novamente'),
+        successListener: (_: void) => onSuccess('Edição efetuada com sucesso!', AppRoutes.home),
+        errorListener: (error?: Error) =>
+            error instanceof FieldConflict ? onFail(error.message) : onFail('Não foi possível realizar o cadastro, tente novamente'),
     })
 
     const eyeToggle = useBoolean(false)
@@ -132,9 +138,9 @@ export default function OngPage({
             color="danger"
             variant="flat"
             size="md"
-            onClick={() => deleteAccount()}
+            onClick={() => navigate(-1)}
         >
-            Deletar conta
+            Cancelar
         </Button>
     ) : (
         <p className="justify-center text-lg font-light flex gap-2">
@@ -176,6 +182,8 @@ export default function OngPage({
                 <section className="flex justify-center mb-12">
                     {/* TODO: Centralizar o placeholder */}
                     <Input
+                        minLength={2}
+                        maxLength={60}
                         placeholder="Nome da ONG"
                         variant="underlined"
                         className="w-96"
@@ -197,7 +205,6 @@ export default function OngPage({
                     />
                     <article className="flex flex-1 flex-col gap-6">
                         <Input
-                            isDisabled={isEditing}
                             placeholder="CNPJ (00.000.000/0000-00)"
                             variant="bordered"
                             size="lg"
@@ -207,7 +214,7 @@ export default function OngPage({
                             {...register('user')}
                         />
                         <Input
-                            isDisabled={isEditing}
+                            maxLength={60}
                             placeholder="Email"
                             variant="bordered"
                             size="lg"
@@ -217,6 +224,8 @@ export default function OngPage({
                         />
                         <div className="flex gap-6">
                             <Input
+                                minLength={2}
+                                maxLength={60}
                                 placeholder="Estado"
                                 variant="bordered"
                                 size="lg"
@@ -225,6 +234,8 @@ export default function OngPage({
                                 {...register('state')}
                             />
                             <Input
+                                minLength={2}
+                                maxLength={60}
                                 placeholder="Cidade"
                                 variant="bordered"
                                 size="lg"
@@ -258,6 +269,7 @@ export default function OngPage({
                             placeholder="Descreva seus programas e atividades"
                             minRows={4}
                             maxRows={8}
+                            maxLength={500}
                             isInvalid={
                                 getFieldState('programsAndActivities').invalid
                             }
@@ -268,6 +280,7 @@ export default function OngPage({
                             placeholder="Missão da ONG"
                             minRows={4}
                             maxRows={8}
+                            maxLength={500}
                             isInvalid={getFieldState('mission').invalid}
                             errorMessage={errors.mission?.message}
                             {...register('mission')}
@@ -276,7 +289,7 @@ export default function OngPage({
                         <Input
                             type="date"
                             max={new Date().toISOString().split('T')[0]}
-                            min="1900-01-01"
+                            min="1950-01-01"
                             placeholder="Data de fundação"
                             variant="bordered"
                             size="lg"
@@ -295,6 +308,8 @@ export default function OngPage({
                     <h3 className="text-xl font-bold">Dados de acesso:</h3>
                     <article className="flex flex-col gap-6">
                         <Input
+                            minLength={4}
+                            maxLength={60}
                             placeholder="Senha"
                             variant="bordered"
                             size="lg"
@@ -317,6 +332,8 @@ export default function OngPage({
                             {...register('password')}
                         />
                         <Input
+                            minLength={4}
+                            maxLength={60}
                             placeholder="Confirmar senha"
                             variant="bordered"
                             size="lg"

@@ -1,10 +1,12 @@
 enum AppRoutes {
     home = '/',
     login = '/login',
-    ongEdit = '/edit',
-    ongRegister = '/register',
+    edit = '/edit',
+    ongRegister = '/ong-register',
+    pet = '/pet/:id',
     petRegister = '/pet-register',
     form = '/form',
+    adopterRegister = '/adopter-register',
 }
 
 export { AppRoutes }

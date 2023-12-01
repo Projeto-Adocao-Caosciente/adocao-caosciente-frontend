@@ -14,12 +14,13 @@ export enum HttpStatusCode {
     unauthorized = 401,
     forbidden = 403,
     notFound = 404,
+    conflict = 409,
     serverError = 500,
 }
 
 export type HttpResponse<T = any> = {
     statusCode: HttpStatusCode
-    body?: T
+    body?: { data: T; message?: string }
 }
 
 export interface AxiosHttpClient {

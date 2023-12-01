@@ -1,12 +1,12 @@
 import { Mapper } from './mapper'
 import { AnimalsResponse } from '../../data/model/animals-response'
-import { AnimalModel } from '../../presentation/models/animal-model'
+import { AnimalModel } from '../models/animal-model'
 
 export interface PetsMapper extends Mapper<AnimalsResponse, AnimalModel[]> {}
 
 export class PetsMapperImpl implements PetsMapper {
     map(response?: AnimalsResponse): AnimalModel[] {
-        return (response?.data.animals ?? []).map((animalResponse) => {
+        return (response ?? []).map((animalResponse) => {
             return {
                 id: animalResponse.id,
                 name: animalResponse.name,

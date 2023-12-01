@@ -1,19 +1,22 @@
-import { SelectOption } from '../models/select-option'
 import { Mapper } from './mapper'
-import { SelectOptionResponse } from '../../data/model/select-option-response'
+import { AnimalModel } from '../models/animal-model'
+import { AnimalResponse } from '../../data/model/animal-response'
 
-export interface PetMapper
-    extends Mapper<SelectOptionResponse[], SelectOption[]> {}
+export interface PetMapper extends Mapper<AnimalResponse, AnimalModel> {}
 
 export class PetMapperImpl implements PetMapper {
-    map(selectOptionsResponse?: SelectOptionResponse[]): SelectOption[] {
-        return (
-            selectOptionsResponse?.map((value) => {
-                return {
-                    label: value.name,
-                    value: value.value,
-                }
-            }) ?? []
-        )
+    map(response?: AnimalResponse): AnimalModel {
+        return {
+            id: response?.id ?? '',
+            name: response?.name ?? '',
+            type: response?.type ?? '',
+            breed: response?.breed ?? '',
+            height: response?.height ?? '',
+            weight: response?.weight ?? '',
+            special_needs: response?.special_needs ?? [],
+            adoption_requirements: response?.adoption_requirements ?? [],
+            photo: response?.photo ?? '',
+            adopter: response?.adopter ?? '',
+        }
     }
 }

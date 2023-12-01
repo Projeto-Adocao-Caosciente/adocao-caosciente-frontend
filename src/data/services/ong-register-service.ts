@@ -1,28 +1,24 @@
 import { AxiosHttpClient, HttpResponse } from '../http/http-client'
 import { OngFormFields } from '../../presentation/validations/ong/form-fields-type'
-import { LoginFormFields } from '../../presentation/validations/login/form-fields-type'
-import { AuthorizationResponse } from '../model/authorization-response'
-import { OngModel } from '../../presentation/models/ong-model'
+import { FieldConflictResponse } from '../model/field-conflict-response'
 
 export interface OngService {
-    register: (fields: OngFormFields) => Promise<HttpResponse<void>>
-    edit: (fields: OngFormFields) => Promise<HttpResponse<void>>
-    login: (
-        fields: LoginFormFields
-    ) => Promise<HttpResponse<AuthorizationResponse<OngModel>>>
+    register: (fields: OngFormFields) => Promise<HttpResponse<Partial<FieldConflictResponse>>>
+    edit: (fields: OngFormFields) => Promise<HttpResponse<Partial<FieldConflictResponse>>>
 }
 
 export class OngServiceImpl implements OngService {
     constructor(private readonly httpClient: AxiosHttpClient) {}
 
-    private readonly registeringPath = '/register'
-    private readonly editingPath = '/ong'
-    private readonly loginPath = '/login'
+    private readonly path = {
+        register: '/auth/register_ong',
+        edit: '/ong',
+    }
 
-    edit(fields: OngFormFields): Promise<HttpResponse<void>> {
+    edit(fields: OngFormFields): Promise<HttpResponse<Partial<FieldConflictResponse>>> {
         return this.httpClient.request({
-            path: this.editingPath,
-            method: 'put',
+            path: this.path.edit,
+            method: 'patch',
             body: {
                 cnpj: fields.user.replaceAll(/[./-]/g, ''),
                 name: fields.name,
@@ -38,9 +34,9 @@ export class OngServiceImpl implements OngService {
         })
     }
 
-    register(fields: OngFormFields): Promise<HttpResponse<void>> {
+    register(fields: OngFormFields): Promise<HttpResponse<Partial<FieldConflictResponse>>> {
         return this.httpClient.request({
-            path: this.registeringPath,
+            path: this.path.register,
             method: 'post',
             body: {
                 cnpj: fields.user.replaceAll(/[./-]/g, ''),
@@ -53,19 +49,6 @@ export class OngServiceImpl implements OngService {
                 mission: fields.mission,
                 foundation: fields.foundationDate,
                 description: fields.programsAndActivities,
-                password: fields.password,
-            },
-        })
-    }
-
-    login(
-        fields: LoginFormFields
-    ): Promise<HttpResponse<AuthorizationResponse<OngModel>>> {
-        return this.httpClient.request({
-            path: this.loginPath,
-            method: 'post',
-            body: {
-                user: fields.user.replaceAll(/[./-]/g, ''),
                 password: fields.password,
             },
         })

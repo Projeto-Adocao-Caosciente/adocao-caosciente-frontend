@@ -1,12 +1,11 @@
-export interface OngModel {
-    id: string
+export type NGOProfileResponse = {
     cnpj: string
     name: string
-    email: string
     logo: string
     city: string
     state: string
     phone: string
+    email: string
     mission: string
     foundation: string
     description: string

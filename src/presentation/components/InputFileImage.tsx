@@ -4,14 +4,18 @@ import UploadIcon from '../assets/UploadIcon'
 interface InputFileImageProps {
     handleImageUpload: (file: File) => void
     hasError?: boolean
+    imageUrl?: string
+    isDisabled?: boolean
 }
 
 export default function InputFileImage({
     handleImageUpload,
     hasError = false,
+    imageUrl = '',
+    isDisabled = false,
 }: InputFileImageProps) {
     const [controller, setController] = useState<boolean>(false)
-    const [imgUrl, setImgUrl] = useState<string>('')
+    const [imgUrl, setImgUrl] = useState<string>(imageUrl)
     const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0]
         if (file) {
@@ -37,10 +41,11 @@ export default function InputFileImage({
             )}
             <input
                 type="file"
-                className="cursor-pointer absolute top-0 left-0 w-[210px] h-[210px] opacity-0"
+                className={`${isDisabled ? 'cursor-not-allowed' : 'cursor-pointer'} absolute top-0 left-0 w-[210px] h-[210px] opacity-0`}
                 onChange={handleUpload}
                 onMouseEnter={() => setController(true)}
                 onMouseLeave={() => setController(false)}
+                disabled={isDisabled}
             />
         </div>
     )
