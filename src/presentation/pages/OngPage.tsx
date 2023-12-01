@@ -79,7 +79,7 @@ export default function OngPage({
         registerFetch.setIdle()
 
         if (navigateTo != null) {
-            navigate(AppRoutes.login)
+            navigate(navigateTo)
         }
     }
 
@@ -98,7 +98,7 @@ export default function OngPage({
 
     const editFetch = useFetch<void>({
         fn: (fields) => interactor.edit({ ...fields }),
-        successListener: (_: void) => onSuccess('Edição efetuada com sucesso!'),
+        successListener: (_: void) => onSuccess('Edição efetuada com sucesso!', AppRoutes.home),
         errorListener: (_?: Error) =>
             onFail('Não foi possível realizar a edição, tente novamente'),
     })
