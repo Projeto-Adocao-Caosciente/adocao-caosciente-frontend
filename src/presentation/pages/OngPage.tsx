@@ -204,7 +204,6 @@ export default function OngPage({
                     />
                     <article className="flex flex-1 flex-col gap-6">
                         <Input
-                            isDisabled={isEditing}
                             placeholder="CNPJ (00.000.000/0000-00)"
                             variant="bordered"
                             size="lg"
@@ -215,7 +214,6 @@ export default function OngPage({
                         />
                         <Input
                             maxLength={60}
-                            isDisabled={isEditing}
                             placeholder="Email"
                             variant="bordered"
                             size="lg"
