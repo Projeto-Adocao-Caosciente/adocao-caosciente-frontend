@@ -93,16 +93,15 @@ export default function OngPage({
         fn: (fields) => interactor.register({ ...fields }),
         successListener: (_: void) =>
             onSuccess('Cadastro efetuado com sucesso!', AppRoutes.login),
-        errorListener: (error?: Error) => {        
-            error instanceof FieldConflict ? onFail(error.message) : onFail('Não foi possível realizar o cadastro, tente novamente')
-        },
+        errorListener: (error?: Error) =>       
+            error instanceof FieldConflict ? onFail(error.message) : onFail('Não foi possível realizar o cadastro, tente novamente'),
     })
 
     const editFetch = useFetch<void>({
         fn: (fields) => interactor.edit({ ...fields }),
         successListener: (_: void) => onSuccess('Edição efetuada com sucesso!', AppRoutes.home),
-        errorListener: (_?: Error) =>
-            onFail('Não foi possível realizar a edição, tente novamente'),
+        errorListener: (error?: Error) =>
+            error instanceof FieldConflict ? onFail(error.message) : onFail('Não foi possível realizar o cadastro, tente novamente'),
     })
 
     const eyeToggle = useBoolean(false)
