@@ -19,8 +19,8 @@ export interface PetService {
 export class PetServiceImpl implements PetService {
     constructor(private readonly httpClient: AxiosHttpClient) {}
 
-    private readonly registeringPath = '/animals'
-    private readonly editingPath = '/animals'
+    private readonly registeringPath = 'ong/animals'
+    private readonly editingPath = 'ong/animals'
     private readonly getAllPath = '/ong/animals'
     private readonly getAllInAdoptionPath = '/adopter/animals'
     private readonly getPath = '/ong/animals'

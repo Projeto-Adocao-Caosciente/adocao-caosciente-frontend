@@ -66,8 +66,9 @@ export default function AdopterRegisterPage({
         fn: (fields) => interactor.register({ ...fields }),
         successListener: (_: void) =>
             onSuccess('Cadastro efetuado com sucesso!', AppRoutes.login),
-        errorListener: (_?: Error) =>
-            onFail('Não foi possível realizar o cadastro, tente novamente'),
+        errorListener: (error?: Error) => {
+            error instanceof Error ? onFail(error.message) : onFail('Não foi possível realizar o cadastro, tente novamente')
+        }
     })
 
     function onSuccess(message: string, navigateTo?: AppRoutes) {

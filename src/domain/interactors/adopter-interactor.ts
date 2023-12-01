@@ -2,6 +2,7 @@ import { AdopterFormFields } from '../../presentation/validations/adopter/form-f
 import { AdopterService } from '../../data/services/adopter-service'
 import { HttpStatusCode } from '../../data/http/http-client'
 import { UnexpectedError } from '../exceptions/unexpected-error'
+import { FieldConflict } from '../exceptions/field-conflict-error'
 
 export interface AdopterInteractor {
     register: (fields: AdopterFormFields) => Promise<void>
@@ -22,6 +23,8 @@ export class AdopterInteractorImpl implements AdopterInteractor {
                 return
             case HttpStatusCode.ok:
                 return
+            case HttpStatusCode.conflict:
+                throw new FieldConflict(httpResponse.body?.data?.field?.value ?? '')
             default:
                 throw new UnexpectedError()
         }

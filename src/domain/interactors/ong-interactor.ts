@@ -1,5 +1,6 @@
 import { OngService } from '../../data/services/ong-register-service'
 import { HttpStatusCode } from '../../data/http/http-client'
+import { FieldConflict } from '../exceptions/field-conflict-error'
 import { UnexpectedError } from '../exceptions/unexpected-error'
 import { OngFormFields } from '../../presentation/validations/ong/form-fields-type'
 
@@ -17,6 +18,8 @@ export class OngInteractorImpl implements OngInteractor {
         switch (httpResponse.statusCode) {
             case HttpStatusCode.ok:
                 return
+            case HttpStatusCode.conflict:
+                throw new FieldConflict(httpResponse.body?.data?.field?.value ?? '')
             default:
                 throw new UnexpectedError()
         }
@@ -28,6 +31,8 @@ export class OngInteractorImpl implements OngInteractor {
         switch (httpResponse.statusCode) {
             case HttpStatusCode.created:
                 return
+            case HttpStatusCode.conflict:
+                throw new FieldConflict(httpResponse.body?.data?.field?.value ?? '')
             default:
                 throw new UnexpectedError()
         }

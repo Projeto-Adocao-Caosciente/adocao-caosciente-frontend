@@ -1,9 +1,10 @@
 import { AxiosHttpClient, HttpResponse } from '../http/http-client'
 import { AdopterFormFields } from '../../presentation/validations/adopter/form-fields-type'
+import { FieldConflictResponse } from '../model/field-conflict-response'
 
 export interface AdopterService {
-    register: (fields: AdopterFormFields) => Promise<HttpResponse<void>>
-    edit: (fields: AdopterFormFields) => Promise<HttpResponse<void>>
+    register: (fields: AdopterFormFields) => Promise<HttpResponse<Partial<FieldConflictResponse>>>
+    edit: (fields: AdopterFormFields) => Promise<HttpResponse<Partial<FieldConflictResponse>>>
 }
 
 export class AdopterServiceImpl implements AdopterService {
@@ -11,11 +12,11 @@ export class AdopterServiceImpl implements AdopterService {
 
     private readonly path = '/auth/register_adopter'
 
-    edit(fields: AdopterFormFields): Promise<HttpResponse<void>> {
+    edit(fields: AdopterFormFields): Promise<HttpResponse<Partial<FieldConflictResponse>>> {
         throw new Error('unimplemented method: AdopterServiceImpl.edit')
     }
 
-    register(fields: AdopterFormFields): Promise<HttpResponse<void>> {
+    register(fields: AdopterFormFields): Promise<HttpResponse<Partial<FieldConflictResponse>>> {
         return this.httpClient.request({
             path: this.path,
             method: 'post',

@@ -20,6 +20,7 @@ import useNotify from '../hooks/use-notify'
 import moment from 'moment'
 import { OngModel } from '../../domain/models/ong-model'
 import { AuthContext } from '../contexts/AuthContext'
+import { FieldConflict } from '../../domain/exceptions/field-conflict-error'
 
 type OngPageProps = {
     validationWrapper: OngFieldsValidationWrapper
@@ -92,8 +93,9 @@ export default function OngPage({
         fn: (fields) => interactor.register({ ...fields }),
         successListener: (_: void) =>
             onSuccess('Cadastro efetuado com sucesso!', AppRoutes.login),
-        errorListener: (_?: Error) =>
-            onFail('Não foi possível realizar o cadastro, tente novamente'),
+        errorListener: (error?: Error) => {        
+            error instanceof FieldConflict ? onFail(error.message) : onFail('Não foi possível realizar o cadastro, tente novamente')
+        },
     })
 
     const editFetch = useFetch<void>({
