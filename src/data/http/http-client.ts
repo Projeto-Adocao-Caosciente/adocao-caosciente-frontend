@@ -4,6 +4,7 @@ export type HttpRequest = {
     path: string
     method: Method
     body?: any
+    params?: any
 }
 
 export enum HttpStatusCode {
@@ -39,6 +40,7 @@ export class AxiosHttpClientImpl implements AxiosHttpClient {
                 url: data.path,
                 method: data.method,
                 data: data.body,
+                params: { ...data.params },
             })
         } catch (error: any) {
             axiosResponse = error.response

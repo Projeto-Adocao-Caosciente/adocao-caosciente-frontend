@@ -14,8 +14,8 @@ export interface PetInteractor {
     getSpecialNeeds: () => Promise<SelectOption[]>
     savePet: (fields: PetFormFields) => Promise<void>
     editPet: (fields: PetFormFields, id: string) => Promise<void>
-    getAll: () => Promise<AnimalModel[]>
-    getAllInAdoption: () => Promise<AnimalModel[]>
+    getAll: (query?: string) => Promise<AnimalModel[]>
+    getAllInAdoption: (query?: string) => Promise<AnimalModel[]>
     get: (id: string) => Promise<AnimalModel>
 }
 
@@ -57,8 +57,8 @@ export class PetInteractorImpl implements PetInteractor {
         }
     }
 
-    async getAll(): Promise<AnimalModel[]> {
-        const httpResponse = await this.service.getAll()
+    async getAll(query?: string): Promise<AnimalModel[]> {
+        const httpResponse = await this.service.getAll(query)
 
         switch (httpResponse.statusCode) {
             case HttpStatusCode.ok:
@@ -68,8 +68,8 @@ export class PetInteractorImpl implements PetInteractor {
         }
     }
 
-    async getAllInAdoption(): Promise<AnimalModel[]> {
-        const httpResponse = await this.service.getAllInAdoption()
+    async getAllInAdoption(query?: string): Promise<AnimalModel[]> {
+        const httpResponse = await this.service.getAllInAdoption(query)
 
         switch (httpResponse.statusCode) {
             case HttpStatusCode.ok:
