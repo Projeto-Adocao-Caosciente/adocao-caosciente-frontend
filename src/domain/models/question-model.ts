@@ -1,11 +1,15 @@
 export interface QuestionModel {
-    id : number
+    id : string
     title: string
+    isRequired: boolean
+    questionType: string
+    // TODO: Rever isso depois, talvez não seja necessário Union Type
+    // correctQuestionOptionId: number | null
     options: QuestionOptionModel[]
 }
 
 export interface QuestionOptionModel {
-    id : number
-    option: string
-    correct: boolean
+    id : string
+    label: string
+    isCorrect: boolean
 }

@@ -1,66 +1,107 @@
-import React, { useEffect, useState } from 'react'
-import { Button, Card, Divider, Input, Switch } from '@nextui-org/react'
+import React, { useState } from 'react'
+import { Button, Divider, Input} from '@nextui-org/react'
 import AddCircleSolidIcon from '../assets/AddCircleSolidIcon'
 import QuestionCard from '../components/QuestionCard'
-import CheckMarkIcon from '../assets/CheckMarkIcon'
-import TrashCanIcon from '../assets/TrashCanIcon'
-import CancelRoundedFillIcon from '../assets/CancelRoundedFilledIcon'
-import { useForm } from 'react-hook-form'
-import { OngFormFields } from '../validations/ong/form-fields-type'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { set } from 'vue/types/umd'
-import { QuestionModel } from '../models/question-model'
+import { QuestionModel, QuestionOptionModel } from '../../domain/models/question-model'
+import { FormModel } from '../../domain/models/form-model'
+import useNotify from '../hooks/use-notify'
+import { v4 as uuid } from 'uuid'
 
-export default function Form({})
-{
+export default function Form({}) {
+    const { notify } = useNotify()
+    const initialState: FormModel = {
+        formTitle: "",
+        questions: [
+            {
+                id : uuid(),
+                title: "",
+                isRequired: false,
+                questionType: "multipleChoice",
+                options: []
+            }
+        ]
+    }
+    const [formQuestions, setFormQuestions] = useState<FormModel>(initialState)
 
-    const [numero_de_perguntas, setNumeroDePerguntas] = useState(1);
-    let tituloPergunta = " ";
-    let resposta = " ";
-    let correta = false;
-
-    let respostaMetaData = [{Resposta: resposta, ehCorreta: correta}]
-    let listaDeRespostas = [{respostaMetaData}];
-    let perguntaMetadata = [{Titulo: tituloPergunta, listaDeRespostas}];
-    let listaDePerguntas = [{perguntaMetadata}];
-
-    const [questionID, setQuestionID] = useState(0);
-    const [formQuestions, setFormQuestions] = useState<QuestionModel[]>([]);
-    
-    function handleAddQuestion()
-    {
-        setFormQuestions((prev : any) => ([...prev, {id : questionID}]));
-        setQuestionID(questionID + 1);
-        respostaMetaData.push({Resposta: resposta, ehCorreta: correta})
+    function handleAddQuestion() {
+        const questionId = uuid()
+        const newQuestion: QuestionModel = {
+            id: questionId,
+            title: "",
+            isRequired: false,
+            questionType: "multipleChoice",
+            options: []
+        }
+        setFormQuestions((prev: FormModel) => {
+            return { ...prev, questions: [...prev.questions, newQuestion] }
+        })
     }
 
-    useEffect(() => {
-        console.log(formQuestions);
-    }, [formQuestions]);
-    
-    return(
-        <main className={"container-form mb-10"}>
-            <header className="mb-12">
-                <div className="sm:flex sm:justify-center">
-                    <Input
-                        placeholder="Título do Formulário..." 
-                        variant="underlined"
-                        className="sm:w-96 font-medium text-lg"
-                    />
-                </div>
+    function handleDeleteQuestion(id: string) {
+        console.log(formQuestions.questions)
+        if (formQuestions.questions.length === 1){
+            notify('error', 'Não é possível deletar a única pergunta do formulário')
+            return
+        }
+        const questionsWithoutDeleted = formQuestions.questions.filter((question: QuestionModel) => question.id !== id)
+        setFormQuestions((prev: FormModel) => {
+            return { ...prev, questions: questionsWithoutDeleted }
+        })
+    }
+
+    function handleFormSubmit() {
+        // {
+        // "title": "",
+        // "animal_id": "",
+        // "questions": [{
+        //     "question": "Name",
+        //     "choices": [{"id": 0, "label": "label da questao, "is_correct" : true}]
+        // }]
+        // }
+        const form = {
+            title: formQuestions.formTitle,
+            animal_id: "1",
+            questions: formQuestions.questions.map((question: QuestionModel) => {
+                return {
+                    question: question.title,
+                    choices: question.options.map((option: QuestionOptionModel) => {
+                        return {
+                            id: option.id,
+                            label: option.label,
+                            is_correct: option.isCorrect
+                        }
+                    })
+                }
+            })
+        }
+
+    }
+
+    return (
+        <main className={'container-form mb-10'}>
+            <header className="mb-12 sm:flex sm:justify-center">
+                <Input
+                    placeholder="Título do Formulário..."
+                    variant="underlined"
+                    className="sm:w-96 font-medium text-lg"
+                />
             </header>
 
             <section>
-                {
-                    formQuestions.map((question : QuestionModel) => 
-                        <QuestionCard key={questionID + Math.random()}
-                        id = {question.id}
-                        setQuestion = {setFormQuestions}/>)
-                }
+                {formQuestions?.questions.map((question: QuestionModel) => (
+                    <QuestionCard
+                        key={question.id}
+                        id={question.id}
+                        setFormQuestions={setFormQuestions}
+                        deleteQuestion={handleDeleteQuestion}
+                        className="mb-6"
+                    />
+                ))}
             </section>
 
             <section className="flex flex-col gap-6">
-                <Button className='font-medium text-lg'
+                <Button
+                    className="font-medium text-lg"
                     color="primary"
                     variant="bordered"
                     size="md"
@@ -70,20 +111,23 @@ export default function Form({})
                 >
                     Nova pergunta
                 </Button>
-                <Divider className="my-6"/>
-                <Button className='font-medium text-lg'
-                        color="primary"
-                        variant="solid"
-                        size="md"
-                        type="submit"
+                <Divider className="my-6" />
+                <Button
+                    className="font-medium text-lg"
+                    color="primary"
+                    variant="solid"
+                    size="md"
+                    type="submit"
+                    onClick={() => handleFormSubmit()}
                 >
-                        Finalizar Formulário
+                    Finalizar Formulário
                 </Button>
-                <Button className='font-medium text-lg' 
-                    color="danger" 
-                    variant="flat" 
-                    size="md">
-
+                <Button
+                    className="font-medium text-lg"
+                    color="danger"
+                    variant="flat"
+                    size="md"
+                >
                     Cancelar
                 </Button>
             </section>
