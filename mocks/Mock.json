@@ -129,7 +129,7 @@
       "type": "http",
       "documentation": "Animal Get Route",
       "method": "get",
-      "endpoint": "ong/animal/:id",
+      "endpoint": "ong/animals/:id",
       "responses": [
         {
           "uuid": "feca5dd4-4cd5-47c1-b8dd-f61d1ded4be1",

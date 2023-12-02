@@ -17,7 +17,7 @@ import {
 import { makeOngPage } from './factories/pages/ong-page-factory'
 import { makePetPage } from './factories/pages/pet-page-factory'
 import { makeAdopterRegisterPage } from './factories/pages/adopter-register-page-factory'
-import Form from './presentation/pages/Form'
+import { makeFormPage } from './factories/pages/form-page-factory'
 
 function App() {
     const { pathname } = useLocation()
@@ -69,7 +69,10 @@ function App() {
                     element={makeAdopterRegisterPage()}
                 />
                 <Route path={AppRoutes.form}
-                    element={<Form/>}
+                    element={<ProtectedRoute 
+                        page={makeFormPage()}
+                        ruleSolver={makeProxyNGOAuthenticatedRule()}
+                    />}
                 />
             </Routes>
             <ToastContainer

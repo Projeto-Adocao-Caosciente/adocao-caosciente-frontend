@@ -2,12 +2,25 @@ import React, { useState } from 'react'
 import { Button, Divider, Input} from '@nextui-org/react'
 import AddCircleSolidIcon from '../assets/AddCircleSolidIcon'
 import QuestionCard from '../components/QuestionCard'
-import { QuestionModel, QuestionOptionModel } from '../../domain/models/question-model'
+import { QuestionModel } from '../../domain/models/question-model'
 import { FormModel } from '../../domain/models/form-model'
 import useNotify from '../hooks/use-notify'
 import { v4 as uuid } from 'uuid'
+import { FormInteractor } from '../../domain/interactors/form-interactor'
+import { useFetch } from '../hooks/use-fetch'
+import { useNavigate } from 'react-router'
+import { useParams } from 'react-router-dom'
+import { FaCirclePlus } from "react-icons/fa6";
 
-export default function Form({}) {
+type FormPageProps = {
+    interactor: FormInteractor
+}
+
+export default function FormPage({
+    interactor,
+}: FormPageProps) {
+    const navigate = useNavigate()
+    const petId = useParams().id ?? ''
     const { notify } = useNotify()
     const initialState: FormModel = {
         formTitle: "",
@@ -16,6 +29,7 @@ export default function Form({}) {
                 id : uuid(),
                 title: "",
                 isRequired: false,
+                isEditing: true,
                 questionType: "multipleChoice",
                 options: []
             }
@@ -29,6 +43,7 @@ export default function Form({}) {
             id: questionId,
             title: "",
             isRequired: false,
+            isEditing: true,
             questionType: "multipleChoice",
             options: []
         }
@@ -49,32 +64,25 @@ export default function Form({}) {
         })
     }
 
-    function handleFormSubmit() {
-        // {
-        // "title": "",
-        // "animal_id": "",
-        // "questions": [{
-        //     "question": "Name",
-        //     "choices": [{"id": 0, "label": "label da questao, "is_correct" : true}]
-        // }]
-        // }
-        const form = {
-            title: formQuestions.formTitle,
-            animal_id: "1",
-            questions: formQuestions.questions.map((question: QuestionModel) => {
-                return {
-                    question: question.title,
-                    choices: question.options.map((option: QuestionOptionModel) => {
-                        return {
-                            id: option.id,
-                            label: option.label,
-                            is_correct: option.isCorrect
-                        }
-                    })
-                }
-            })
-        }
+    const onFormSubmitSuccess = () => {
+        notify('success', 'Formulário criado com sucesso!')
+        formSubmit.setIdle()
+        navigate(-1)
+    }
 
+    const onFormSubmitFailed = (_?: Error) => {
+        notify('error', 'Erro ao criar formulário')
+        formSubmit.setIdle()
+    }
+
+    const formSubmit = useFetch<void>({
+        fn: (form, animal_id) => interactor.saveForm(form, animal_id),
+        successListener: onFormSubmitSuccess,
+        errorListener: onFormSubmitFailed,
+    })
+
+    function handleFormSubmit() {
+        formSubmit.fetch(formQuestions, petId)
     }
 
     return (
@@ -106,7 +114,7 @@ export default function Form({}) {
                     variant="bordered"
                     size="md"
                     type="submit"
-                    endContent={<AddCircleSolidIcon />}
+                    endContent={<FaCirclePlus />}
                     onClick={handleAddQuestion}
                 >
                     Nova pergunta

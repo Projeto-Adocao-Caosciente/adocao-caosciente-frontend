@@ -11,6 +11,7 @@ import {
 import useNotify from '../hooks/use-notify'
 import { FormModel } from '../../domain/models/form-model'
 import { v4 as uuid } from 'uuid'
+import { FaRegCircleXmark, FaCirclePlus, FaRegTrashCan  } from "react-icons/fa6";
 
 interface QuestionCardProps {
     id: string
@@ -26,7 +27,6 @@ export default function QuestionCard({ id, setFormQuestions, deleteQuestion, cla
         label: '',
         isCorrect: false
     }]
-    const [questionTitle, setQuestionTitle] = useState("")
     const [questionOptions, setQuestionOptions] = useState(initialState)
 
     const MAX_OPTIONS = 10
@@ -65,13 +65,27 @@ export default function QuestionCard({ id, setFormQuestions, deleteQuestion, cla
         }))
     }
 
+    function handleEditQuestionTitle(id: string, text: string) {
+        setFormQuestions((prev: FormModel) => {
+            return {
+                ...prev,
+                questions: prev.questions.map((question: QuestionModel) => {
+                    if (question.id === id) {
+                        return { ...question, title: text }
+                    }
+                    return question
+                })
+            }
+        })
+    }
+
     useEffect(() => {
         setFormQuestions((prev: FormModel) => {
             return {
                 ...prev,
                 questions: prev.questions.map((question: QuestionModel) => {
                     if (question.id === id) {
-                        return { ...question, title: questionTitle, options: questionOptions }
+                        return { ...question, options: questionOptions }
                     }
                     return question
                 })
@@ -85,14 +99,14 @@ export default function QuestionCard({ id, setFormQuestions, deleteQuestion, cla
                     placeholder="Pergunta..."
                     variant="underlined"
                     className="sm:w-96 mb-6"
-                    onChange={(e: any) => setQuestionTitle(e.target.value)}
+                    onChange={(e: any) => handleEditQuestionTitle(id, e.target.value)}
                 />
             </div>
             <div className="sm:flex flex-col sm:justify-center">
-                {questionOptions.map((option, index) => (
+                {questionOptions.map((option) => (
                     <span className="flex gap-4 mb-3" key={option.id}>
                         <Button isIconOnly color="danger" aria-label="Remover" onClick={() => handleDeleteOption(option.id)}>
-                            <TrashCanIcon />
+                            <FaRegTrashCan  />
                         </Button>
                         <Input 
                             placeholder="Resposta..." 
@@ -113,18 +127,18 @@ export default function QuestionCard({ id, setFormQuestions, deleteQuestion, cla
             <div className="flex justify-center mb-6">
                 <Button
                     color="primary"
-                    variant="bordered"
+                    variant="flat"
                     size="md"
                     type="submit"
-                    endContent={<AddCircleSolidIcon />}
+                    endContent={<FaCirclePlus />}
                     onClick={handleAddOption}
                 >
                     Adicionar Alternativa
                 </Button>
             </div>
             <Divider className="mb-6"/>
-            <section className="flex justify-between">
-                <Button
+            <section className="flex justify-center">
+                {/* <Button
                     color="primary"
                     variant="solid"
                     size="md"
@@ -133,12 +147,12 @@ export default function QuestionCard({ id, setFormQuestions, deleteQuestion, cla
                     // onClick={handdleAddQuestion}
                 >
                     Inserir Pergunta
-                </Button>
+                </Button> */}
                 <Button
                     color="danger"
-                    variant="solid"
-                    size="md"
-                    endContent={<CancelRoundedFillIcon />}
+                    variant="flat"
+                    size="sm"
+                    endContent={<FaRegCircleXmark />}
                     onClick={() => deleteQuestion(id)}
                 >
                     Deletar Pergunta
