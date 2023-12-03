@@ -1,88 +1,108 @@
 import React, { useState } from 'react'
-import { Button, Divider, Input} from '@nextui-org/react'
-import AddCircleSolidIcon from '../assets/AddCircleSolidIcon'
-import QuestionCard from '../components/QuestionCard'
-import { QuestionModel } from '../../domain/models/question-model'
-import { FormModel } from '../../domain/models/form-model'
+import { Button, Divider, Input, Spacer } from '@nextui-org/react'
 import useNotify from '../hooks/use-notify'
 import { v4 as uuid } from 'uuid'
 import { FormInteractor } from '../../domain/interactors/form-interactor'
-import { useFetch } from '../hooks/use-fetch'
 import { useNavigate } from 'react-router'
 import { useParams } from 'react-router-dom'
-import { FaCirclePlus } from "react-icons/fa6";
+import { FaCirclePlus } from 'react-icons/fa6'
+import { useFetch } from '../hooks/use-fetch'
+import { QuestionCard } from '../components/QuestionCard'
+import { QuestionFieldsValue } from '../../domain/models/question-field-model'
 
 type FormPageProps = {
     interactor: FormInteractor
 }
 
-export default function FormPage({
-    interactor,
-}: FormPageProps) {
+export default function FormPage({ interactor }: FormPageProps) {
     const navigate = useNavigate()
-    const petId = useParams().id ?? ''
+    const animalId = useParams().animalId ?? ''
     const { notify } = useNotify()
-    const initialState: FormModel = {
-        formTitle: "",
-        questions: [
-            {
-                id : uuid(),
-                title: "",
-                isRequired: false,
-                isEditing: true,
-                questionType: "multipleChoice",
-                options: []
-            }
-        ]
-    }
-    const [formQuestions, setFormQuestions] = useState<FormModel>(initialState)
 
-    function handleAddQuestion() {
-        const questionId = uuid()
-        const newQuestion: QuestionModel = {
-            id: questionId,
-            title: "",
-            isRequired: false,
-            isEditing: true,
-            questionType: "multipleChoice",
-            options: []
+    const [formTitle, setFormTitle] = useState<string>('')
+    const [formQuestionsIds, setFormQuestionsIds] = useState<string[]>([])
+    const [formQuestions, setFormQuestions] = useState<QuestionFieldsValue[]>(
+        []
+    )
+
+    const MIN_TITLE_LENGTH: number = 2
+
+    const addQuestionId = () =>
+        setFormQuestionsIds([...formQuestionsIds, uuid()])
+
+    const addFormQuestion = (formQuestion: QuestionFieldsValue) => {
+        const alreadyAdded = formQuestions.find(
+            (_formQuestion) => _formQuestion.id == formQuestion.id
+        )
+
+        if (!alreadyAdded) {
+            setFormQuestions([...formQuestions, formQuestion])
+            notify('success', 'Pergunta adicionada')
         }
-        setFormQuestions((prev: FormModel) => {
-            return { ...prev, questions: [...prev.questions, newQuestion] }
-        })
     }
 
-    function handleDeleteQuestion(id: string) {
-        console.log(formQuestions.questions)
-        if (formQuestions.questions.length === 1){
-            notify('error', 'Não é possível deletar a única pergunta do formulário')
-            return
-        }
-        const questionsWithoutDeleted = formQuestions.questions.filter((question: QuestionModel) => question.id !== id)
-        setFormQuestions((prev: FormModel) => {
-            return { ...prev, questions: questionsWithoutDeleted }
-        })
+    const updateFormTitle = (title: string) => setFormTitle(title)
+
+    const removeQuestion = (id: string) => {
+        setFormQuestions((prevQuestions) =>
+            prevQuestions.filter((question) => question.id !== id)
+        )
+
+        setFormQuestionsIds((prevQuestionsIds) =>
+            prevQuestionsIds.filter((questionId) => questionId !== id)
+        )
     }
 
     const onFormSubmitSuccess = () => {
         notify('success', 'Formulário criado com sucesso!')
-        formSubmit.setIdle()
+        formSubmitFetch.setIdle()
         navigate(-1)
     }
 
     const onFormSubmitFailed = (_?: Error) => {
         notify('error', 'Erro ao criar formulário')
-        formSubmit.setIdle()
+        formSubmitFetch.setIdle()
     }
 
-    const formSubmit = useFetch<void>({
-        fn: (form, animal_id) => interactor.saveForm(form, animal_id),
+    const formSubmitFetch = useFetch<void>({
+        fn: (formQuestions, formTitle, animalId) =>
+            interactor.saveForm(formQuestions, formTitle, animalId),
         successListener: onFormSubmitSuccess,
         errorListener: onFormSubmitFailed,
     })
 
-    function handleFormSubmit() {
-        formSubmit.fetch(formQuestions, petId)
+    const handleFormCreation = () => {
+        if (formTitle.length < MIN_TITLE_LENGTH) {
+            notify('error', 'Preencha o titulo do formulário')
+            return
+        }
+        formSubmitFetch.fetch(formQuestions, formTitle, animalId).then()
+    }
+
+    const buildFormQuestions = () => {
+        if (formQuestionsIds.length > 0) {
+            return formQuestionsIds.map((id) => {
+                return (
+                    <div key={id}>
+                        <QuestionCard
+                            id={id}
+                            notify={(message, error) =>
+                                notify(error ? 'error' : 'success', message)
+                            }
+                            onCancelled={removeQuestion}
+                            onSubmitted={addFormQuestion}
+                        />
+                        <Spacer y={10} />
+                    </div>
+                )
+            })
+        } else {
+            return (
+                <p className={'mb-5 font-light text-center'}>
+                    Defina questões para esse formulário de adoção
+                </p>
+            )
+        }
     }
 
     return (
@@ -92,45 +112,39 @@ export default function FormPage({
                     placeholder="Título do Formulário..."
                     variant="underlined"
                     className="sm:w-96 font-medium text-lg"
+                    onChange={(event) => updateFormTitle(event.target.value)}
                 />
             </header>
+            <section>{buildFormQuestions()}</section>
 
-            <section>
-                {formQuestions?.questions.map((question: QuestionModel) => (
-                    <QuestionCard
-                        key={question.id}
-                        id={question.id}
-                        setFormQuestions={setFormQuestions}
-                        deleteQuestion={handleDeleteQuestion}
-                        className="mb-6"
-                    />
-                ))}
-            </section>
-
-            <section className="flex flex-col gap-6">
+            <section className="flex flex-col items-center gap-6">
                 <Button
-                    className="font-medium text-lg"
                     color="primary"
-                    variant="bordered"
+                    variant="solid"
                     size="md"
-                    type="submit"
-                    endContent={<FaCirclePlus />}
-                    onClick={handleAddQuestion}
+                    isIconOnly
+                    onClick={() => addQuestionId()}
                 >
-                    Nova pergunta
+                    <FaCirclePlus />
                 </Button>
                 <Divider className="my-6" />
                 <Button
+                    fullWidth
                     className="font-medium text-lg"
                     color="primary"
                     variant="solid"
                     size="md"
-                    type="submit"
-                    onClick={() => handleFormSubmit()}
+                    isDisabled={
+                        formQuestions.length != formQuestionsIds.length ||
+                        formQuestionsIds.length == 0
+                    }
+                    isLoading={formSubmitFetch.isLoading()}
+                    onClick={() => handleFormCreation()}
                 >
                     Finalizar Formulário
                 </Button>
                 <Button
+                    fullWidth
                     className="font-medium text-lg"
                     color="danger"
                     variant="flat"

@@ -1,43 +1,55 @@
-import { FormModel } from "../../domain/models/form-model"
-import { QuestionModel, QuestionOptionModel } from "../../domain/models/question-model";
-import { AxiosHttpClient, HttpResponse } from "../http/http-client";
-import { FormResponse } from "../model/form-response"
+import { AxiosHttpClient, HttpResponse } from '../http/http-client'
+import { FormResponse } from '../model/form-response'
+import {
+    QuestionFieldsValue,
+    QuestionOptionField,
+} from '../../domain/models/question-field-model'
 
 export interface FormService {
-    saveForm: (form: FormModel, animal_id: string) => Promise<HttpResponse<void>>
+    saveForm: (
+        formQuestions: QuestionFieldsValue[],
+        formTitle: string,
+        animalId: string
+    ) => Promise<HttpResponse<void>>
     getForm: (id: string) => Promise<HttpResponse<FormResponse>>
 }
 
 export class FormServiceImpl implements FormService {
     constructor(private readonly httpClient: AxiosHttpClient) {}
-    
-    private readonly savePath = '/form'
-    private readonly getPath = '/form'
-    // private readonly getAllPath = '/form'
 
-    saveForm(form: FormModel, animal_id: string): Promise<HttpResponse<void>> {
+    private readonly savePath = (animalId: string) =>
+        `/ong/animals/${animalId}/forms`
+    private readonly getPath = '/form'
+
+    saveForm(
+        formQuestions: QuestionFieldsValue[],
+        formTitle: string,
+        animalId: string
+    ): Promise<HttpResponse<void>> {
         const formParsed = {
-            title: form.formTitle,
-            animal_id: animal_id,
-            questions: form.questions.map((question: QuestionModel) => {
+            title: formTitle,
+            questions: formQuestions.map((question: QuestionFieldsValue) => {
                 return {
                     question: question.title,
-                    choices: question.options.map((option: QuestionOptionModel) => {
-                        return {
-                            label: option.label,
-                            is_correct: option.isCorrect
+                    choices: question.options.map(
+                        (option: QuestionOptionField, index) => {
+                            return {
+                                id: index,
+                                label: option.label,
+                                is_correct: option.isCorrect,
+                            }
                         }
-                    })
+                    ),
                 }
-            })
-        }        
+            }),
+        }
         return this.httpClient.request({
-            path: this.savePath,
+            path: this.savePath(animalId),
             method: 'post',
-            body: formParsed
+            body: formParsed,
         })
     }
     getForm(id: string): Promise<HttpResponse<FormResponse>> {
-        throw new Error("Method not implemented.");
+        throw new Error('Method not implemented.')
     }
 }

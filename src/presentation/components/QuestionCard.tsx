@@ -1,163 +1,188 @@
-import { Button, Card, Divider, Input, Switch } from '@nextui-org/react'
-import React, { useEffect, useState } from 'react'
-import CheckMarkIcon from '../assets/CheckMarkIcon'
-import TrashCanIcon from '../assets/TrashCanIcon'
-import AddCircleSolidIcon from '../assets/AddCircleSolidIcon'
-import CancelRoundedFillIcon from '../assets/CancelRoundedFilledIcon'
-import {
-    QuestionModel,
-    QuestionOptionModel,
-} from '../../domain/models/question-model'
-import useNotify from '../hooks/use-notify'
-import { FormModel } from '../../domain/models/form-model'
+import { useFieldArray, useForm } from 'react-hook-form'
 import { v4 as uuid } from 'uuid'
-import { FaRegCircleXmark, FaCirclePlus, FaRegTrashCan  } from "react-icons/fa6";
+import { Button, Card, Checkbox, Divider, Input } from '@nextui-org/react'
+import { FaCirclePlus, FaRegTrashCan } from 'react-icons/fa6'
+import React from 'react'
+import { QuestionFieldsValue } from '../../domain/models/question-field-model'
 
-interface QuestionCardProps {
+export interface QuestionCardProps {
     id: string
-    setFormQuestions: React.Dispatch<React.SetStateAction<FormModel>>
-    deleteQuestion: (id: string) => void
-    className?: string
+    notify: (message: string, error: boolean) => void
+    onSubmitted: (questionFields: QuestionFieldsValue) => void
+    onCancelled: (questionId: string) => void
 }
 
-export default function QuestionCard({ id, setFormQuestions, deleteQuestion, className }: QuestionCardProps) {
-    const { notify } = useNotify()
-    const initialState: QuestionOptionModel[] = [{
-        id: uuid(),
-        label: '',
-        isCorrect: false
-    }]
-    const [questionOptions, setQuestionOptions] = useState(initialState)
+export function QuestionCard({
+    id,
+    notify,
+    onSubmitted,
+    onCancelled,
+}: QuestionCardProps) {
+    const {
+        register,
+        control,
+        handleSubmit,
+        getFieldState,
+        getValues,
+        setValue,
+        formState: { errors },
+    } = useForm<QuestionFieldsValue>({
+        defaultValues: {
+            id: id,
+            title: '',
+            options: [
+                {
+                    id: uuid(),
+                    label: '',
+                    isCorrect: false,
+                },
+            ],
+        },
+    })
 
-    const MAX_OPTIONS = 10
-    function handleAddOption() {
-        if (questionOptions.length >= MAX_OPTIONS) {
-            notify('error', 'Você atingiu o limite de alternativas')
+    const { fields, append, remove } = useFieldArray({
+        name: 'options',
+        control,
+    })
+
+    const onSubmit = (data: QuestionFieldsValue) => {
+        const correctOption = data.options.find((option) => option.isCorrect)
+
+        if (data.options.length < 2) {
+            notify(
+                'Você deve definir ao menos 2 opções para essa pergunta',
+                true
+            )
             return
         }
-        const questionId = uuid()
-        setQuestionOptions([...questionOptions, { id: questionId, label: '', isCorrect: false }])
-    }
 
-    function handleDeleteOption(id: string) {
-        if (questionOptions.length === 1){
-            notify('error', 'Você precisa ter ao menos uma alternativa')
-            return
+        if (correctOption) {
+            onSubmitted(data)
+        } else {
+            notify(
+                'Ao menos uma opção deve ser definida como a opção correta',
+                true
+            )
         }
-        setQuestionOptions((prev) => prev.filter((option) => option.id !== id))
     }
 
-    function handleCheckOption(id: string) {
-        setQuestionOptions((prev) => prev.map((option) => {
-            if (option.id === id) {
-                return { ...option, isCorrect: !option.isCorrect }
-            }
-            return option
-        }))
-    }
-
-    function handleEditQuestion(id: string, text: string) {
-        setQuestionOptions((prev) => prev.map((option) => {
-            if (option.id === id) {
-                return { ...option, label: text }
-            }
-            return option
-        }))
-    }
-
-    function handleEditQuestionTitle(id: string, text: string) {
-        setFormQuestions((prev: FormModel) => {
-            return {
-                ...prev,
-                questions: prev.questions.map((question: QuestionModel) => {
-                    if (question.id === id) {
-                        return { ...question, title: text }
-                    }
-                    return question
-                })
-            }
-        })
-    }
-
-    useEffect(() => {
-        setFormQuestions((prev: FormModel) => {
-            return {
-                ...prev,
-                questions: prev.questions.map((question: QuestionModel) => {
-                    if (question.id === id) {
-                        return { ...question, options: questionOptions }
-                    }
-                    return question
-                })
-            }
-        })
-    }, [questionOptions])
-    return (
-        <Card className={`md:px-6 py-8 shadow-none md:shadow-medium ${className}`}>
-            <div className="sm:flex sm:justify-center">
-                <Input
-                    placeholder="Pergunta..."
-                    variant="underlined"
-                    className="sm:w-96 mb-6"
-                    onChange={(e: any) => handleEditQuestionTitle(id, e.target.value)}
-                />
-            </div>
-            <div className="sm:flex flex-col sm:justify-center">
-                {questionOptions.map((option) => (
-                    <span className="flex gap-4 mb-3" key={option.id}>
-                        <Button isIconOnly color="danger" aria-label="Remover" onClick={() => handleDeleteOption(option.id)}>
-                            <FaRegTrashCan  />
-                        </Button>
-                        <Input 
-                            placeholder="Resposta..." 
-                            className="sm:w-96" 
-                            onChange={(e: any) => handleEditQuestion(option.id, e.target.value)} 
-                        />
-                        <Switch
+    const buildOptions = () => {
+        if (fields.length > 0) {
+            return fields.map((field, index) => {
+                return (
+                    <div
+                        className={
+                            'flex items-center justify-center gap-2 mb-5'
+                        }
+                        key={field.id}
+                    >
+                        <Checkbox
                             color="success"
                             size="lg"
-                            thumbIcon={<CheckMarkIcon />}
                             aria-label="Marcar como correta"
-                            isSelected={option.isCorrect}
-                            onValueChange={() => handleCheckOption(option.id)}
+                            isSelected={
+                                getValues(`options.${index}.isCorrect`) ?? false
+                            }
+                            onValueChange={() =>
+                                setValue(
+                                    `options.${index}.isCorrect`,
+                                    !getValues(`options.${index}.isCorrect`),
+                                    { shouldValidate: true }
+                                )
+                            }
+                            disableAnimation
                         />
-                    </span>
-                ))}
-            </div>
-            <div className="flex justify-center mb-6">
-                <Button
-                    color="primary"
-                    variant="flat"
-                    size="md"
-                    type="submit"
-                    endContent={<FaCirclePlus />}
-                    onClick={handleAddOption}
-                >
-                    Adicionar Alternativa
-                </Button>
-            </div>
-            <Divider className="mb-6"/>
-            <section className="flex justify-center">
-                {/* <Button
-                    color="primary"
-                    variant="solid"
-                    size="md"
-                    type="submit"
-                    endContent={<AddCircleSolidIcon />}
-                    // onClick={handdleAddQuestion}
-                >
-                    Inserir Pergunta
-                </Button> */}
-                <Button
-                    color="danger"
-                    variant="flat"
-                    size="sm"
-                    endContent={<FaRegCircleXmark />}
-                    onClick={() => deleteQuestion(id)}
-                >
-                    Deletar Pergunta
-                </Button>
-            </section>
+                        <Input
+                            key={field.id}
+                            minLength={2}
+                            maxLength={60}
+                            placeholder="Editar opção..."
+                            variant="underlined"
+                            isInvalid={
+                                getFieldState(`options.${index}.label` as const)
+                                    .invalid
+                            }
+                            errorMessage={errors?.options?.[index]?.message}
+                            {...register(`options.${index}.label` as const, {
+                                required: true,
+                                minLength: 2,
+                                maxLength: 60,
+                            })}
+                        />
+                        <Button isIconOnly onClick={() => remove(index)}>
+                            <FaRegTrashCan />
+                        </Button>
+                    </div>
+                )
+            })
+        } else {
+            return (
+                <p className={'mb-5 font-light'}>
+                    Defina opções para essa pergunta
+                </p>
+            )
+        }
+    }
+
+    return (
+        <Card className={`shadow-none md:shadow-small`}>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <div className={'md:px-6 py-8'}>
+                    <div className={'flex justify-center'}>
+                        <Input
+                            minLength={2}
+                            maxLength={60}
+                            placeholder="Título da Pergunta"
+                            variant="underlined"
+                            className={'w-1/2 mb-10'}
+                            isInvalid={getFieldState('title').invalid}
+                            errorMessage={errors?.title?.message}
+                            {...register('title', {
+                                required: true,
+                                minLength: 2,
+                                maxLength: 60,
+                            })}
+                        />
+                    </div>
+
+                    {buildOptions()}
+                    <Button
+                        fullWidth
+                        type="button"
+                        variant={'flat'}
+                        onClick={() =>
+                            append({
+                                id: uuid(),
+                                label: '',
+                                isCorrect: false,
+                            })
+                        }
+                        endContent={<FaCirclePlus />}
+                    >
+                        Adicionar opção
+                    </Button>
+                </div>
+                <Divider />
+                <div className={'flex gap-2 md:px-6 py-4'}>
+                    <Button
+                        fullWidth
+                        variant={'flat'}
+                        color={'danger'}
+                        type="button"
+                        onClick={() => onCancelled(id)}
+                    >
+                        Deletar pergunta
+                    </Button>
+                    <Button
+                        fullWidth
+                        variant={'flat'}
+                        color={'primary'}
+                        type="submit"
+                    >
+                        Inserir pergunta
+                    </Button>
+                </div>
+            </form>
         </Card>
     )
 }

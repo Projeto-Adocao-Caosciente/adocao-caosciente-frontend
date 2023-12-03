@@ -68,11 +68,14 @@ function App() {
                     path={AppRoutes.adopterRegister}
                     element={makeAdopterRegisterPage()}
                 />
-                <Route path={AppRoutes.form}
-                    element={<ProtectedRoute 
-                        page={makeFormPage()}
-                        ruleSolver={makeProxyNGOAuthenticatedRule()}
-                    />}
+                <Route
+                    path={AppRoutes.form}
+                    element={
+                        <ProtectedRoute
+                            page={makeFormPage()}
+                            ruleSolver={makeProxyNGOAuthenticatedRule()}
+                        />
+                    }
                 />
             </Routes>
             <ToastContainer
