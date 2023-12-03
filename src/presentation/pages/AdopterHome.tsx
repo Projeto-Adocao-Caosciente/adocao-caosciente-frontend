@@ -5,6 +5,7 @@ import { useFetch } from '../hooks/use-fetch'
 import HomeTemplate from '../templating/HomeTemplate'
 import { PetInteractor } from '../../domain/interactors/pet-interactor'
 import { AuthContext } from '../contexts/AuthContext'
+import debounce from 'lodash.debounce'
 
 type AdopterHomePageProps = {
     interactor: PetInteractor
@@ -14,8 +15,12 @@ export default function AdopterHome({ interactor }: AdopterHomePageProps) {
     const { user } = useContext(AuthContext)
 
     const animalsRequest = useFetch<AnimalModel[]>({
-        fn: (_) => interactor.getAllInAdoption(),
+        fn: (query?: string) => interactor.getAllInAdoption(query),
     })
+
+    const debouncedFetch = debounce((query) => {
+        animalsRequest.fetch(query).then()
+    }, 500)
 
     useEffect(() => {
         animalsRequest.fetch().then()
@@ -43,7 +48,7 @@ export default function AdopterHome({ interactor }: AdopterHomePageProps) {
             )
         }
 
-        return <p>Nenhum pet cadastrado</p>
+        return <p>Nenhum pet foi encontrado</p>
     }
 
     function buildPetsList(): React.JSX.Element {
@@ -61,7 +66,7 @@ export default function AdopterHome({ interactor }: AdopterHomePageProps) {
     return (
         <HomeTemplate
             name={user?.name ?? 'Adotante'}
-            filter={{ label: 'Filtro por nome', onChange: (_) => {} }}
+            filter={{ label: 'Filtro por nome', onChange: debouncedFetch }}
             heading={{
                 title: 'Seus Processos de Adoção',
             }}

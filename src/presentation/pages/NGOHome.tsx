@@ -9,6 +9,7 @@ import { Button } from '@nextui-org/react'
 import { AppRoutes } from '../../routes/app-routes'
 import AddCircleSolidIcon from '../assets/AddCircleSolidIcon'
 import { PetInteractor } from '../../domain/interactors/pet-interactor'
+import debounce from 'lodash.debounce'
 
 type NGOHomePageProps = {
     interactor: PetInteractor
@@ -20,8 +21,12 @@ export default function NGOHome({ interactor }: NGOHomePageProps) {
     const { user } = useContext(AuthContext)
 
     const animalsRequest = useFetch<AnimalModel[]>({
-        fn: (_) => interactor.getAll(),
+        fn: (query?: string) => interactor.getAll(query),
     })
+
+    const debouncedFetch = debounce((query) => {
+        animalsRequest.fetch(query).then()
+    }, 500)
 
     useEffect(() => {
         animalsRequest.fetch().then()
@@ -48,7 +53,7 @@ export default function NGOHome({ interactor }: NGOHomePageProps) {
             )
         }
 
-        return <p>Nenhum pet cadastrado</p>
+        return <p>Nenhum pet foi encontrado</p>
     }
 
     function buildNGOPetsList(): React.JSX.Element {
@@ -66,7 +71,7 @@ export default function NGOHome({ interactor }: NGOHomePageProps) {
     return (
         <HomeTemplate
             name={user?.name ?? ''}
-            filter={{ label: 'Pesquisar por nome', onChange: (value) => {} }}
+            filter={{ label: 'Pesquisar por nome', onChange: debouncedFetch }}
             heading={{
                 title: 'Pets cadastrados',
                 rightContent: (
