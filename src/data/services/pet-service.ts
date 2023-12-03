@@ -11,8 +11,8 @@ export interface PetService {
     getSpecialNeeds: () => Promise<SelectOptionResponse[]>
     savePet: (fields: PetFormFields) => Promise<HttpResponse<void>>
     editPet: (fields: PetFormFields, id: string) => Promise<HttpResponse<void>>
-    getAll: () => Promise<HttpResponse<AnimalsResponse>>
-    getAllInAdoption: () => Promise<HttpResponse<AnimalsResponse>>
+    getAll: (query?: string) => Promise<HttpResponse<AnimalsResponse>>
+    getAllInAdoption: (query?: string) => Promise<HttpResponse<AnimalsResponse>>
     get: (id: string) => Promise<HttpResponse<AnimalResponse>>
 }
 
@@ -55,17 +55,23 @@ export class PetServiceImpl implements PetService {
         )
     }
 
-    getAll(): Promise<HttpResponse<AnimalsResponse>> {
+    getAll(query?: string): Promise<HttpResponse<AnimalsResponse>> {
         return this.httpClient.request<AnimalsResponse>({
             path: this.getAllPath,
             method: 'get',
+            params: {
+                name: query,
+            },
         })
     }
 
-    getAllInAdoption(): Promise<HttpResponse<AnimalsResponse>> {
+    getAllInAdoption(query?: string): Promise<HttpResponse<AnimalsResponse>> {
         return this.httpClient.request<AnimalsResponse>({
             path: this.getAllInAdoptionPath,
             method: 'get',
+            params: {
+                name: query,
+            },
         })
     }
 
