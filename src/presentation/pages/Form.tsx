@@ -149,6 +149,7 @@ export default function FormPage({ interactor }: FormPageProps) {
                     color="danger"
                     variant="flat"
                     size="md"
+                    onClick={() => navigate(-1)}
                 >
                     Cancelar
                 </Button>

@@ -4,6 +4,8 @@ import {
     QuestionFieldsValue,
     QuestionOptionField,
 } from '../../domain/models/question-field-model'
+import { AnimalFormListModel } from '../../domain/models/animal-form-list-model'
+import { AnimalFormListResponse } from '../model/animal-form-list-response'
 
 export interface FormService {
     saveForm: (
@@ -11,13 +13,16 @@ export interface FormService {
         formTitle: string,
         animalId: string
     ) => Promise<HttpResponse<void>>
+    getAnimalForms: (
+        animalId: string
+    ) => Promise<HttpResponse<AnimalFormListResponse>>
     getForm: (id: string) => Promise<HttpResponse<FormResponse>>
 }
 
 export class FormServiceImpl implements FormService {
     constructor(private readonly httpClient: AxiosHttpClient) {}
 
-    private readonly savePath = (animalId: string) =>
+    private readonly basePath = (animalId: string) =>
         `/ong/animals/${animalId}/forms`
     private readonly getPath = '/form'
 
@@ -44,11 +49,21 @@ export class FormServiceImpl implements FormService {
             }),
         }
         return this.httpClient.request({
-            path: this.savePath(animalId),
+            path: this.basePath(animalId),
             method: 'post',
             body: formParsed,
         })
     }
+
+    getAnimalForms(
+        animalId: string
+    ): Promise<HttpResponse<AnimalFormListResponse>> {
+        return this.httpClient.request({
+            path: this.basePath(animalId),
+            method: 'get',
+        })
+    }
+
     getForm(id: string): Promise<HttpResponse<FormResponse>> {
         throw new Error('Method not implemented.')
     }
