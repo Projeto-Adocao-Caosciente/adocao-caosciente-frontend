@@ -1,6 +1,13 @@
 import { useFieldArray, useForm } from 'react-hook-form'
 import { v4 as uuid } from 'uuid'
-import { Button, Card, Checkbox, Divider, Input } from '@nextui-org/react'
+import {
+    Button,
+    Card,
+    Checkbox,
+    Divider,
+    Input,
+    Tooltip,
+} from '@nextui-org/react'
 import { FaCirclePlus, FaRegTrashCan } from 'react-icons/fa6'
 import React, { useEffect } from 'react'
 import { QuestionFieldsValue } from '../../domain/models/question-field-model'
@@ -101,7 +108,7 @@ export function QuestionCard({
                             minLength={2}
                             maxLength={60}
                             placeholder="Editar opção..."
-                            variant="underlined"
+                            variant="bordered"
                             isInvalid={
                                 getFieldState(`options.${index}.label` as const)
                                     .invalid
@@ -113,9 +120,11 @@ export function QuestionCard({
                                 maxLength: 60,
                             })}
                         />
-                        <Button isIconOnly onClick={() => remove(index)}>
-                            <FaRegTrashCan />
-                        </Button>
+                        <Tooltip content="Remover opção">
+                            <Button isIconOnly onClick={() => remove(index)}>
+                                <FaRegTrashCan />
+                            </Button>
+                        </Tooltip>
                     </div>
                 )
             })
@@ -193,14 +202,16 @@ export function QuestionCard({
                         >
                             Deletar pergunta
                         </Button>
-                        <Button
-                            fullWidth
-                            variant={'flat'}
-                            color={'primary'}
-                            type="submit"
-                        >
-                            Confirmar
-                        </Button>
+                        <Tooltip content="Insere e atualiza sua pergunta no formulário">
+                            <Button
+                                fullWidth
+                                variant={'flat'}
+                                color={'primary'}
+                                type="submit"
+                            >
+                                Confirmar
+                            </Button>
+                        </Tooltip>
                     </div>
                 </form>
             </div>
