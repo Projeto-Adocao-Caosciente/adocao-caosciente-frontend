@@ -24,10 +24,15 @@ import { useNavigate } from 'react-router'
 import useNotify from '../hooks/use-notify'
 import { AnimalModel } from '../../domain/models/animal-model'
 import { useParams } from 'react-router-dom'
+import { FormInteractor } from '../../domain/interactors/form-interactor'
+import { AnimalFormListModel } from '../../domain/models/animal-form-list-model'
+import { FaCirclePlus } from 'react-icons/fa6'
+import { appRouteParamReplace } from '../../utils/app-route-param-replace'
 
 type PetPageProps = {
     validationWrapper: PetFieldsValidationWrapper
-    interactor: PetInteractor
+    petInteractor: PetInteractor
+    formInteractor: FormInteractor
 }
 
 export const specialNeeds = [
@@ -43,31 +48,41 @@ export const specialNeeds = [
 
 export default function PetPage({
     validationWrapper,
-    interactor,
+    petInteractor,
+    formInteractor,
 }: PetPageProps) {
     const navigate = useNavigate()
     const { notify } = useNotify()
     const petId = useParams().id ?? ''
     const hasPetId = petId.length > 0
 
+    function populateFields(data?: AnimalModel | undefined) {
+        setValue('breed', data?.breed ?? '')
+        setValue('height', data?.height ?? '')
+        setValue('weight', data?.weight ?? '')
+        setValue('specialNeeds', data?.special_needs ?? [])
+        setValue('kind', data?.type ?? '')
+        setValue('photoBase64', data?.photo ?? '')
+        setValue('name', data?.name ?? '')
+    }
+
     const petDetailFetch = useFetch<AnimalModel>({
-        fn: (_) => interactor.get(petId),
+        fn: (_) => petInteractor.get(petId),
         initialState: {
             status: hasPetId ? Status.loading : Status.idle,
         },
-        successListener: (data) => {
-            setValue('breed', data?.breed ?? '')
-            setValue('height', data?.height ?? '')
-            setValue('weight', data?.weight ?? '')
-            setValue('specialNeeds', data?.special_needs ?? [])
-            setValue('kind', data?.type ?? '')
-            setValue('photoBase64', data?.photo ?? '')
-            setValue('name', data?.name ?? '')
-        },
+        successListener: populateFields,
         errorListener: () => {
             notify('error', 'Não foi possível encontrar esse pet')
             petDetailFetch.setIdle()
             navigate(AppRoutes.home)
+        },
+    })
+
+    const petAdoptionFormsFetch = useFetch<AnimalFormListModel>({
+        fn: (_) => formInteractor.getAnimalForms(petId),
+        initialState: {
+            status: hasPetId ? Status.loading : Status.idle,
         },
     })
 
@@ -107,14 +122,14 @@ export default function PetPage({
     }
 
     const petRegister = useFetch<void>({
-        fn: (fields) => interactor.savePet({ ...fields }),
+        fn: (fields) => petInteractor.savePet({ ...fields }),
         successListener: onRegistered,
         errorListener: onRegisterFailed,
     })
 
     // @ts-ignore
     const petEdit = useFetch<void>({
-        fn: (fields) => interactor.editPet({ ...fields }, petId),
+        fn: (fields) => petInteractor.editPet({ ...fields }, petId),
         successListener: onEdited,
         errorListener: onEditFailed,
     })
@@ -125,6 +140,7 @@ export default function PetPage({
     useEffect(() => {
         if (hasPetId) {
             petDetailFetch.fetch().then()
+            petAdoptionFormsFetch.fetch().then()
         }
     }, [])
 
@@ -150,6 +166,60 @@ export default function PetPage({
         event.target.value = validationWrapper.patterns.breed!.apply(
             event.target.value
         )
+    }
+
+    const buildAdoptionFormList = () => {
+        if (petAdoptionFormsFetch.hasError()) {
+            return (
+                <p>
+                    Não foi possível buscar os formulários de adoção atrelados a
+                    esse animal
+                </p>
+            )
+        }
+
+        if (petAdoptionFormsFetch.hasSucceeded()) {
+            if ((petAdoptionFormsFetch.state.data?.length ?? 0) <= 0) {
+                return (
+                    <p>
+                        Não existem formulários de adoção atrelados a esse
+                        animal
+                    </p>
+                )
+            } else {
+                return (
+                    <div className={'flex items-center gap-2 mb-2'}>
+                        {(petAdoptionFormsFetch.state.data ?? []).map(
+                            (form) => (
+                                <Button
+                                    color={'primary'}
+                                    variant={'bordered'}
+                                    key={form.formId}
+                                >
+                                    {form.formTitle}
+                                </Button>
+                            )
+                        )}
+                        <Button
+                            color={'primary'}
+                            variant={'bordered'}
+                            isIconOnly
+                            onClick={() =>
+                                navigate(
+                                    appRouteParamReplace(
+                                        AppRoutes.formRegister,
+                                        ':animalId',
+                                        petId
+                                    )
+                                )
+                            }
+                        >
+                            <FaCirclePlus />
+                        </Button>
+                    </div>
+                )
+            }
+        }
     }
 
     return (
@@ -312,6 +382,32 @@ export default function PetPage({
                     </Skeleton>
                 </section>
                 <Divider className="my-6" />
+                {hasPetId ? (
+                    <section className={'pb-6'}>
+                        <Skeleton
+                            isLoaded={
+                                !(
+                                    petDetailFetch.isLoading() &&
+                                    petAdoptionFormsFetch.isLoading()
+                                )
+                            }
+                        >
+                            <h3 className="text-xl font-bold mb-2">
+                                Formulários:
+                            </h3>
+                        </Skeleton>
+                        <Skeleton
+                            isLoaded={
+                                !(
+                                    petDetailFetch.isLoading() &&
+                                    petAdoptionFormsFetch.isLoading()
+                                )
+                            }
+                        >
+                            {buildAdoptionFormList()}
+                        </Skeleton>
+                    </section>
+                ) : null}
                 <Skeleton isLoaded={!petDetailFetch.isLoading()}>
                     <section className="flex flex-col gap-6">
                         {!hasPetId ? (

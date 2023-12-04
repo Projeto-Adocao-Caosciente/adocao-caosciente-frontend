@@ -69,7 +69,7 @@ function App() {
                     element={makeAdopterRegisterPage()}
                 />
                 <Route
-                    path={AppRoutes.form}
+                    path={AppRoutes.formRegister}
                     element={
                         <ProtectedRoute
                             page={makeFormPage()}
