@@ -24,6 +24,7 @@ export default function FormPage({ interactor }: FormPageProps) {
     const [formQuestions, setFormQuestions] = useState<QuestionFieldsValue[]>(
         []
     )
+    const [focusedQuestionsId, setFocusedQuestion] = useState<string>()
 
     const MIN_TITLE_LENGTH: number = 2
 
@@ -31,14 +32,24 @@ export default function FormPage({ interactor }: FormPageProps) {
         setFormQuestionsIds([...formQuestionsIds, uuid()])
 
     const addFormQuestion = (formQuestion: QuestionFieldsValue) => {
-        const alreadyAdded = formQuestions.find(
-            (_formQuestion) => _formQuestion.id == formQuestion.id
+        const updatedFormQuestions = formQuestions.map((_formQuestion) =>
+            _formQuestion.id === formQuestion.id ? formQuestion : _formQuestion
         )
 
-        if (!alreadyAdded) {
-            setFormQuestions([...formQuestions, formQuestion])
+        const alreadyAdded = updatedFormQuestions.some(
+            (_formQuestion) => _formQuestion.id === formQuestion.id
+        )
+
+        if (alreadyAdded) {
+            setFormQuestions(updatedFormQuestions)
+            notify('success', 'Pergunta atualizada')
+        } else {
+            updatedFormQuestions.push(formQuestion)
+            setFormQuestions(updatedFormQuestions)
             notify('success', 'Pergunta adicionada')
         }
+
+        onUnfocused()
     }
 
     const updateFormTitle = (title: string) => setFormTitle(title)
@@ -51,6 +62,8 @@ export default function FormPage({ interactor }: FormPageProps) {
         setFormQuestionsIds((prevQuestionsIds) =>
             prevQuestionsIds.filter((questionId) => questionId !== id)
         )
+
+        onUnfocused()
     }
 
     const onFormSubmitSuccess = () => {
@@ -79,6 +92,16 @@ export default function FormPage({ interactor }: FormPageProps) {
         formSubmitFetch.fetch(formQuestions, formTitle, animalId).then()
     }
 
+    const onUnfocused = () => {
+        setFocusedQuestion(undefined)
+    }
+
+    const onFocused = (id: string) => {
+        setFocusedQuestion(id)
+    }
+    const isFocused = (id: string) => {
+        return focusedQuestionsId == id
+    }
     const buildFormQuestions = () => {
         if (formQuestionsIds.length > 0) {
             return formQuestionsIds.map((id) => {
@@ -91,8 +114,9 @@ export default function FormPage({ interactor }: FormPageProps) {
                             }
                             onCancelled={removeQuestion}
                             onSubmitted={addFormQuestion}
+                            onFocused={onFocused}
+                            isFocused={isFocused(id)}
                         />
-                        <Spacer y={10} />
                     </div>
                 )
             })
@@ -123,6 +147,7 @@ export default function FormPage({ interactor }: FormPageProps) {
                     variant="solid"
                     size="md"
                     isIconOnly
+                    className={'mt-5'}
                     onClick={() => addQuestionId()}
                 >
                     <FaCirclePlus />
@@ -130,7 +155,6 @@ export default function FormPage({ interactor }: FormPageProps) {
                 <Divider className="my-6" />
                 <Button
                     fullWidth
-                    className="font-medium text-lg"
                     color="primary"
                     variant="solid"
                     size="md"
@@ -145,10 +169,9 @@ export default function FormPage({ interactor }: FormPageProps) {
                 </Button>
                 <Button
                     fullWidth
-                    className="font-medium text-lg"
                     color="danger"
                     variant="flat"
-                    size="md"
+                    size="sm"
                     onClick={() => navigate(-1)}
                 >
                     Cancelar
