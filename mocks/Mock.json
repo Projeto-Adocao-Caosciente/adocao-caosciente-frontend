@@ -336,7 +336,7 @@
       "responses": [
         {
           "uuid": "19aacc06-2ca2-48e5-8bad-2fed977833e2",
-          "body": "{\r\n  \"message\": \"Form retrieved successfully\",\r\n  \"data\": [\r\n    {{#repeat 1}}\r\n    {\r\n      \"id\": \"{{faker 'string.uuid'}}\",\r\n      \"title\": \"[TEST] Forms Test Associated a Animal\"\r\n    }\r\n    {{/repeat}}\r\n  ]\r\n}",
+          "body": "{\r\n  \"message\": \"Form retrieved successfully\",\r\n  \"data\": [\r\n    {{#repeat 2}}\r\n    {\r\n      \"id\": \"{{faker 'string.uuid'}}\",\r\n      \"title\": \"[TEST] Forms Test Associated a Animal\"\r\n    }\r\n    {{/repeat}}\r\n  ]\r\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",

@@ -3,6 +3,7 @@ import {
     Button,
     Divider,
     Input,
+    Link,
     Select,
     SelectItem,
     Skeleton,
@@ -28,6 +29,7 @@ import { FormInteractor } from '../../domain/interactors/form-interactor'
 import { AnimalFormListModel } from '../../domain/models/animal-form-list-model'
 import { FaCirclePlus } from 'react-icons/fa6'
 import { appRouteParamReplace } from '../../utils/app-route-param-replace'
+import LinkIcon from '../assets/LinkIcon'
 
 type PetPageProps = {
     validationWrapper: PetFieldsValidationWrapper
@@ -181,10 +183,27 @@ export default function PetPage({
         if (petAdoptionFormsFetch.hasSucceeded()) {
             if ((petAdoptionFormsFetch.state.data?.length ?? 0) <= 0) {
                 return (
-                    <p>
-                        Não existem formulários de adoção atrelados a esse
-                        animal
-                    </p>
+                    <div>
+                        <p className="text-base font-light">
+                            Não existem formulários de adoção atrelados a esse
+                            animal
+                        </p>
+                        <Link
+                            className="text-primary flex gap-1 cursor-pointer"
+                            onClick={() =>
+                                navigate(
+                                    appRouteParamReplace(
+                                        AppRoutes.formRegister,
+                                        ':animalId',
+                                        petId
+                                    )
+                                )
+                            }
+                        >
+                            Adicionar formulário
+                            <LinkIcon />
+                        </Link>
+                    </div>
                 )
             } else {
                 return (
