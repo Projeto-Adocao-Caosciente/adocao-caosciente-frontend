@@ -188,7 +188,7 @@ export default function PetPage({
                 )
             } else {
                 return (
-                    <div className={'flex items-center gap-2 mb-2'}>
+                    <div className={'flex flex-wrap items-center gap-2 mb-2'}>
                         {(petAdoptionFormsFetch.state.data ?? []).map(
                             (form) => (
                                 <Button
@@ -387,7 +387,7 @@ export default function PetPage({
                         <Skeleton
                             isLoaded={
                                 !(
-                                    petDetailFetch.isLoading() &&
+                                    petDetailFetch.isLoading() ||
                                     petAdoptionFormsFetch.isLoading()
                                 )
                             }
