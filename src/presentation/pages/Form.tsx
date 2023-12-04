@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Divider, Input, Spacer } from '@nextui-org/react'
+import { Button, Divider, Input, Tooltip } from '@nextui-org/react'
 import useNotify from '../hooks/use-notify'
 import { v4 as uuid } from 'uuid'
 import { FormInteractor } from '../../domain/interactors/form-interactor'
@@ -129,6 +129,10 @@ export default function FormPage({ interactor }: FormPageProps) {
         }
     }
 
+    const isFinishButtonDisabled =
+        formQuestions.length != formQuestionsIds.length ||
+        formQuestionsIds.length == 0
+
     return (
         <main className={'container-form mb-10'}>
             <header className="mb-12 sm:flex sm:justify-center">
@@ -142,26 +146,26 @@ export default function FormPage({ interactor }: FormPageProps) {
             <section>{buildFormQuestions()}</section>
 
             <section className="flex flex-col items-center gap-6">
-                <Button
-                    color="primary"
-                    variant="solid"
-                    size="md"
-                    isIconOnly
-                    className={'mt-5'}
-                    onClick={() => addQuestionId()}
-                >
-                    <FaCirclePlus />
-                </Button>
+                <Tooltip content="Adicionar pergunta">
+                    <Button
+                        color="primary"
+                        variant="solid"
+                        size="md"
+                        isIconOnly
+                        className={'mt-5'}
+                        onClick={() => addQuestionId()}
+                    >
+                        <FaCirclePlus />
+                    </Button>
+                </Tooltip>
+
                 <Divider className="my-6" />
                 <Button
                     fullWidth
                     color="primary"
                     variant="solid"
                     size="md"
-                    isDisabled={
-                        formQuestions.length != formQuestionsIds.length ||
-                        formQuestionsIds.length == 0
-                    }
+                    isDisabled={isFinishButtonDisabled}
                     isLoading={formSubmitFetch.isLoading()}
                     onClick={() => handleFormCreation()}
                 >
