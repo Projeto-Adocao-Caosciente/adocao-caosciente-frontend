@@ -73,7 +73,7 @@ export default function FormPage({ interactor }: FormPageProps) {
     }
 
     const onFormSubmitFailed = (_?: Error) => {
-        notify('error', 'Erro ao criar formulário')
+        notify('error', 'Houve um problema ao criar o formulário. Por favor, tente novamente mais tarde.')
         formSubmitFetch.setIdle()
     }
 
@@ -86,7 +86,7 @@ export default function FormPage({ interactor }: FormPageProps) {
 
     const handleFormCreation = () => {
         if (formTitle.length < MIN_TITLE_LENGTH) {
-            notify('error', 'Preencha o titulo do formulário')
+            notify('error', 'O título do formulário deve ter pelo menos 2 caracteres.')
             return
         }
         formSubmitFetch.fetch(formQuestions, formTitle, animalId).then()
@@ -175,7 +175,7 @@ export default function FormPage({ interactor }: FormPageProps) {
                     fullWidth
                     color="danger"
                     variant="flat"
-                    size="sm"
+                    size="md"
                     onClick={() => navigate(-1)}
                 >
                     Cancelar

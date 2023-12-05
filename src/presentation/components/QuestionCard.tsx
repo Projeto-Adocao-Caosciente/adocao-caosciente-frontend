@@ -61,7 +61,7 @@ export function QuestionCard({
 
         if (data.options.length < 2) {
             notify(
-                'Você deve definir ao menos 2 opções para essa pergunta',
+                'É necessário definir ao menos duas opções para cada pergunta.',
                 true
             )
             return
@@ -71,7 +71,7 @@ export function QuestionCard({
             onSubmitted(data)
         } else {
             notify(
-                'Ao menos uma opção deve ser definida como a opção correta',
+                'É necessário definir ao menos uma opção correta para cada pergunta.',
                 true
             )
         }
@@ -87,22 +87,24 @@ export function QuestionCard({
                         }
                         key={field.id}
                     >
-                        <Checkbox
-                            color="success"
-                            size="lg"
-                            aria-label="Marcar como correta"
-                            isSelected={
-                                getValues(`options.${index}.isCorrect`) ?? false
-                            }
-                            onValueChange={() =>
-                                setValue(
-                                    `options.${index}.isCorrect`,
-                                    !getValues(`options.${index}.isCorrect`),
-                                    { shouldValidate: true }
-                                )
-                            }
-                            disableAnimation
-                        />
+                        <Tooltip content="Marcar opção como correta/válida">
+                            <Checkbox
+                                color="success"
+                                size="lg"
+                                aria-label="Marcar opção como correta/válida"
+                                isSelected={
+                                    getValues(`options.${index}.isCorrect`) ?? false
+                                }
+                                onValueChange={() =>
+                                    setValue(
+                                        `options.${index}.isCorrect`,
+                                        !getValues(`options.${index}.isCorrect`),
+                                        { shouldValidate: true }
+                                    )
+                                }
+                                disableAnimation
+                            />
+                        </Tooltip>
                         <Input
                             key={field.id}
                             minLength={2}
@@ -193,16 +195,18 @@ export function QuestionCard({
                     </div>
                     <Divider />
                     <div className={'flex gap-2 md:px-6 py-4'}>
-                        <Button
-                            fullWidth
-                            variant={'flat'}
-                            color={'danger'}
-                            type="button"
-                            onClick={() => onCancelled(id)}
-                        >
-                            Deletar pergunta
-                        </Button>
-                        <Tooltip content="Insere e atualiza sua pergunta no formulário">
+                        <Tooltip content="Deletar a pergunta do formulário.">
+                            <Button
+                                fullWidth
+                                variant={'flat'}
+                                color={'danger'}
+                                type="button"
+                                onClick={() => onCancelled(id)}
+                            >
+                                Deletar pergunta
+                            </Button>
+                        </Tooltip>
+                        <Tooltip content="Inserir e/ou atualizar a pergunta no formulário.">
                             <Button
                                 fullWidth
                                 variant={'flat'}

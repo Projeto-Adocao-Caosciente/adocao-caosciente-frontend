@@ -75,7 +75,7 @@ export default function PetPage({
         },
         successListener: populateFields,
         errorListener: () => {
-            notify('error', 'Não foi possível encontrar esse pet')
+            notify('error', 'Não foi possível encontrar o Pet desejado. Por favor, tente novamente mais tarde.')
             petDetailFetch.setIdle()
             navigate(AppRoutes.home)
         },
