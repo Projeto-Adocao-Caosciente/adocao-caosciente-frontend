@@ -18,6 +18,7 @@ import { makeOngPage } from './factories/pages/ong-page-factory'
 import { makePetPage } from './factories/pages/pet-page-factory'
 import { makeAdopterRegisterPage } from './factories/pages/adopter-register-page-factory'
 import { makeFormPage } from './factories/pages/form-page-factory'
+import NotFound from './presentation/pages/NotFound'
 
 function App() {
     const { pathname } = useLocation()
@@ -76,6 +77,10 @@ function App() {
                             ruleSolver={makeProxyNGOAuthenticatedRule()}
                         />
                     }
+                />
+                <Route
+                    path={AppRoutes.notFound}
+                    element={NotFound()}
                 />
             </Routes>
             <ToastContainer
