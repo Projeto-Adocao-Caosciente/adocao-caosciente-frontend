@@ -134,6 +134,7 @@ export default function FormViewPage({ interactor }: FormPageProps) {
                                                 }
                                             )}
                                         </div>
+                                        <hr className='mt-8'></hr>
                                     </div>
                                 )
                             }
