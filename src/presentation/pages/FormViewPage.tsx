@@ -17,7 +17,7 @@ export default function FormViewPage({ interactor }: FormPageProps) {
     const { notify } = useNotify()
 
     const onFormFetchFailed = (_?: Error) => {
-        notify('error', 'Não foi possível visualizar esse formulário')
+        notify('error', 'Não foi possível encontrar o formulário desejado. Por favor, tente novamente mais tarde.')
         navigate(-1)
     }
 
