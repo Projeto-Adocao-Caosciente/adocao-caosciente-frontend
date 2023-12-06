@@ -24,7 +24,8 @@ export class FormServiceImpl implements FormService {
 
     private readonly basePath = (animalId: string) =>
         `/ong/animals/${animalId}/forms`
-    private readonly getPath = '/form'
+
+    private readonly getPath = (formId: string) => `ong/animals/forms/${formId}`
 
     saveForm(
         formQuestions: QuestionFieldsValue[],
@@ -65,6 +66,9 @@ export class FormServiceImpl implements FormService {
     }
 
     getForm(id: string): Promise<HttpResponse<FormResponse>> {
-        throw new Error('Method not implemented.')
+        return this.httpClient.request({
+            path: this.getPath(id),
+            method: 'get',
+        })
     }
 }

@@ -1,5 +1,10 @@
-import { useEffect, useState } from 'react'
-import { toast } from 'react-toastify'
+import React, { useEffect, useState } from 'react'
+
+type StateBuilder = {
+    success: () => React.JSX.Element
+    error: () => React.JSX.Element
+    loading: () => React.JSX.Element
+}
 
 export enum Status {
     idle,
@@ -22,6 +27,17 @@ type UseFetchParams<T = unknown> = {
     idleListener?: (() => void) | null
 }
 
+type UseFetchReturnType<T = unknown> = {
+    fetch: (...args: any[]) => Promise<void>
+    state: State<T>
+    isLoading: () => boolean
+    hasError: () => boolean
+    hasSucceeded: () => boolean
+    isIdle: () => boolean
+    setIdle: () => void
+    when: (stateBuilder: StateBuilder) => React.JSX.Element | undefined
+}
+
 export function useFetch<T = unknown>({
     fn,
     initialState = {
@@ -33,15 +49,7 @@ export function useFetch<T = unknown>({
     errorListener = null,
     successListener = null,
     idleListener = null,
-}: UseFetchParams<T>): {
-    fetch: (...args: any[]) => Promise<void>
-    state: State<T>
-    isLoading: () => boolean
-    hasError: () => boolean
-    hasSucceeded: () => boolean
-    isIdle: () => boolean
-    setIdle: () => void
-} {
+}: UseFetchParams<T>): UseFetchReturnType<T> {
     const [state, setState] = useState(initialState)
 
     useEffect(() => {
@@ -101,5 +109,28 @@ export function useFetch<T = unknown>({
         }
     }
 
-    return { fetch, state, isLoading, hasError, hasSucceeded, isIdle, setIdle }
+    function when(stateBuilder: StateBuilder) {
+        if (isLoading()) {
+            return stateBuilder.loading()
+        }
+
+        if (hasError()) {
+            return stateBuilder.error()
+        }
+
+        if (hasSucceeded()) {
+            return stateBuilder.success()
+        }
+    }
+
+    return {
+        fetch,
+        state,
+        isLoading,
+        hasError,
+        hasSucceeded,
+        isIdle,
+        setIdle,
+        when,
+    }
 }
