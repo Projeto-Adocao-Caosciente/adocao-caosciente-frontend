@@ -6,6 +6,7 @@ enum AppRoutes {
     pet = '/pet/:id',
     petRegister = '/pet-register',
     formRegister = '/pet/:animalId/form',
+    formView = '/pet/form/:formId',
     adopterRegister = '/adopter-register',
     notFound = '*',
 }

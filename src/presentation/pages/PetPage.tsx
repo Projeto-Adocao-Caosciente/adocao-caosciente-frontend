@@ -75,7 +75,10 @@ export default function PetPage({
         },
         successListener: populateFields,
         errorListener: () => {
-            notify('error', 'Não foi possível encontrar o Pet desejado. Por favor, tente novamente mais tarde.')
+            notify(
+                'error',
+                'Não foi possível encontrar o Pet desejado. Por favor, tente novamente mais tarde.'
+            )
             petDetailFetch.setIdle()
             navigate(AppRoutes.home)
         },
@@ -214,6 +217,15 @@ export default function PetPage({
                                     color={'primary'}
                                     variant={'bordered'}
                                     key={form.formId}
+                                    onClick={() =>
+                                        navigate(
+                                            appRouteParamReplace(
+                                                AppRoutes.formView,
+                                                ':formId',
+                                                form.formId
+                                            )
+                                        )
+                                    }
                                 >
                                     {form.formTitle}
                                 </Button>

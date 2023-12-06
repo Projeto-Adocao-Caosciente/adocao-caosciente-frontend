@@ -4,6 +4,8 @@ import { FormService } from '../../data/services/form-service'
 import { QuestionFieldsValue } from '../models/question-field-model'
 import { AnimalFormListModel } from '../models/animal-form-list-model'
 import { AnimalFormListMapper } from '../mapper/animal-form-list-mapper'
+import { AnimalFormMapper } from '../mapper/animal-form-mapper'
+import { AnimalFormModel } from '../models/animal-form-model'
 
 export interface FormInteractor {
     saveForm: (
@@ -11,14 +13,15 @@ export interface FormInteractor {
         formTitle: string,
         animalId: string
     ) => Promise<void>
-    getForm: (formId: string) => Promise<any>
+    getForm: (formId: string) => Promise<AnimalFormModel>
     getAnimalForms: (animalId: string) => Promise<AnimalFormListModel>
 }
 
 export class FormInteractorImpl implements FormInteractor {
     constructor(
         private readonly service: FormService,
-        private readonly animalFormListMapper: AnimalFormListMapper
+        private readonly animalFormListMapper: AnimalFormListMapper,
+        private readonly animalFormMapper: AnimalFormMapper
     ) {}
 
     async saveForm(
@@ -51,7 +54,14 @@ export class FormInteractorImpl implements FormInteractor {
         }
     }
 
-    async getForm(formId: string): Promise<any> {
-        throw new Error('Method not implemented.')
+    async getForm(formId: string): Promise<AnimalFormModel> {
+        const httpResponse = await this.service.getForm(formId)
+
+        switch (httpResponse.statusCode) {
+            case HttpStatusCode.ok:
+                return this.animalFormMapper.map(httpResponse.body?.data)
+            default:
+                throw new UnexpectedError()
+        }
     }
 }
