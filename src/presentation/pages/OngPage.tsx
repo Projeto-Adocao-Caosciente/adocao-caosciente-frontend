@@ -93,15 +93,24 @@ export default function OngPage({
         fn: (fields) => interactor.register({ ...fields }),
         successListener: (_: void) =>
             onSuccess('Cadastro efetuado com sucesso!', AppRoutes.login),
-        errorListener: (error?: Error) =>       
-            error instanceof FieldConflict ? onFail(error.message) : onFail('Não foi possível realizar o cadastro, tente novamente'),
+        errorListener: (error?: Error) =>
+            error instanceof FieldConflict
+                ? onFail(error.message)
+                : onFail(
+                      'Não foi possível realizar o cadastro, tente novamente'
+                  ),
     })
 
     const editFetch = useFetch<void>({
         fn: (fields) => interactor.edit({ ...fields }),
-        successListener: (_: void) => onSuccess('Edição efetuada com sucesso!', AppRoutes.home),
+        successListener: (_: void) =>
+            onSuccess('Edição efetuada com sucesso!', AppRoutes.home),
         errorListener: (error?: Error) =>
-            error instanceof FieldConflict ? onFail(error.message) : onFail('Não foi possível realizar o cadastro, tente novamente'),
+            error instanceof FieldConflict
+                ? onFail(error.message)
+                : onFail(
+                      'Não foi possível realizar o cadastro, tente novamente'
+                  ),
     })
 
     const eyeToggle = useBoolean(false)
@@ -194,6 +203,7 @@ export default function OngPage({
                 </section>
                 <section className="flex gap-6 flex-col items-center md:flex-row">
                     <InputFileImage
+                        imageUrl={user?.photo}
                         handleImageUpload={(file) =>
                             fileToBase64(file, (base64) => {
                                 setValue('avatarBase64', base64, {

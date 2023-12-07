@@ -220,7 +220,7 @@
       "responses": [
         {
           "uuid": "1b8375c8-9251-40a4-a945-5eb9627d3e13",
-          "body": "{\n  \"message\": \"\",\n  \"data\": {\n    \"type\": 1,\n    \"user\": {\n      \"id\": \"{{faker 'string.uuid'}}\",\n      \"cnpj\": \"12345678901234\",\n      \"name\": \"{{faker 'person.firstName'}} {{faker 'person.firstName'}}\",\n      \"email\": \"john.doe@email.com\",\n      \"logo\": \"{{faker 'string.uuid'}}\",\n      \"city\": \"{{faker 'location.city'}}\",\n      \"state\": \"{{faker 'location.state' abbreviated=true}}\",\n      \"phone\": \"(99) 99999-9999\",\n      \"mission\": \"{{faker 'lorem.sentence'}}\",\n      \"foundation\": \"{{now}}\",\n      \"description\": \"{{faker 'lorem.sentence'}}\"\n    }\n  }\n}",
+          "body": "{\n  \"message\": \"\",\n  \"data\": {\n    \"type\": 1,\n    \"user\": {\n      \"id\": \"{{faker 'string.uuid'}}\",\n      \"cnpj\": \"12345678901234\",\n      \"name\": \"{{faker 'person.firstName'}} {{faker 'person.firstName'}}\",\n      \"email\": \"john.doe@email.com\",\n      \"logo\": \"{{faker 'image.avatar'}}\",\n      \"city\": \"{{faker 'location.city'}}\",\n      \"state\": \"{{faker 'location.state' abbreviated=true}}\",\n      \"phone\": \"(99) 99999-9999\",\n      \"mission\": \"{{faker 'lorem.sentence'}}\",\n      \"foundation\": \"{{now}}\",\n      \"description\": \"{{faker 'lorem.sentence'}}\"\n    }\n  }\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -359,13 +359,42 @@
     {
       "uuid": "2a4bcc6c-878d-49d7-978d-c3438cfce8da",
       "type": "http",
-      "documentation": "Adoption Form Get Route",
+      "documentation": "Adoption Forms Get Route",
       "method": "get",
       "endpoint": "ong/animals/forms/:formId",
       "responses": [
         {
           "uuid": "7928af11-0012-4c66-9d0d-aeac36483bb8",
           "body": "{\n  \"message\": \"Form retrieved successfully\",\n  \"data\": {\n    \"id\": \"65399a66603f63f1b6b24e6c\",\n    \"title\": \"{{faker 'lorem.sentence'}}\",\n    \"questions\": [\n      {{#repeat 1 8}}\n      {\n        \"question\": \"{{faker 'lorem.sentence'}}\",\n        \"choices\": [\n          {{#repeat 2 6}}\n          {\n            \"id\": 0,\n            \"label\": \"{{faker 'lorem.sentence'}}\",\n            \"is_correct\": {{boolean}}\n          }\n          {{/repeat}}\n        ]\n      }\n      {{/repeat}}\n    ]\n  }\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "cedf1cf0-8a2d-41fe-8ae4-c8c720c9b399",
+      "type": "http",
+      "documentation": "Animal Register Route",
+      "method": "get",
+      "endpoint": "adopter/animals",
+      "responses": [
+        {
+          "uuid": "82849478-2300-4303-9059-186e57fa0888",
+          "body": "{\n  \"message\": \"\",\n  \"data\": [\n      {{#repeat 2}}\n      {\n        \"id\": \"{{faker 'string.uuid'}}\",\n        \"name\": \"{{faker 'person.firstName'}} {{faker 'person.firstName'}}\",\n        \"type\": \"{{faker 'person.firstName'}}\",\n        \"breed\": \"{{faker 'person.firstName'}}\",\n        \"height\": \"67,5\",\n        \"weight\": \"5,3\",\n        \"special_needs\": [],\n        \"adoption_requirements\": [],\n        \"aditional_info\": \"Vesper aer solio voveo subiungo currus cometes brevis eveniet.\",\n        \"photo\": \"{{faker 'image.avatar'}}\",\n        \"adopter\": \"\"\n      }\n      {{/repeat}}\n  ]\n}\n",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -422,6 +451,10 @@
     {
       "type": "route",
       "uuid": "59e57f11-82af-4d28-bd09-c2a72550cc4e"
+    },
+    {
+      "type": "route",
+      "uuid": "cedf1cf0-8a2d-41fe-8ae4-c8c720c9b399"
     },
     {
       "type": "route",
