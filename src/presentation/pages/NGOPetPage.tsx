@@ -186,7 +186,7 @@ export default function NGOPetPage({
         if (petAdoptionFormsFetch.hasSucceeded()) {
             if ((petAdoptionFormsFetch.state.data?.length ?? 0) <= 0) {
                 return (
-                    <div data-selector='form-section'>
+                    <div data-selector='form-empty-list'>
                         <p className="text-base font-light">
                             Não existem formulários de adoção atrelados a esse
                             animal

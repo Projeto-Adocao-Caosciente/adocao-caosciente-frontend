@@ -40,20 +40,27 @@ export default function NGOHome({ interactor }: NGOHomePageProps) {
                 <>
                     {animals.map((animal: AnimalModel, index: number) => {
                         return (
-                            <PetCard
-                                id={animal.id}
-                                imageSrc={animal.photo}
-                                imageAlt="Imagem de um pet"
-                                title={animal.name}
-                                key={index + Math.random()}
-                            />
+                            <div data-selector="pet-card-container">
+                                <PetCard
+                                    data-selector="pet-card"
+                                    id={animal.id}
+                                    imageSrc={animal.photo}
+                                    imageAlt="Imagem de um pet"
+                                    title={animal.name}
+                                    key={index + Math.random()}
+                                />
+                            </div>
                         )
                     })}
                 </>
             )
         }
 
-        return <p>Nenhum pet foi encontrado</p>
+        return (
+            <p data-selector="pet-empty-list">
+                Parece que você ainda não cadastrou nenhum pet.
+            </p>
+        )
     }
 
     function buildNGOPetsList(): React.JSX.Element {
