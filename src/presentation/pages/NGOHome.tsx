@@ -86,6 +86,7 @@ export default function NGOHome({ interactor }: NGOHomePageProps) {
                 title: 'Pets cadastrados',
                 rightContent: (
                     <Button
+                        data-selector="pet-register-button"
                         color="primary"
                         variant="solid"
                         size="lg"

@@ -39,6 +39,7 @@ export default function HomeTemplate({
             </section>
             <section className="flex gap-4 mb-8">
                 <Input
+                    data-selector="home-filter-input"
                     variant="bordered"
                     placeholder={filter.label}
                     onChange={(event) => filter.onChange(event.target.value)}
