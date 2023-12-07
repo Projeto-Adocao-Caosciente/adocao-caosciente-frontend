@@ -176,7 +176,7 @@ export default function NGOPetPage({
     const buildAdoptionFormList = () => {
         if (petAdoptionFormsFetch.hasError()) {
             return (
-                <p>
+                <p data-selector='form-error-list'>
                     Não foi possível buscar os formulários de adoção atrelados a
                     esse animal
                 </p>

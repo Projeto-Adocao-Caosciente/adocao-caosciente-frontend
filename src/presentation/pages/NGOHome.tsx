@@ -40,9 +40,8 @@ export default function NGOHome({ interactor }: NGOHomePageProps) {
                 <>
                     {animals.map((animal: AnimalModel, index: number) => {
                         return (
-                            <div>
+                            <div data-selector="pet-card">
                                 <PetCard
-                                    data-selector="pet-card"
                                     id={animal.id}
                                     imageSrc={animal.photo}
                                     imageAlt="Imagem de um pet"
