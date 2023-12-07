@@ -54,6 +54,7 @@ export default function PetCard({
                 />
                 <div className={'flex flex-col w-full p-5 gap-3'}>
                     <Button
+                        data-selector="pet-card-view-details-button"
                         className={'w-full'}
                         variant="solid"
                         color="primary"
@@ -64,6 +65,7 @@ export default function PetCard({
                     </Button>
                     {variant == PetCardVariant.adoption ? (
                         <Button
+                            data-selector="pet-card-view-forms-button"
                             className={'w-full'}
                             variant="flat"
                             color="primary"
@@ -76,7 +78,7 @@ export default function PetCard({
             </CardBody>
             <Divider />
             <CardFooter className="flex justify-center">
-                <p className="text-xl font-bold">{title}</p>
+                <p data-selector="pet-card-name" className="text-xl font-bold">{title}</p>
             </CardFooter>
         </Card>
     )
