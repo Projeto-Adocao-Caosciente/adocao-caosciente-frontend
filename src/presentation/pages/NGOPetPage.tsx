@@ -186,7 +186,7 @@ export default function NGOPetPage({
         if (petAdoptionFormsFetch.hasSucceeded()) {
             if ((petAdoptionFormsFetch.state.data?.length ?? 0) <= 0) {
                 return (
-                    <div>
+                    <div data-selector='form-section'>
                         <p className="text-base font-light">
                             Não existem formulários de adoção atrelados a esse
                             animal
@@ -210,10 +210,11 @@ export default function NGOPetPage({
                 )
             } else {
                 return (
-                    <div className={'flex flex-wrap items-center gap-2 mb-2'}>
+                    <div className={'flex flex-wrap items-center gap-2 mb-2'} data-selector='form-section'>
                         {(petAdoptionFormsFetch.state.data ?? []).map(
                             (form) => (
                                 <Button
+                                    data-selector='view-form'
                                     color={'primary'}
                                     variant={'bordered'}
                                     key={form.formId}
@@ -232,6 +233,7 @@ export default function NGOPetPage({
                             )
                         )}
                         <Button
+                            data-selector='form-add'
                             color={'primary'}
                             variant={'bordered'}
                             isIconOnly

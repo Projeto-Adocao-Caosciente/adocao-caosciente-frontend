@@ -82,6 +82,7 @@ export function QuestionCard({
             return fields.map((field, index) => {
                 return (
                     <div
+                        data-selector="question-option"
                         className={
                             'flex items-center justify-center gap-2 mb-5'
                         }
@@ -89,6 +90,7 @@ export function QuestionCard({
                     >
                         <Tooltip content="Marcar opção como correta/válida">
                             <Checkbox
+                                data-selector="question-option-checkbox"
                                 color="success"
                                 size="lg"
                                 aria-label="Marcar opção como correta/válida"
@@ -106,6 +108,7 @@ export function QuestionCard({
                             />
                         </Tooltip>
                         <Input
+                            data-selector="question-option-input"
                             key={field.id}
                             minLength={2}
                             maxLength={60}
@@ -123,7 +126,7 @@ export function QuestionCard({
                             })}
                         />
                         <Tooltip content="Remover opção">
-                            <Button isIconOnly onClick={() => remove(index)}>
+                            <Button data-selector='question-option-remove-button' isIconOnly onClick={() => remove(index)}>
                                 <FaRegTrashCan />
                             </Button>
                         </Tooltip>
@@ -151,6 +154,7 @@ export function QuestionCard({
         >
             <div onClick={() => onFocused(id)}>
                 <form
+                    data-selector="question-form"
                     onSubmit={handleSubmit(onSubmit)}
                     className={`${
                         !isFocused
@@ -161,6 +165,7 @@ export function QuestionCard({
                     <div className={'md:px-6 py-8'}>
                         <div className={'flex justify-center'}>
                             <Input
+                                data-selector="question-title-input"
                                 minLength={2}
                                 maxLength={60}
                                 placeholder="Título da Pergunta"
@@ -178,6 +183,7 @@ export function QuestionCard({
 
                         {buildOptions()}
                         <Button
+                            data-selector="question-add-option-button"
                             fullWidth
                             type="button"
                             variant={'flat'}
@@ -197,6 +203,7 @@ export function QuestionCard({
                     <div className={'flex gap-2 md:px-6 py-4'}>
                         <Tooltip content="Deletar a pergunta do formulário.">
                             <Button
+                                data-selector="question-remove-button"
                                 fullWidth
                                 variant={'flat'}
                                 color={'danger'}
@@ -208,6 +215,7 @@ export function QuestionCard({
                         </Tooltip>
                         <Tooltip content="Inserir e/ou atualizar a pergunta no formulário.">
                             <Button
+                                data-selector="question-submit-button"
                                 fullWidth
                                 variant={'flat'}
                                 color={'primary'}

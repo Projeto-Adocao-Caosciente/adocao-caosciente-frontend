@@ -137,6 +137,7 @@ export default function FormPage({ interactor }: FormPageProps) {
         <main className={'container-form mb-10'}>
             <header className="mb-12 sm:flex sm:justify-center">
                 <Input
+                    data-selector="form-title-input"
                     placeholder="Título do Formulário..."
                     variant="underlined"
                     className="sm:w-96 font-medium text-lg"
@@ -148,6 +149,7 @@ export default function FormPage({ interactor }: FormPageProps) {
             <section className="flex flex-col items-center gap-6">
                 <Tooltip content="Adicionar pergunta">
                     <Button
+                        data-selector="add-question-button"
                         color="primary"
                         variant="solid"
                         size="md"
@@ -161,6 +163,7 @@ export default function FormPage({ interactor }: FormPageProps) {
 
                 <Divider className="my-6" />
                 <Button
+                    data-selector="finish-form-button"
                     fullWidth
                     color="primary"
                     variant="solid"
@@ -172,6 +175,7 @@ export default function FormPage({ interactor }: FormPageProps) {
                     Finalizar Formulário
                 </Button>
                 <Button
+                    data-selector="cancel-form-button"
                     fullWidth
                     color="danger"
                     variant="flat"
