@@ -40,7 +40,7 @@ export default function NGOHome({ interactor }: NGOHomePageProps) {
                 <>
                     {animals.map((animal: AnimalModel, index: number) => {
                         return (
-                            <div data-selector="pet-card-container">
+                            <div>
                                 <PetCard
                                     data-selector="pet-card"
                                     id={animal.id}
@@ -72,7 +72,11 @@ export default function NGOHome({ interactor }: NGOHomePageProps) {
             return <p>Carregando...</p>
         }
 
-        return <p>Ocorreu um erro carregando os pets</p>
+        return (
+            <p data-selector="pet-error-list">
+                Ocorreu um erro ao carregar os pets. Tente novamente mais tarde.
+            </p>
+        )
     }
 
     return (
