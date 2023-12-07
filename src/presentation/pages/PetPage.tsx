@@ -283,6 +283,8 @@ export default function PetPage({
                 <section className="flex gap-6 flex-col items-center md:flex-row">
                     <Skeleton isLoaded={!petDetailFetch.isLoading()}>
                         <InputFileImage
+                            key={petDetailFetch.state.data?.photo}
+                            imageUrl={petDetailFetch.state.data?.photo}
                             handleImageUpload={(file) =>
                                 fileToBase64(file, (base64) => {
                                     setValue('photoBase64', base64, {

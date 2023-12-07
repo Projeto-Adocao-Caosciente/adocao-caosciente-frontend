@@ -29,7 +29,6 @@ export default function InputFileImage({
     return (
         <div className={`${defaultCSS} relative overflow-hidden object-cover`}>
             <img src={imgUrl} className="absolute w-[210px] h-[210px]" alt="" />
-            {/* TODO: Tratar onMouseHover para dispositivos móveis (não deve ter) */}
             {(imgUrl === '' || controller) && (
                 <div
                     className={`absolute w-[110px] h-[110px] rounded-full ${
@@ -41,7 +40,9 @@ export default function InputFileImage({
             )}
             <input
                 type="file"
-                className={`${isDisabled ? 'cursor-not-allowed' : 'cursor-pointer'} absolute top-0 left-0 w-[210px] h-[210px] opacity-0`}
+                className={`${
+                    isDisabled ? 'cursor-not-allowed' : 'cursor-pointer'
+                } absolute top-0 left-0 w-[210px] h-[210px] opacity-0`}
                 onChange={handleUpload}
                 onMouseEnter={() => setController(true)}
                 onMouseLeave={() => setController(false)}
