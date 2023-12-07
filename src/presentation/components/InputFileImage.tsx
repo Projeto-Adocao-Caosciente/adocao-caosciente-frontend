@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import UploadIcon from '../assets/UploadIcon'
 
 interface InputFileImageProps {
-    handleImageUpload: (file: File) => void
+    handleImageUpload?: (file: File) => void
     hasError?: boolean
     imageUrl?: string
     isDisabled?: boolean
@@ -20,7 +20,9 @@ export default function InputFileImage({
         const file = event.target.files?.[0]
         if (file) {
             setImgUrl(URL.createObjectURL(file))
-            handleImageUpload(file)
+            if (handleImageUpload != null) {
+                handleImageUpload(file)
+            }
         }
     }
     const defaultCSS = `w-[210px] h-[210px] rounded-full border ${

@@ -98,7 +98,7 @@
     {
       "uuid": "59e57f11-82af-4d28-bd09-c2a72550cc4e",
       "type": "http",
-      "documentation": "Animal Register Route",
+      "documentation": "NGO Animals Get Route",
       "method": "get",
       "endpoint": "ong/animals",
       "responses": [
@@ -127,7 +127,7 @@
     {
       "uuid": "6a8885f6-9949-4756-b491-7d22e01280ab",
       "type": "http",
-      "documentation": "Animal Get Route",
+      "documentation": "NGO Animal Get Route",
       "method": "get",
       "endpoint": "ong/animals/:id",
       "responses": [
@@ -220,7 +220,7 @@
       "responses": [
         {
           "uuid": "1b8375c8-9251-40a4-a945-5eb9627d3e13",
-          "body": "{\n  \"message\": \"\",\n  \"data\": {\n    \"type\": 1,\n    \"user\": {\n      \"id\": \"{{faker 'string.uuid'}}\",\n      \"cnpj\": \"12345678901234\",\n      \"name\": \"{{faker 'person.firstName'}} {{faker 'person.firstName'}}\",\n      \"email\": \"john.doe@email.com\",\n      \"logo\": \"{{faker 'image.avatar'}}\",\n      \"city\": \"{{faker 'location.city'}}\",\n      \"state\": \"{{faker 'location.state' abbreviated=true}}\",\n      \"phone\": \"(99) 99999-9999\",\n      \"mission\": \"{{faker 'lorem.sentence'}}\",\n      \"foundation\": \"{{now}}\",\n      \"description\": \"{{faker 'lorem.sentence'}}\"\n    }\n  }\n}",
+          "body": "{\n  \"message\": \"\",\n  \"data\": {\n    \"type\": 2,\n    \"user\": {\n      \"id\": \"{{faker 'string.uuid'}}\",\n      \"cnpj\": \"12345678901234\",\n      \"name\": \"{{faker 'person.firstName'}} {{faker 'person.firstName'}}\",\n      \"email\": \"john.doe@email.com\",\n      \"logo\": \"{{faker 'image.avatar'}}\",\n      \"city\": \"{{faker 'location.city'}}\",\n      \"state\": \"{{faker 'location.state' abbreviated=true}}\",\n      \"phone\": \"(99) 99999-9999\",\n      \"mission\": \"{{faker 'lorem.sentence'}}\",\n      \"foundation\": \"{{now}}\",\n      \"description\": \"{{faker 'lorem.sentence'}}\"\n    }\n  }\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -388,13 +388,42 @@
     {
       "uuid": "cedf1cf0-8a2d-41fe-8ae4-c8c720c9b399",
       "type": "http",
-      "documentation": "Animal Register Route",
+      "documentation": "Adopter Animals Get Route",
       "method": "get",
       "endpoint": "adopter/animals",
       "responses": [
         {
           "uuid": "82849478-2300-4303-9059-186e57fa0888",
           "body": "{\n  \"message\": \"\",\n  \"data\": [\n      {{#repeat 2}}\n      {\n        \"id\": \"{{faker 'string.uuid'}}\",\n        \"name\": \"{{faker 'person.firstName'}} {{faker 'person.firstName'}}\",\n        \"type\": \"{{faker 'person.firstName'}}\",\n        \"breed\": \"{{faker 'person.firstName'}}\",\n        \"height\": \"67,5\",\n        \"weight\": \"5,3\",\n        \"special_needs\": [],\n        \"adoption_requirements\": [],\n        \"aditional_info\": \"Vesper aer solio voveo subiungo currus cometes brevis eveniet.\",\n        \"photo\": \"{{faker 'image.avatar'}}\",\n        \"adopter\": \"\"\n      }\n      {{/repeat}}\n  ]\n}\n",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
+    },
+    {
+      "uuid": "4d36aec6-f325-464f-9cdb-993663a96bdf",
+      "type": "http",
+      "documentation": "Adopter Animal Get Route",
+      "method": "get",
+      "endpoint": "adopter/animals/:id",
+      "responses": [
+        {
+          "uuid": "88a2f422-817c-455d-94b1-4478f9ee696b",
+          "body": "{\n  \"message\": \"\",\n  \"data\": {\n    \"id\": \"{{faker 'string.uuid'}}\",\n    \"name\": \"{{faker 'person.firstName'}} {{faker 'person.firstName'}}\",\n    \"type\": \"{{faker 'person.firstName'}}\",\n    \"breed\": \"{{faker 'person.firstName'}}\",\n    \"height\": \"67,5\",\n    \"weight\": \"5,3\",\n    \"special_needs\": [],\n    \"adoption_requirements\": [],\n    \"aditional_info\": \"Vesper aer solio voveo subiungo currus cometes brevis eveniet.\",\n    \"photo\": \"{{faker 'image.avatar'}}\",\n    \"adopter\": \"\"\n  }\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -459,6 +488,10 @@
     {
       "type": "route",
       "uuid": "6a8885f6-9949-4756-b491-7d22e01280ab"
+    },
+    {
+      "type": "route",
+      "uuid": "4d36aec6-f325-464f-9cdb-993663a96bdf"
     },
     {
       "type": "route",

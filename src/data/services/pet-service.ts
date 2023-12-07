@@ -14,6 +14,7 @@ export interface PetService {
     getAll: (query?: string) => Promise<HttpResponse<AnimalsResponse>>
     getAllInAdoption: (query?: string) => Promise<HttpResponse<AnimalsResponse>>
     get: (id: string) => Promise<HttpResponse<AnimalResponse>>
+    getInAdoption: (id: string) => Promise<HttpResponse<AnimalResponse>>
 }
 
 export class PetServiceImpl implements PetService {
@@ -24,6 +25,7 @@ export class PetServiceImpl implements PetService {
     private readonly getAllPath = '/ong/animals'
     private readonly getAllInAdoptionPath = '/adopter/animals'
     private readonly getPath = '/ong/animals'
+    private readonly getInAdoptionPath = '/adopter/animals'
 
     // TODO: consumir via backend
     getSpecialNeeds(): Promise<SelectOptionResponse[]> {
@@ -78,6 +80,13 @@ export class PetServiceImpl implements PetService {
     get(id: string): Promise<HttpResponse<AnimalResponse>> {
         return this.httpClient.request<AnimalResponse>({
             path: `${this.getPath}/${id}`,
+            method: 'get',
+        })
+    }
+
+    getInAdoption(id: string): Promise<HttpResponse<AnimalResponse>> {
+        return this.httpClient.request<AnimalResponse>({
+            path: `${this.getInAdoptionPath}/${id}`,
             method: 'get',
         })
     }

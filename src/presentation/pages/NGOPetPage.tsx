@@ -31,7 +31,7 @@ import { FaCirclePlus } from 'react-icons/fa6'
 import { appRouteParamReplace } from '../../utils/app-route-param-replace'
 import LinkIcon from '../assets/LinkIcon'
 
-type PetPageProps = {
+type NGOPetPageProps = {
     validationWrapper: PetFieldsValidationWrapper
     petInteractor: PetInteractor
     formInteractor: FormInteractor
@@ -48,11 +48,11 @@ export const specialNeeds = [
     },
 ]
 
-export default function PetPage({
+export default function NGOPetPage({
     validationWrapper,
     petInteractor,
     formInteractor,
-}: PetPageProps) {
+}: NGOPetPageProps) {
     const navigate = useNavigate()
     const { notify } = useNotify()
     const petId = useParams().id ?? ''
