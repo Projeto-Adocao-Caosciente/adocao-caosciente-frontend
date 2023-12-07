@@ -8,6 +8,7 @@ export interface AnimalModel {
     weight: string
     special_needs: string[]
     adoption_requirements: string[]
+    aditionalInfo: string
     photo: string
     adopter: string
 }

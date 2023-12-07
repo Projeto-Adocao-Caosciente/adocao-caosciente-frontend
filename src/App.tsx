@@ -11,15 +11,17 @@ import { makeLoginPage } from './factories/pages/login-page-factory'
 import ProtectedRoute from './proxies/protected-routes'
 import { makeHomePage } from './factories/pages/home-page-factory'
 import {
+    makeProxyAdopterAuthenticatedRule,
     makeProxyAuthenticatedRule,
     makeProxyNGOAuthenticatedRule,
 } from './factories/proxies/proxy-rule-solver-factory'
 import { makeOngPage } from './factories/pages/ong-page-factory'
-import { makePetPage } from './factories/pages/pet-page-factory'
 import { makeAdopterRegisterPage } from './factories/pages/adopter-register-page-factory'
 import { makeFormPage } from './factories/pages/form-page-factory'
 import NotFound from './presentation/pages/NotFound'
 import { makeFormViewPage } from './factories/pages/form-view-page-factory'
+import { makeNGOPetPage } from './factories/pages/ngo-pet-page-factory'
+import { makeAdopterPetPage } from './factories/pages/adopter-pet-page-factory'
 
 function App() {
     const { pathname } = useLocation()
@@ -52,7 +54,7 @@ function App() {
                     path={AppRoutes.petRegister}
                     element={
                         <ProtectedRoute
-                            page={makePetPage()}
+                            page={makeNGOPetPage()}
                             ruleSolver={makeProxyNGOAuthenticatedRule()}
                         />
                     }
@@ -61,8 +63,17 @@ function App() {
                     path={AppRoutes.pet}
                     element={
                         <ProtectedRoute
-                            page={makePetPage()}
+                            page={makeNGOPetPage()}
                             ruleSolver={makeProxyNGOAuthenticatedRule()}
+                        />
+                    }
+                />
+                <Route
+                    path={AppRoutes.adopterPet}
+                    element={
+                        <ProtectedRoute
+                            page={makeAdopterPetPage()}
+                            ruleSolver={makeProxyAdopterAuthenticatedRule()}
                         />
                     }
                 />

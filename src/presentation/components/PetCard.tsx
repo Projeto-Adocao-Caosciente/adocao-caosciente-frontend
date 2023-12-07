@@ -1,13 +1,15 @@
 import React from 'react'
 import {
+    Button,
     Card,
     CardBody,
     CardFooter,
     Divider,
     Image,
-    Button,
 } from '@nextui-org/react'
 import { useNavigate } from 'react-router-dom'
+import { appRouteParamReplace } from '../../utils/app-route-param-replace'
+import { AppRoutes } from '../../routes/app-routes'
 
 export enum PetCardVariant {
     default,
@@ -31,6 +33,14 @@ export default function PetCard({
 }: PetCardProps) {
     const navigate = useNavigate()
 
+    const detailRoute = appRouteParamReplace(
+        variant == PetCardVariant.adoption
+            ? AppRoutes.adopterPet
+            : AppRoutes.pet,
+        ':id',
+        id
+    )
+
     return (
         <Card>
             <Divider />
@@ -48,23 +58,20 @@ export default function PetCard({
                         variant="solid"
                         color="primary"
                         size="md"
-                        onClick={() => navigate(`pet/${id}`)}
+                        onClick={() => navigate(detailRoute)}
                     >
                         Visualizar Detalhes
                     </Button>
-                    {variant == PetCardVariant.adoption ? <Button
-                        className={'w-full'}
-                        variant="flat"
-                        color="primary"
-                        size="md"
-                    >
-                        Formulário de Adoção
-                    </Button> : null}
-
-                    {/* TODO: Tratar segundo possível caso de quando o pet tiver formulários associados a ele */}
-                    {/*                    <Button variant="flat" color="danger" size="md">
-                        Deletar Cadastro
-                    </Button>*/}
+                    {variant == PetCardVariant.adoption ? (
+                        <Button
+                            className={'w-full'}
+                            variant="flat"
+                            color="primary"
+                            size="md"
+                        >
+                            Formulário de Adoção
+                        </Button>
+                    ) : null}
                 </div>
             </CardBody>
             <Divider />

@@ -16,6 +16,7 @@ export class PetMapperImpl implements PetMapper {
             special_needs: response?.special_needs ?? [],
             adoption_requirements: response?.adoption_requirements ?? [],
             photo: response?.photo ?? '',
+            aditionalInfo: response?.aditional_info ?? '',
             adopter: response?.adopter ?? '',
         }
     }

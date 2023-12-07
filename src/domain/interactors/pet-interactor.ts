@@ -17,6 +17,7 @@ export interface PetInteractor {
     getAll: (query?: string) => Promise<AnimalModel[]>
     getAllInAdoption: (query?: string) => Promise<AnimalModel[]>
     get: (id: string) => Promise<AnimalModel>
+    getInAdoption: (id: string) => Promise<AnimalModel>
 }
 
 export class PetInteractorImpl implements PetInteractor {
@@ -83,6 +84,21 @@ export class PetInteractorImpl implements PetInteractor {
         if (id.length <= 0) throw new PetInvalidFoundError()
 
         const httpResponse = await this.service.get(id)
+
+        switch (httpResponse.statusCode) {
+            case HttpStatusCode.ok:
+                return this.petMapper.map(httpResponse.body?.data)
+            case HttpStatusCode.notFound:
+                throw new PetNotFoundError()
+            default:
+                throw new UnexpectedError()
+        }
+    }
+
+    async getInAdoption(id: string): Promise<AnimalModel> {
+        if (id.length <= 0) throw new PetInvalidFoundError()
+
+        const httpResponse = await this.service.getInAdoption(id)
 
         switch (httpResponse.statusCode) {
             case HttpStatusCode.ok:
