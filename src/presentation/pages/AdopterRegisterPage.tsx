@@ -187,7 +187,7 @@ export default function AdopterRegisterPage({
                     <h3 className="text-xl font-bold">Contato</h3>
                     <article className={'flex flex-col gap-6'}>
                         <Input
-                            type="email"
+                            type="text"
                             maxLength={60}
                             placeholder='Email'
                             variant='bordered'
