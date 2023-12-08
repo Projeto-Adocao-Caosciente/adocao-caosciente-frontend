@@ -62,14 +62,14 @@ export default function NavbarComponent() {
                                 <p data-selector='navbar-toggle-user-email' className="font-semibold">{user?.email}</p>
                             </DropdownItem>
                             <DropdownItem
-                                data-selector='navbar-toggle-edit'
+                                data-selector='navbar-edit-profile'
                                 key="edit"
                                 onPress={() => navigate(AppRoutes.edit)}
                             >
                                 Editar cadastro
                             </DropdownItem>
                             <DropdownItem
-                                data-selector='navbar-toggle-logout'
+                                data-selector='navbar-logout'
                                 key="logout"
                                 color="danger"
                                 onClick={handleLogout}
