@@ -53,6 +53,7 @@ export default function LoginTemplate<Fields extends FieldValues>({
                     </section>
                     <section className="flex justify-center gap-6 flex-col mb-6">
                         <Button
+                            data-selector="login-button"
                             id="login-button"
                             color="primary"
                             variant="solid"

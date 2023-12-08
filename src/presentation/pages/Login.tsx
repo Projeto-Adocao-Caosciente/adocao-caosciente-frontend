@@ -68,6 +68,7 @@ export default function LoginPage({ validationWrapper }: LoginPageProps) {
             fieldsContent={
                 <>
                     <Input
+                        data-selector="user-input"
                         id="user"
                         placeholder="CNPJ ou CPF"
                         variant="bordered"
@@ -78,12 +79,14 @@ export default function LoginPage({ validationWrapper }: LoginPageProps) {
                         {...register('user')}
                     />
                     <Input
+                        data-selector="password-input"
                         id="password"
                         placeholder="Senha"
                         variant="bordered"
                         size="lg"
                         endContent={
                             <button
+                                data-selector="toggle-password-visibility"
                                 className="focus:outline-none"
                                 type="button"
                                 onClick={toggleVisibility}
@@ -108,6 +111,7 @@ export default function LoginPage({ validationWrapper }: LoginPageProps) {
                     <p className="text-base font-light flex gap-2">
                         Cadastre-se como um{' '}
                         <Link
+                            data-selector="register-adopter-linkup"
                             id="register-linkup"
                             className="text-primary flex gap-1 cursor-pointer"
                             onClick={() => navigate(AppRoutes.adopterRegister)}
@@ -119,6 +123,7 @@ export default function LoginPage({ validationWrapper }: LoginPageProps) {
                     <p className="text-base font-light flex gap-2">
                         Cadastre-se como uma{' '}
                         <Link
+                            data-selector="register-ong-linkup"
                             id="register-linkup"
                             className="text-primary flex gap-1 cursor-pointer"
                             onClick={() => navigate(AppRoutes.ongRegister)}
