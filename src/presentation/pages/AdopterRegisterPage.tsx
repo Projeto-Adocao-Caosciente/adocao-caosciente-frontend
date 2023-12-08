@@ -130,6 +130,7 @@ export default function AdopterRegisterPage({
                         <h3 className="text-xl font-bold">Dados pessoais</h3>
                         <div className={'flex flex-col gap-6'}>
                             <Input
+                                data-selector="adopter-name-input"
                                 minLength={2}
                                 maxLength={60}
                                 placeholder='Nome completo'
@@ -141,6 +142,7 @@ export default function AdopterRegisterPage({
                             />
                             <div className={'flex flex-col gap-6 sm:flex-row'}>
                                 <Input
+                                    data-selector="adopter-cpf-input"
                                     placeholder="CPF"
                                     variant="bordered"
                                     size="lg"
@@ -150,6 +152,7 @@ export default function AdopterRegisterPage({
                                     {...register('itr')}
                                 />
                                 <Input
+                                    data-selector="adopter-birthdate-input"
                                     type='date'
                                     max={maxBirthDate.toISOString().split('T')[0]}
                                     min='1950-01-01'
@@ -163,6 +166,7 @@ export default function AdopterRegisterPage({
                             </div>
 
                             <Select
+                                data-selector='adopter-gender-input'
                                 placeholder="Gênero"
                                 variant="bordered"
                                 size="md"
@@ -187,6 +191,7 @@ export default function AdopterRegisterPage({
                     <h3 className="text-xl font-bold">Contato</h3>
                     <article className={'flex flex-col gap-6'}>
                         <Input
+                            data-selector="adopter-email-input"
                             type="text"
                             maxLength={60}
                             placeholder='Email'
@@ -197,6 +202,7 @@ export default function AdopterRegisterPage({
                             {...register('email')}
                         />
                         <Input
+                            data-selector="adopter-phone-input"
                             placeholder="Telefone (00) 00000-0000"
                             variant="bordered"
                             size="lg"
@@ -213,6 +219,7 @@ export default function AdopterRegisterPage({
                     <article className="flex flex-col gap-6">
                         <div className={'flex flex-col gap-6 sm:flex-row'}>
                             <Input
+                                data-selector="adopter-address-input"
                                 minLength={2}
                                 maxLength={60}
                                 placeholder='Endereço'
@@ -223,6 +230,7 @@ export default function AdopterRegisterPage({
                                 {...register('address')}
                             />
                             <Input
+                                data-selector="adopter-zipcode-input"
                                 placeholder="CEP"
                                 variant="bordered"
                                 size="lg"
@@ -234,6 +242,7 @@ export default function AdopterRegisterPage({
                         </div>
                         <div className={'flex flex-col gap-6 sm:flex-row'}>
                             <Input
+                                data-selector="adopter-city-input"
                                 minLength={2}
                                 maxLength={60}
                                 placeholder='Cidade'
@@ -244,6 +253,7 @@ export default function AdopterRegisterPage({
                                 {...register('city')}
                             />
                             <Input
+                                data-selector="adopter-state-input"
                                 minLength={2}
                                 maxLength={60}
                                 placeholder='Estado'
@@ -261,6 +271,7 @@ export default function AdopterRegisterPage({
                     <h3 className="text-xl font-bold">Dados de acesso:</h3>
                     <article className="flex flex-col gap-6">
                         <Input
+                            data-selector="adopter-password-input"
                             minLength={4}
                             maxLength={60}
                             placeholder='Senha'
@@ -285,6 +296,7 @@ export default function AdopterRegisterPage({
                             {...register('password')}
                         />
                         <Input
+                            data-selector="adopter-password-confirmation-input"
                             minLength={4}
                             maxLength={60}
                             placeholder='Confirmar senha'
@@ -315,6 +327,7 @@ export default function AdopterRegisterPage({
                 </section>
                 <section className="flex flex-col gap-6">
                     <Button
+                        data-selector="adopter-register-button"
                         color="primary"
                         variant="solid"
                         size="md"
@@ -326,6 +339,7 @@ export default function AdopterRegisterPage({
                     <p className="justify-center text-lg font-light flex gap-2">
                         Já possui conta?
                         <Link
+                            data-selector="adopter-register-login-link"
                             onClick={() => navigate(AppRoutes.login)}
                             className="text-primary flex gap-1 cursor-pointer"
                         >

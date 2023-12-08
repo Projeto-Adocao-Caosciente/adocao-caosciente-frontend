@@ -48,7 +48,11 @@ export default function AdopterHome({ interactor }: AdopterHomePageProps) {
             )
         }
 
-        return <p>Nenhum pet foi encontrado</p>
+        return (
+            <p data-selector="pet-empty-list">
+                Parece que você ainda não adotou nenhum pet.
+            </p>
+        )
     }
 
     function buildPetsList(): React.JSX.Element {
@@ -60,7 +64,11 @@ export default function AdopterHome({ interactor }: AdopterHomePageProps) {
             return <p>Carregando...</p>
         }
 
-        return <p>Ocorreu um erro carregando os pets</p>
+        return (
+            <p data-selector="pet-error-list">
+                Ocorreu um erro ao carregar os pets. Tente novamente mais tarde.
+            </p>
+        )
     }
 
     return (
