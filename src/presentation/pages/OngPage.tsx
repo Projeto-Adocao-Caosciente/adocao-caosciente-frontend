@@ -156,6 +156,7 @@ export default function OngPage({
         <p className="justify-center text-lg font-light flex gap-2">
             Já possui conta?
             <Link
+                data-selector="ong-cancel-button"
                 onClick={() => navigate(AppRoutes.login)}
                 className="text-primary flex gap-1 cursor-pointer"
             >
