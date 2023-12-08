@@ -144,6 +144,7 @@ export default function OngPage({
 
     const bottomContent = isEditing ? (
         <Button
+            data-selector="ong-cancel-button"
             color="danger"
             variant="flat"
             size="md"
@@ -179,6 +180,7 @@ export default function OngPage({
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className={'hidden'}>
                     <Input
+                        data-selector="ong-photo-validator-input"
                         placeholder="Nome da ONG"
                         variant="underlined"
                         className="w-96"
@@ -191,6 +193,7 @@ export default function OngPage({
                 <section className="flex justify-center mb-12">
                     {/* TODO: Centralizar o placeholder */}
                     <Input
+                        data-selector="ong-name-input"
                         minLength={2}
                         maxLength={60}
                         placeholder="Nome da ONG"
@@ -215,6 +218,7 @@ export default function OngPage({
                     />
                     <article className="flex flex-1 flex-col gap-6">
                         <Input
+                            data-selector="ong-cnpj-input"
                             placeholder="CNPJ (00.000.000/0000-00)"
                             variant="bordered"
                             size="lg"
@@ -224,6 +228,7 @@ export default function OngPage({
                             {...register('user')}
                         />
                         <Input
+                            data-selector="ong-email-input"
                             maxLength={60}
                             placeholder="Email"
                             variant="bordered"
@@ -234,6 +239,7 @@ export default function OngPage({
                         />
                         <div className="flex gap-6">
                             <Input
+                                data-selector="ong-state-input"
                                 minLength={2}
                                 maxLength={60}
                                 placeholder="Estado"
@@ -244,6 +250,7 @@ export default function OngPage({
                                 {...register('state')}
                             />
                             <Input
+                                data-selector="ong-city-input"
                                 minLength={2}
                                 maxLength={60}
                                 placeholder="Cidade"
@@ -260,6 +267,7 @@ export default function OngPage({
                 <section className="flex flex-col gap-2">
                     <h3 className="text-xl font-bold">Contato:</h3>
                     <Input
+                        data-selector="ong-phone-input"
                         placeholder="Telefone (00) 0 0000-0000"
                         variant="bordered"
                         size="lg"
@@ -276,6 +284,7 @@ export default function OngPage({
                     </h3>
                     <article className="flex flex-col gap-6">
                         <Textarea
+                            data-selector="ong-programs-and-activities-input"
                             placeholder="Descreva seus programas e atividades"
                             minRows={4}
                             maxRows={8}
@@ -287,6 +296,7 @@ export default function OngPage({
                             {...register('programsAndActivities')}
                         />
                         <Textarea
+                            data-selector="ong-mission-input"
                             placeholder="Missão da ONG"
                             minRows={4}
                             maxRows={8}
@@ -297,6 +307,7 @@ export default function OngPage({
                         />
                         {/* FIXME: Sobrepor placeholder */}
                         <Input
+                            data-selector="ong-foundation-date-input"
                             type="date"
                             max={new Date().toISOString().split('T')[0]}
                             min="1950-01-01"
@@ -318,6 +329,7 @@ export default function OngPage({
                     <h3 className="text-xl font-bold">Dados de acesso:</h3>
                     <article className="flex flex-col gap-6">
                         <Input
+                            data-selector="ong-password-input"
                             minLength={4}
                             maxLength={60}
                             placeholder="Senha"
@@ -342,6 +354,7 @@ export default function OngPage({
                             {...register('password')}
                         />
                         <Input
+                            data-selector="ong-password-confirmation-input"
                             minLength={4}
                             maxLength={60}
                             placeholder="Confirmar senha"
@@ -372,6 +385,7 @@ export default function OngPage({
                 </section>
                 <section className="flex flex-col gap-6">
                     <Button
+                        data-selector="ong-register-button"
                         color="primary"
                         variant="solid"
                         size="md"

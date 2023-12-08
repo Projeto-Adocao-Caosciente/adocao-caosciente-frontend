@@ -41,7 +41,7 @@ export default function InputFileImage({
                 </div>
             )}
             <input
-                data-selector='pet-photo-input'
+                data-selector='photo-input'
                 type="file"
                 className={`${
                     isDisabled ? 'cursor-not-allowed' : 'cursor-pointer'
