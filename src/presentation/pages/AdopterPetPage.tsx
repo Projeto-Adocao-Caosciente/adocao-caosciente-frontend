@@ -48,6 +48,7 @@ export default function AdopterPetPage({ petInteractor }: AdopterPetPageProps) {
                 <div className="sm:flex sm:justify-center">
                     <Skeleton isLoaded={!petDetailFetch.isLoading()}>
                         <Input
+                            data-selector="pet-name-input"
                             key={petDetailFetch.state.data?.name}
                             minLength={2}
                             maxLength={60}
@@ -63,6 +64,7 @@ export default function AdopterPetPage({ petInteractor }: AdopterPetPageProps) {
             <section className="flex gap-6 flex-col items-center md:flex-row">
                 <Skeleton isLoaded={!petDetailFetch.isLoading()}>
                     <InputFileImage
+                        data-selector="pet-photo-input"
                         key={petDetailFetch.state.data?.photo}
                         imageUrl={petDetailFetch.state.data?.photo}
                         isDisabled
@@ -71,6 +73,7 @@ export default function AdopterPetPage({ petInteractor }: AdopterPetPageProps) {
                 <article className="flex flex-1 flex-col gap-6">
                     <Skeleton isLoaded={!petDetailFetch.isLoading()}>
                         <Input
+                            data-selector="pet-breed-input"
                             key={petDetailFetch.state.data?.breed}
                             minLength={2}
                             maxLength={60}
@@ -85,6 +88,7 @@ export default function AdopterPetPage({ petInteractor }: AdopterPetPageProps) {
 
                     <Skeleton isLoaded={!petDetailFetch.isLoading()}>
                         <Input
+                            data-selector="pet-kind-input"
                             key={petDetailFetch.state.data?.type}
                             minLength={2}
                             maxLength={60}
@@ -100,6 +104,7 @@ export default function AdopterPetPage({ petInteractor }: AdopterPetPageProps) {
                     <div className="flex gap-6">
                         <Skeleton isLoaded={!petDetailFetch.isLoading()}>
                             <Input
+                                data-selector="pet-height-input"
                                 key={petDetailFetch.state.data?.height}
                                 placeholder="Altura"
                                 variant="flat"
@@ -117,6 +122,7 @@ export default function AdopterPetPage({ petInteractor }: AdopterPetPageProps) {
                         </Skeleton>
                         <Skeleton isLoaded={!petDetailFetch.isLoading()}>
                             <Input
+                                data-selector="pet-weight-input"
                                 key={petDetailFetch.state.data?.weight}
                                 placeholder="Peso"
                                 variant="flat"
@@ -145,6 +151,7 @@ export default function AdopterPetPage({ petInteractor }: AdopterPetPageProps) {
 
                 <Skeleton isLoaded={!petDetailFetch.isLoading()}>
                     <div
+                        data-selector="pet-special-needs-input"
                         key={petDetailFetch.state.data?.special_needs.length}
                         className={'flex flex-wrap gap-2'}
                     >
@@ -172,6 +179,7 @@ export default function AdopterPetPage({ petInteractor }: AdopterPetPageProps) {
                 </Skeleton>
                 <Skeleton isLoaded={!petDetailFetch.isLoading()}>
                     <Textarea
+                        data-selector="pet-aditional-information-input"
                         maxLength={500}
                         label="Anotações:"
                         labelPlacement="inside"
@@ -187,6 +195,7 @@ export default function AdopterPetPage({ petInteractor }: AdopterPetPageProps) {
             <Skeleton isLoaded={!petDetailFetch.isLoading()}>
                 <section className="flex flex-col gap-6">
                     <Button
+                        data-selector="pet-cancel-button"
                         color="danger"
                         variant="flat"
                         size="md"
