@@ -40,10 +40,10 @@ export default function NavbarComponent() {
             {isAuthenticated() && (
                 <NavbarContent as="div" justify="end">
                     <div className={'hidden sm:flex sm:flex-col'}>
-                        <span className={'font-bold'}>{user?.name}</span>
-                        <span>{user?.typeName}</span>
+                        <span data-selector='navbar-user-name' className={'font-bold'}>{user?.name}</span>
+                        <span data-selector='navbar-user-type'>{user?.typeName}</span>
                     </div>
-                    <Dropdown placement="bottom-end">
+                    <Dropdown data-selector='navbar-toggle' placement="bottom-end">
                         <DropdownTrigger>
                             <Avatar
                                 as="button"
@@ -59,15 +59,17 @@ export default function NavbarComponent() {
                         >
                             <DropdownItem key="profile" className="h-14 gap-2">
                                 <p className="font-semibold">Logado como </p>
-                                <p className="font-semibold">{user?.email}</p>
+                                <p data-selector='navbar-toggle-user-email' className="font-semibold">{user?.email}</p>
                             </DropdownItem>
                             <DropdownItem
+                                data-selector='navbar-toggle-edit'
                                 key="edit"
                                 onPress={() => navigate(AppRoutes.edit)}
                             >
                                 Editar cadastro
                             </DropdownItem>
                             <DropdownItem
+                                data-selector='navbar-toggle-logout'
                                 key="logout"
                                 color="danger"
                                 onClick={handleLogout}
