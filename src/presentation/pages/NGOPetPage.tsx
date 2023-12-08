@@ -386,7 +386,6 @@ export default function NGOPetPage({
                         </h3>
                     </Skeleton>
                     <SpecialNeedsSelect
-                        data-selector='pet-special-needs-input'
                         key={Math.random()}
                         selected={
                             petDetailFetch.state.data?.special_needs ?? []
@@ -504,6 +503,7 @@ function SpecialNeedsSelect({
     return (
         <Skeleton isLoaded={!isLoading}>
             <Select
+                data-selector='pet-special-needs-select'
                 placeholder="Selecione as opções"
                 selectionMode="multiple"
                 variant="bordered"
