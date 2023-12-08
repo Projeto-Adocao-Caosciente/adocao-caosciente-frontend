@@ -269,6 +269,7 @@ export default function NGOPetPage({
                     <div className="sm:flex sm:justify-center">
                         <Skeleton isLoaded={!petDetailFetch.isLoading()}>
                             <Input
+                                data-selector='pet-name-input'
                                 minLength={2}
                                 maxLength={60}
                                 placeholder="Qual o nome do seu Pet?"
@@ -301,6 +302,7 @@ export default function NGOPetPage({
                     <article className="flex flex-1 flex-col gap-6">
                         <Skeleton isLoaded={!petDetailFetch.isLoading()}>
                             <Input
+                                data-selector='pet-breed-input'
                                 minLength={2}
                                 maxLength={60}
                                 placeholder="Raça"
@@ -317,6 +319,7 @@ export default function NGOPetPage({
 
                         <Skeleton isLoaded={!petDetailFetch.isLoading()}>
                             <Input
+                                data-selector='pet-kind-input'
                                 minLength={2}
                                 maxLength={60}
                                 placeholder="Tipo"
@@ -334,6 +337,7 @@ export default function NGOPetPage({
                         <div className="flex gap-6">
                             <Skeleton isLoaded={!petDetailFetch.isLoading()}>
                                 <Input
+                                    data-selector='pet-height-input'
                                     placeholder="Altura"
                                     variant="bordered"
                                     size="lg"
@@ -353,6 +357,7 @@ export default function NGOPetPage({
                             </Skeleton>
                             <Skeleton isLoaded={!petDetailFetch.isLoading()}>
                                 <Input
+                                    data-selector='pet-weight-input'
                                     placeholder="Peso"
                                     variant="bordered"
                                     size="lg"
@@ -381,6 +386,7 @@ export default function NGOPetPage({
                         </h3>
                     </Skeleton>
                     <SpecialNeedsSelect
+                        data-selector='pet-special-needs-input'
                         key={Math.random()}
                         selected={
                             petDetailFetch.state.data?.special_needs ?? []
@@ -401,6 +407,7 @@ export default function NGOPetPage({
                     </Skeleton>
                     <Skeleton isLoaded={!petDetailFetch.isLoading()}>
                         <Textarea
+                            data-selector='pet-additional-information-input'
                             maxLength={500}
                             label="Anotações:"
                             labelPlacement="inside"
@@ -447,6 +454,7 @@ export default function NGOPetPage({
                     <section className="flex flex-col gap-6">
                         {!hasPetId ? (
                             <Button
+                                data-selector='pet-register-button'
                                 color="primary"
                                 variant="solid"
                                 size="md"
@@ -461,6 +469,7 @@ export default function NGOPetPage({
                             </Button>
                         ) : null}
                         <Button
+                            data-selector='pet-cancel-button'
                             color="danger"
                             variant="flat"
                             size="md"
