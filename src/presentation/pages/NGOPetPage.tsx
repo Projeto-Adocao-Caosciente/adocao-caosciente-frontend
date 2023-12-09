@@ -176,7 +176,7 @@ export default function NGOPetPage({
     const buildAdoptionFormList = () => {
         if (petAdoptionFormsFetch.hasError()) {
             return (
-                <p data-selector='form-error-list'>
+                <p data-selector="form-error-list">
                     Não foi possível buscar os formulários de adoção atrelados a
                     esse animal
                 </p>
@@ -186,7 +186,7 @@ export default function NGOPetPage({
         if (petAdoptionFormsFetch.hasSucceeded()) {
             if ((petAdoptionFormsFetch.state.data?.length ?? 0) <= 0) {
                 return (
-                    <div data-selector='form-empty-list'>
+                    <div data-selector="form-empty-list">
                         <p className="text-base font-light">
                             Não existem formulários de adoção atrelados a esse
                             animal
@@ -210,11 +210,14 @@ export default function NGOPetPage({
                 )
             } else {
                 return (
-                    <div className={'flex flex-wrap items-center gap-2 mb-2'} data-selector='form-section'>
+                    <div
+                        className={'flex flex-wrap items-center gap-2 mb-2'}
+                        data-selector="form-section"
+                    >
                         {(petAdoptionFormsFetch.state.data ?? []).map(
                             (form) => (
                                 <Button
-                                    data-selector='view-form'
+                                    data-selector="view-form"
                                     color={'primary'}
                                     variant={'bordered'}
                                     key={form.formId}
@@ -233,7 +236,7 @@ export default function NGOPetPage({
                             )
                         )}
                         <Button
-                            data-selector='form-add'
+                            data-selector="form-add"
                             color={'primary'}
                             variant={'bordered'}
                             isIconOnly
@@ -255,6 +258,10 @@ export default function NGOPetPage({
         }
     }
 
+    const isLoaded = !(
+        petDetailFetch.isLoading() || petAdoptionFormsFetch.isLoading()
+    )
+
     return (
         // FIXME: Ajeitar margem
         <main
@@ -267,9 +274,9 @@ export default function NGOPetPage({
             <form onSubmit={handleSubmit(onSubmit)}>
                 <section className="mb-12">
                     <div className="sm:flex sm:justify-center">
-                        <Skeleton isLoaded={!petDetailFetch.isLoading()}>
+                        <Skeleton isLoaded={isLoaded}>
                             <Input
-                                data-selector='pet-name-input'
+                                data-selector="pet-name-input"
                                 minLength={2}
                                 maxLength={60}
                                 placeholder="Qual o nome do seu Pet?"
@@ -284,7 +291,7 @@ export default function NGOPetPage({
                     </div>
                 </section>
                 <section className="flex gap-6 flex-col items-center md:flex-row">
-                    <Skeleton isLoaded={!petDetailFetch.isLoading()}>
+                    <Skeleton isLoaded={isLoaded}>
                         <InputFileImage
                             key={petDetailFetch.state.data?.photo}
                             imageUrl={petDetailFetch.state.data?.photo}
@@ -300,9 +307,9 @@ export default function NGOPetPage({
                         />
                     </Skeleton>
                     <article className="flex flex-1 flex-col gap-6">
-                        <Skeleton isLoaded={!petDetailFetch.isLoading()}>
+                        <Skeleton isLoaded={isLoaded}>
                             <Input
-                                data-selector='pet-breed-input'
+                                data-selector="pet-breed-input"
                                 minLength={2}
                                 maxLength={60}
                                 placeholder="Raça"
@@ -317,9 +324,9 @@ export default function NGOPetPage({
                             />
                         </Skeleton>
 
-                        <Skeleton isLoaded={!petDetailFetch.isLoading()}>
+                        <Skeleton isLoaded={isLoaded}>
                             <Input
-                                data-selector='pet-kind-input'
+                                data-selector="pet-kind-input"
                                 minLength={2}
                                 maxLength={60}
                                 placeholder="Tipo"
@@ -335,9 +342,9 @@ export default function NGOPetPage({
                         </Skeleton>
 
                         <div className="flex gap-6">
-                            <Skeleton isLoaded={!petDetailFetch.isLoading()}>
+                            <Skeleton isLoaded={isLoaded}>
                                 <Input
-                                    data-selector='pet-height-input'
+                                    data-selector="pet-height-input"
                                     placeholder="Altura"
                                     variant="bordered"
                                     size="lg"
@@ -355,9 +362,9 @@ export default function NGOPetPage({
                                     {...register('height')}
                                 />
                             </Skeleton>
-                            <Skeleton isLoaded={!petDetailFetch.isLoading()}>
+                            <Skeleton isLoaded={isLoaded}>
                                 <Input
-                                    data-selector='pet-weight-input'
+                                    data-selector="pet-weight-input"
                                     placeholder="Peso"
                                     variant="bordered"
                                     size="lg"
@@ -380,7 +387,7 @@ export default function NGOPetPage({
                 </section>
                 <Divider className="my-6" />
                 <section>
-                    <Skeleton isLoaded={!petDetailFetch.isLoading()}>
+                    <Skeleton isLoaded={isLoaded}>
                         <h3 className="text-xl font-bold mb-2">
                             Necessidades Especiais:
                         </h3>
@@ -394,19 +401,19 @@ export default function NGOPetPage({
                         error={errors.specialNeeds?.message}
                         register={register('specialNeeds')}
                         isDisabled={hasPetId}
-                        isLoading={petDetailFetch.isLoading()}
+                        isLoading={!isLoaded}
                     />
                 </section>
                 <Divider className="my-6" />
                 <section>
-                    <Skeleton isLoaded={!petDetailFetch.isLoading()}>
+                    <Skeleton isLoaded={isLoaded}>
                         <h3 className="text-xl font-bold mb-2">
                             Informações adicionais:
                         </h3>
                     </Skeleton>
-                    <Skeleton isLoaded={!petDetailFetch.isLoading()}>
+                    <Skeleton isLoaded={isLoaded}>
                         <Textarea
-                            data-selector='pet-additional-information-input'
+                            data-selector="pet-additional-information-input"
                             maxLength={500}
                             label="Anotações:"
                             labelPlacement="inside"
@@ -449,11 +456,11 @@ export default function NGOPetPage({
                         </Skeleton>
                     </section>
                 ) : null}
-                <Skeleton isLoaded={!petDetailFetch.isLoading()}>
+                <Skeleton isLoaded={isLoaded}>
                     <section className="flex flex-col gap-6">
                         {!hasPetId ? (
                             <Button
-                                data-selector='pet-register-button'
+                                data-selector="pet-register-button"
                                 color="primary"
                                 variant="solid"
                                 size="md"
@@ -468,7 +475,7 @@ export default function NGOPetPage({
                             </Button>
                         ) : null}
                         <Button
-                            data-selector='pet-cancel-button'
+                            data-selector="pet-cancel-button"
                             color="danger"
                             variant="flat"
                             size="md"
@@ -503,7 +510,7 @@ function SpecialNeedsSelect({
     return (
         <Skeleton isLoaded={!isLoading}>
             <Select
-                data-selector='pet-special-needs-select'
+                data-selector="pet-special-needs-select"
                 placeholder="Selecione as opções"
                 selectionMode="multiple"
                 variant="bordered"
