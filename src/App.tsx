@@ -22,6 +22,7 @@ import NotFound from './presentation/pages/NotFound'
 import { makeFormViewPage } from './factories/pages/form-view-page-factory'
 import { makeNGOPetPage } from './factories/pages/ngo-pet-page-factory'
 import { makeAdopterPetPage } from './factories/pages/adopter-pet-page-factory'
+import { makeProfilePage } from './factories/pages/profile-page-factory'
 
 function App() {
     const { pathname } = useLocation()
@@ -44,8 +45,8 @@ function App() {
                     path={AppRoutes.edit}
                     element={
                         <ProtectedRoute
-                            page={makeOngPage(true)}
-                            ruleSolver={makeProxyNGOAuthenticatedRule()}
+                            page={makeProfilePage()}
+                            ruleSolver={makeProxyAuthenticatedRule()}
                         />
                     }
                 />

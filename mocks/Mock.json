@@ -442,6 +442,35 @@
         }
       ],
       "responseMode": null
+    },
+    {
+      "uuid": "67353db5-1f07-4352-a79c-5bfd71e872d0",
+      "type": "http",
+      "documentation": "Adopter Register Route",
+      "method": "patch",
+      "endpoint": "adopter",
+      "responses": [
+        {
+          "uuid": "11d2497e-6eba-4b7a-8ac6-f42f965073d7",
+          "body": "{\n  \"message\": \"Adopter updated successfully.\",\n  \"data\": {}\n}",
+          "latency": 0,
+          "statusCode": 200,
+          "label": "",
+          "headers": [],
+          "bodyType": "INLINE",
+          "filePath": "",
+          "databucketID": "",
+          "sendFileAsBody": false,
+          "rules": [],
+          "rulesOperator": "OR",
+          "disableTemplating": false,
+          "fallbackTo404": false,
+          "default": true,
+          "crudKey": "id",
+          "callbacks": []
+        }
+      ],
+      "responseMode": null
     }
   ],
   "rootChildren": [
@@ -464,6 +493,10 @@
     {
       "type": "route",
       "uuid": "5991c3c5-010d-4c6a-bbef-3f41b274a76c"
+    },
+    {
+      "type": "route",
+      "uuid": "67353db5-1f07-4352-a79c-5bfd71e872d0"
     },
     {
       "type": "route",
