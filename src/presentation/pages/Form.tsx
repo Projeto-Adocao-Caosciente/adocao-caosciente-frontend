@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Button, Divider, Input, Tooltip } from '@nextui-org/react'
 import useNotify from '../hooks/use-notify'
 import { v4 as uuid } from 'uuid'
@@ -28,8 +28,13 @@ export default function FormPage({ interactor }: FormPageProps) {
 
     const MIN_TITLE_LENGTH: number = 2
 
-    const addQuestionId = () =>
-        setFormQuestionsIds([...formQuestionsIds, uuid()])
+    const reference = useRef<any>()
+
+    const addQuestionId = () => {
+        const id = uuid()
+        setFormQuestionsIds([...formQuestionsIds, id])
+        setFocusedQuestion(id)
+    }
 
     const addFormQuestion = (formQuestion: QuestionFieldsValue) => {
         const updatedFormQuestions = formQuestions.map((_formQuestion) =>
@@ -73,7 +78,10 @@ export default function FormPage({ interactor }: FormPageProps) {
     }
 
     const onFormSubmitFailed = (_?: Error) => {
-        notify('error', 'Houve um problema ao criar o formulário. Por favor, tente novamente mais tarde.')
+        notify(
+            'error',
+            'Houve um problema ao criar o formulário. Por favor, tente novamente mais tarde.'
+        )
         formSubmitFetch.setIdle()
     }
 
@@ -86,7 +94,10 @@ export default function FormPage({ interactor }: FormPageProps) {
 
     const handleFormCreation = () => {
         if (formTitle.length < MIN_TITLE_LENGTH) {
-            notify('error', 'O título do formulário deve ter pelo menos 2 caracteres.')
+            notify(
+                'error',
+                'O título do formulário deve ter pelo menos 2 caracteres.'
+            )
             return
         }
         formSubmitFetch.fetch(formQuestions, formTitle, animalId).then()
@@ -97,7 +108,9 @@ export default function FormPage({ interactor }: FormPageProps) {
     }
 
     const onFocused = (id: string) => {
-        setFocusedQuestion(id)
+        if (focusedQuestionsId != id) {
+            setFocusedQuestion(id)
+        }
     }
     const isFocused = (id: string) => {
         return focusedQuestionsId == id
@@ -106,18 +119,17 @@ export default function FormPage({ interactor }: FormPageProps) {
         if (formQuestionsIds.length > 0) {
             return formQuestionsIds.map((id) => {
                 return (
-                    <div key={id}>
-                        <QuestionCard
-                            id={id}
-                            notify={(message, error) =>
-                                notify(error ? 'error' : 'success', message)
-                            }
-                            onCancelled={removeQuestion}
-                            onSubmitted={addFormQuestion}
-                            onFocused={onFocused}
-                            isFocused={isFocused(id)}
-                        />
-                    </div>
+                    <QuestionCard
+                        key={id}
+                        id={id}
+                        notify={(message, error) =>
+                            notify(error ? 'error' : 'success', message)
+                        }
+                        onCancelled={removeQuestion}
+                        onSubmitted={addFormQuestion}
+                        onFocused={onFocused}
+                        isFocused={isFocused(id)}
+                    />
                 )
             })
         } else {
@@ -134,7 +146,7 @@ export default function FormPage({ interactor }: FormPageProps) {
         formQuestionsIds.length == 0
 
     return (
-        <main className={'container-form mb-10'}>
+        <main className={'container-form mb-10'} ref={reference}>
             <header className="mb-12 sm:flex sm:justify-center">
                 <Input
                     data-selector="form-title-input"

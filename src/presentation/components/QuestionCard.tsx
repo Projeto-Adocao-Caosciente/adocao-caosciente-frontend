@@ -88,25 +88,23 @@ export function QuestionCard({
                         }
                         key={field.id}
                     >
-                        <Tooltip content="Marcar opção como correta/válida">
-                            <Checkbox
-                                data-selector="question-option-checkbox"
-                                color="success"
-                                size="lg"
-                                aria-label="Marcar opção como correta/válida"
-                                isSelected={
-                                    getValues(`options.${index}.isCorrect`) ?? false
-                                }
-                                onValueChange={() =>
-                                    setValue(
-                                        `options.${index}.isCorrect`,
-                                        !getValues(`options.${index}.isCorrect`),
-                                        { shouldValidate: true }
-                                    )
-                                }
-                                disableAnimation
-                            />
-                        </Tooltip>
+                        <Checkbox
+                            data-selector="question-option-checkbox"
+                            color="success"
+                            size="lg"
+                            aria-label="Marcar opção como correta/válida"
+                            isSelected={
+                                getValues(`options.${index}.isCorrect`) ?? false
+                            }
+                            onValueChange={() =>
+                                setValue(
+                                    `options.${index}.isCorrect`,
+                                    !getValues(`options.${index}.isCorrect`),
+                                    { shouldValidate: true }
+                                )
+                            }
+                            disableAnimation
+                        />
                         <Input
                             data-selector="question-option-input"
                             key={field.id}
@@ -126,7 +124,11 @@ export function QuestionCard({
                             })}
                         />
                         <Tooltip content="Remover opção">
-                            <Button data-selector='question-option-remove-button' isIconOnly onClick={() => remove(index)}>
+                            <Button
+                                data-selector="question-option-remove-button"
+                                isIconOnly
+                                onClick={() => remove(index)}
+                            >
                                 <FaRegTrashCan />
                             </Button>
                         </Tooltip>
@@ -142,17 +144,17 @@ export function QuestionCard({
         }
     }
 
-    useEffect(() => {
-        onFocused(id)
-    }, [])
-
     return (
         <Card
             className={`shadow-none md:shadow-small ${
                 isFocused ? 'opacity-100 scale-100' : 'opacity-50 scale-80'
             }`}
         >
-            <div onClick={() => onFocused(id)}>
+            <div
+                onClick={() => {
+                    onFocused(id)
+                }}
+            >
                 <form
                     data-selector="question-form"
                     onSubmit={handleSubmit(onSubmit)}
