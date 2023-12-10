@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Input, Link } from '@nextui-org/react'
+import { Divider, Input, Link } from '@nextui-org/react'
 import LinkIcon from '../assets/LinkIcon'
 import { AppRoutes } from '../../routes/app-routes'
 import { SubmitHandler, useForm } from 'react-hook-form'
@@ -140,6 +140,16 @@ export default function LoginPage({ validationWrapper }: LoginPageProps) {
                             <LinkIcon />
                         </Link>
                     </p>
+                    <Divider />
+                    <Link
+                        data-selector="about-us-linkup"
+                        id="about-us-linkup"
+                        className="text-sm flex gap-1 cursor-pointer"
+                        onClick={() => navigate(AppRoutes.about)}
+                    >
+                        Conheça mais sobre o projeto
+                        <LinkIcon />
+                    </Link>
                 </>
             }
         />
