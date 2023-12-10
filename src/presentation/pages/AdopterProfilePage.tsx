@@ -71,13 +71,13 @@ export default function AdopterProfilePage({
         ),
         values: {
             name: adopter?.name,
-            itr: adopter?.document,
+            itr: validationWrapper.patterns.itr!.apply(adopter?.document),
             birthdate: adopter.birthdate,
             gender: adopter.gender,
             email: adopter.email,
-            phone: adopter.phone,
+            phone: validationWrapper.patterns.phone!.apply(adopter?.phone),
             address: adopter.address,
-            zipCode: adopter.zipCode,
+            zipCode: validationWrapper.patterns.zipCode!.apply(adopter?.zipCode),
             city: adopter.city,
             state: adopter.state,
         },
@@ -87,7 +87,7 @@ export default function AdopterProfilePage({
         notify('success', message)
         editFetch.setIdle()
 
-        window.location.reload()
+        navigate(-1)
     }
 
     function onFail(message: string) {
