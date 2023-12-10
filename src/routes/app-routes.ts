@@ -9,6 +9,7 @@ enum AppRoutes {
     formRegister = '/pet/:animalId/form',
     formView = '/pet/form/:formId',
     adopterRegister = '/adopter-register',
+    about = '/about',
     notFound = '*',
 }
 
