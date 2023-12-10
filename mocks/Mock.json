@@ -483,7 +483,7 @@
           "uuid": "bc1d6a08-7e76-4b49-ab5d-6604cb72afc8",
           "body": "{}",
           "latency": 0,
-          "statusCode": 400,
+          "statusCode": 200,
           "label": "",
           "headers": [],
           "bodyType": "INLINE",

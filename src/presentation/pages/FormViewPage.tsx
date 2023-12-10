@@ -1,11 +1,21 @@
 import React, { useEffect } from 'react'
-import { Button, Checkbox, Input, Skeleton } from '@nextui-org/react'
+import {
+    Button,
+    Checkbox,
+    Input,
+    Modal,
+    ModalBody,
+    ModalContent,
+    Skeleton,
+    useDisclosure,
+} from '@nextui-org/react'
 import useNotify from '../hooks/use-notify'
 import { FormInteractor } from '../../domain/interactors/form-interactor'
 import { useNavigate } from 'react-router'
 import { useParams } from 'react-router-dom'
 import { useFetch } from '../hooks/use-fetch'
 import { AnimalFormModel } from '../../domain/models/animal-form-model'
+import { FormSenderModal } from '../components/FormSenderModal'
 
 type FormPageProps = {
     interactor: FormInteractor
@@ -16,8 +26,27 @@ export default function FormViewPage({ interactor }: FormPageProps) {
     const formId = useParams().formId ?? ''
     const { notify } = useNotify()
 
+    const formSenderModal = useDisclosure()
+
+    const sendEmailFetch = useFetch<void>({
+        fn: (args) => interactor.sendFormToAdopters({ ...args }),
+        successListener: (_) => {
+            formSenderModal.onClose()
+            sendEmailFetch.setIdle()
+            notify('success', 'E-mails disparados com sucesso')
+        },
+        errorListener: (_) => {
+            sendEmailFetch.setIdle()
+            formSenderModal.onClose()
+            notify('error', 'Não foi possível enviar os e-mails')
+        },
+    })
+
     const onFormFetchFailed = (_?: Error) => {
-        notify('error', 'Não foi possível encontrar o formulário desejado. Por favor, tente novamente mais tarde.')
+        notify(
+            'error',
+            'Não foi possível encontrar o formulário desejado. Por favor, tente novamente mais tarde.'
+        )
         navigate(-1)
     }
 
@@ -80,11 +109,26 @@ export default function FormViewPage({ interactor }: FormPageProps) {
                 <div>
                     <h1
                         className={
-                            'text-3xl leading-9 font-bold text-center mb-16'
+                            'sm:text-xl md:text-3xl font-bold text-center sm:mb-4 md:mb-8'
                         }
                     >
                         {formViewFetch.state.data?.title}
                     </h1>
+
+                    <div className={'bg-white pt-5 sticky top-16 z-20 mb-16'}>
+                        <Button
+                            fullWidth
+                            variant={'solid'}
+                            color={'primary'}
+                            isLoading={sendEmailFetch.isLoading()}
+                            onClick={() => formSenderModal.onOpen()}
+                        >
+                            {sendEmailFetch.isLoading()
+                                ? 'Enviando...'
+                                : 'Enviar formulário'}
+                        </Button>
+                    </div>
+
                     <div>
                         {(formViewFetch.state.data?.questions ?? []).map(
                             (question, index) => {
@@ -134,7 +178,7 @@ export default function FormViewPage({ interactor }: FormPageProps) {
                                                 }
                                             )}
                                         </div>
-                                        <hr className='mt-8'></hr>
+                                        <hr className="mt-8"></hr>
                                     </div>
                                 )
                             }
@@ -146,22 +190,51 @@ export default function FormViewPage({ interactor }: FormPageProps) {
     }
 
     return (
-        <main className={'container-form mb-10'}>
-            <section className={'mb-10'}>{buildBasedOnState()}</section>
+        <>
+            <Modal
+                isOpen={formSenderModal.isOpen}
+                onOpenChange={formSenderModal.onOpenChange}
+                isDismissable={false}
+                hideCloseButton={true}
+            >
+                <ModalContent>
+                    {(onClose) => (
+                        <>
+                            <ModalBody>
+                                <FormSenderModal
+                                    onClose={onClose}
+                                    onSendTriggered={(emails: string[]) => {
+                                        sendEmailFetch
+                                            .fetch({
+                                                formId,
+                                                emails,
+                                            })
+                                            .then()
+                                        onClose()
+                                    }}
+                                />
+                            </ModalBody>
+                        </>
+                    )}
+                </ModalContent>
+            </Modal>
+            <main className={'container-form mb-10'}>
+                <section className={'mb-10'}>{buildBasedOnState()}</section>
 
-            <section>
-                <Skeleton isLoaded={!formViewFetch.isLoading()}>
-                    <Button
-                        fullWidth
-                        color="danger"
-                        variant="flat"
-                        size="md"
-                        onClick={() => navigate(-1)}
-                    >
-                        Voltar
-                    </Button>
-                </Skeleton>
-            </section>
-        </main>
+                <section>
+                    <Skeleton isLoaded={!formViewFetch.isLoading()}>
+                        <Button
+                            fullWidth
+                            color="danger"
+                            variant="flat"
+                            size="md"
+                            onClick={() => navigate(-1)}
+                        >
+                            Voltar
+                        </Button>
+                    </Skeleton>
+                </section>
+            </main>
+        </>
     )
 }
