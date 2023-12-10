@@ -63,6 +63,9 @@ o repositório template usado para a criação deste repositório foi o [react-c
 ```text
 /
 |-- data/
+|   |-- http/
+|   |-- model/
+|   |-- services/
 |-- domain/
 |   |-- exceptions/
 |   |-- interactors/
@@ -89,7 +92,10 @@ o repositório template usado para a criação deste repositório foi o [react-c
 |-- proxies/
 |-- routes/
 |-- utils/
+|-- App.tsx
 ```
+
+O arquivo `App.tsx` é o arquivo principal da aplicação, este é responsável por fazer a injeção de dependência e por fazer a navegação entre as páginas.
 
 o repositório está dividido em 3 pastas principais: `data`, `domain` e `presentation`.
 
