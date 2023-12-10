@@ -3,9 +3,9 @@ import { AuthService } from '../../data/services/auth-service'
 import { HttpStatusCode } from '../../data/http/http-client'
 import { UnexpectedError } from '../exceptions/unexpected-error'
 import { AuthorizationMapper } from '../mapper/authorization-mapper'
-import { UserProfileModel } from '../models/user-profile-model'
 import { ProfileMapper } from '../mapper/profile-mapper'
 import { UserBaseModel } from '../models/user-base-model'
+import { InvalidCredentialsError } from '../exceptions/invalid-credentials-error'
 
 export interface AuthInteractor {
     authenticate: (user: string, password: string) => Promise<Authorization>
@@ -30,6 +30,8 @@ export class AuthInteractorImpl implements AuthInteractor {
             }
 
             throw new UnexpectedError()
+        } else if (authResponse.statusCode === HttpStatusCode.unauthorized) {
+            throw new InvalidCredentialsError()
         } else {
             throw new UnexpectedError()
         }

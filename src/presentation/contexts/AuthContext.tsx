@@ -16,7 +16,7 @@ type AuthContextType = {
     authenticate: (
         fields: LoginFormFields,
         onAuthenticated: () => void,
-        onFailed: () => void
+        onFailed: (exception: unknown) => void
     ) => Promise<void>
     logout: () => void
     isAuthenticating: boolean
@@ -71,7 +71,7 @@ export function AuthProvider({
     async function authenticate(
         fields: LoginFormFields,
         onAuthenticated: () => void,
-        onFailed: () => void
+        onFailed: (exception: unknown) => void
     ) {
         isAuthenticating.setTrue()
         try {
@@ -88,7 +88,7 @@ export function AuthProvider({
             onAuthenticated()
         } catch (exception) {
             isAuthenticated.setFalse()
-            onFailed()
+            onFailed(exception)
         } finally {
             isAuthenticating.setFalse()
         }

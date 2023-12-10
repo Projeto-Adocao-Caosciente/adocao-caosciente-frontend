@@ -220,7 +220,7 @@
       "responses": [
         {
           "uuid": "1b8375c8-9251-40a4-a945-5eb9627d3e13",
-          "body": "{\n  \"message\": \"\",\n  \"data\": {\n    \"type\": 1,\n    \"user\": {\n      \"id\": \"{{faker 'string.uuid'}}\",\n      \"cnpj\": \"12345678901234\",\n      \"name\": \"{{faker 'person.firstName'}} {{faker 'person.firstName'}}\",\n      \"email\": \"john.doe@email.com\",\n      \"logo\": \"{{faker 'image.avatar'}}\",\n      \"city\": \"{{faker 'location.city'}}\",\n      \"state\": \"{{faker 'location.state' abbreviated=true}}\",\n      \"phone\": \"(99) 99999-9999\",\n      \"mission\": \"{{faker 'lorem.sentence'}}\",\n      \"foundation\": \"{{now}}\",\n      \"description\": \"{{faker 'lorem.sentence'}}\"\n    }\n  }\n}",
+          "body": "{\n  \"message\": \"\",\n  \"data\": {\n    \"type\": 2,\n    \"user\": {\n      \"id\": \"{{faker 'string.uuid'}}\",\n      \"cnpj\": \"12345678901234\",\n      \"name\": \"{{faker 'person.firstName'}} {{faker 'person.firstName'}}\",\n      \"email\": \"john.doe@email.com\",\n      \"logo\": \"{{faker 'image.avatar'}}\",\n      \"city\": \"{{faker 'location.city'}}\",\n      \"state\": \"{{faker 'location.state' abbreviated=true}}\",\n      \"phone\": \"(99) 99999-9999\",\n      \"mission\": \"{{faker 'lorem.sentence'}}\",\n      \"foundation\": \"{{now}}\",\n      \"description\": \"{{faker 'lorem.sentence'}}\"\n    }\n  }\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
@@ -307,7 +307,7 @@
       "responses": [
         {
           "uuid": "9368f54c-7a3b-45ca-be70-c8b9c886f19f",
-          "body": "{}",
+          "body": "{\n  \"message\": \"Form created successfully\",\n  \"data\": {\n    \"id\": \"65751ae2aeaf427c007f8240\"\n  }\n}",
           "latency": 0,
           "statusCode": 201,
           "label": "",
