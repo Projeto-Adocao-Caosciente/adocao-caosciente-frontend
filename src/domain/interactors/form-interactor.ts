@@ -12,9 +12,13 @@ export interface FormInteractor {
         formQuestions: QuestionFieldsValue[],
         formTitle: string,
         animalId: string
-    ) => Promise<void>
+    ) => Promise<string>
     getForm: (formId: string) => Promise<AnimalFormModel>
     getAnimalForms: (animalId: string) => Promise<AnimalFormListModel>
+    sendFormToAdopters: (args: {
+        formId: string
+        emails: string[]
+    }) => Promise<void>
 }
 
 export class FormInteractorImpl implements FormInteractor {
@@ -28,7 +32,7 @@ export class FormInteractorImpl implements FormInteractor {
         formQuestions: QuestionFieldsValue[],
         formTitle: string,
         animalId: string
-    ): Promise<void> {
+    ): Promise<string> {
         const httpResponse = await this.service.saveForm(
             formQuestions,
             formTitle,
@@ -37,7 +41,13 @@ export class FormInteractorImpl implements FormInteractor {
 
         switch (httpResponse.statusCode) {
             case HttpStatusCode.created:
-                return
+                const id = httpResponse.body?.data?.id
+
+                if (id == null) {
+                    throw new UnexpectedError()
+                }
+
+                return id
             default:
                 throw new UnexpectedError()
         }
@@ -60,6 +70,23 @@ export class FormInteractorImpl implements FormInteractor {
         switch (httpResponse.statusCode) {
             case HttpStatusCode.ok:
                 return this.animalFormMapper.map(httpResponse.body?.data)
+            default:
+                throw new UnexpectedError()
+        }
+    }
+
+    async sendFormToAdopters(args: {
+        formId: string
+        emails: string[]
+    }): Promise<void> {
+        const httpResponse = await this.service.sendFormToAdopters(
+            args.formId,
+            args.emails
+        )
+
+        switch (httpResponse.statusCode) {
+            case HttpStatusCode.ok:
+                return
             default:
                 throw new UnexpectedError()
         }

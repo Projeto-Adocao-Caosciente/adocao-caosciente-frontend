@@ -12,11 +12,15 @@ export interface FormService {
         formQuestions: QuestionFieldsValue[],
         formTitle: string,
         animalId: string
-    ) => Promise<HttpResponse<void>>
+    ) => Promise<HttpResponse<{ id: string }>>
     getAnimalForms: (
         animalId: string
     ) => Promise<HttpResponse<AnimalFormListResponse>>
     getForm: (id: string) => Promise<HttpResponse<FormResponse>>
+    sendFormToAdopters: (
+        formId: string,
+        emails: string[]
+    ) => Promise<HttpResponse<void>>
 }
 
 export class FormServiceImpl implements FormService {
@@ -26,12 +30,13 @@ export class FormServiceImpl implements FormService {
         `/ong/animals/${animalId}/forms`
 
     private readonly getPath = (formId: string) => `ong/animals/forms/${formId}`
+    private readonly sendEmailPath = 'email/send'
 
     saveForm(
         formQuestions: QuestionFieldsValue[],
         formTitle: string,
         animalId: string
-    ): Promise<HttpResponse<void>> {
+    ): Promise<HttpResponse<{ id: string }>> {
         const formParsed = {
             title: formTitle,
             questions: formQuestions.map((question: QuestionFieldsValue) => {
@@ -69,6 +74,20 @@ export class FormServiceImpl implements FormService {
         return this.httpClient.request({
             path: this.getPath(id),
             method: 'get',
+        })
+    }
+
+    sendFormToAdopters(
+        formId: string,
+        emails: string[]
+    ): Promise<HttpResponse<void>> {
+        return this.httpClient.request({
+            path: this.sendEmailPath,
+            method: 'post',
+            body: {
+                form_id: formId,
+                recipient_emails: emails,
+            },
         })
     }
 }
