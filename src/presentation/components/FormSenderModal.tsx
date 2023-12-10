@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router'
 
 export const FormSenderModal = (props: {
     onClose: () => void
-    isLoading: boolean
     onSendTriggered: (_: string[]) => void
 }) => {
     const navigate = useNavigate()
@@ -97,7 +96,6 @@ export const FormSenderModal = (props: {
 
     return (
         <div className={'my-5'}>
-            <p>{props.isLoading ? 'Carregante' : ''}</p>
             <h3 className={'text-2xl font-bold mb-3'}>
                 Formulário criado com sucesso
             </h3>

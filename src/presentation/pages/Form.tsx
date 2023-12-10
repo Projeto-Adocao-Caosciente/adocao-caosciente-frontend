@@ -43,8 +43,6 @@ export default function FormPage({ interactor }: FormPageProps) {
 
     const MIN_TITLE_LENGTH: number = 2
 
-    const reference = useRef<any>()
-
     const addQuestionId = () => {
         const id = uuid()
         setFormQuestionsIds([...formQuestionsIds, id])
@@ -197,7 +195,7 @@ export default function FormPage({ interactor }: FormPageProps) {
                                     </h3>
                                     <strong>
                                         Não foi possível enviar os e-mails para
-                                        os adotantes em potencial
+                                        todos os adotantes em potencial
                                     </strong>
                                     <p className={'mt-5 mb-10'}>
                                         Não se preocupe, você pode realizar os
@@ -230,20 +228,22 @@ export default function FormPage({ interactor }: FormPageProps) {
                             <ModalBody>
                                 <FormSenderModal
                                     onClose={onClose}
-                                    isLoading={sendEmailFetch.isLoading()}
-                                    onSendTriggered={(emails: string[]) =>
-                                        sendEmailFetch.fetch({
-                                            formId,
-                                            emails,
-                                        })
-                                    }
+                                    onSendTriggered={(emails: string[]) => {
+                                        sendEmailFetch
+                                            .fetch({
+                                                formId,
+                                                emails,
+                                            })
+                                            .then()
+                                        onClose()
+                                    }}
                                 />
                             </ModalBody>
                         </>
                     )}
                 </ModalContent>
             </Modal>
-            <main className={'container-form mb-10'} ref={reference}>
+            <main className={'container-form mb-10'}>
                 <header className="mb-12 sm:flex sm:justify-center">
                     <Input
                         data-selector="form-title-input"
@@ -280,10 +280,15 @@ export default function FormPage({ interactor }: FormPageProps) {
                         variant="solid"
                         size="md"
                         isDisabled={isFinishButtonDisabled}
-                        isLoading={formSubmitFetch.isLoading()}
+                        isLoading={
+                            formSubmitFetch.isLoading() ||
+                            sendEmailFetch.isLoading()
+                        }
                         onClick={() => handleFormCreation()}
                     >
-                        Finalizar Formulário
+                        {sendEmailFetch.isLoading()
+                            ? 'Enviando e-mails...'
+                            : 'Finalizar Formulário'}
                     </Button>
                     <Button
                         data-selector="cancel-form-button"
