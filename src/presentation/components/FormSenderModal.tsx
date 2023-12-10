@@ -51,7 +51,7 @@ export const FormSenderModal = (props: {
                 </div>
             )
         } else {
-            return <div data-selector="empty-emails-container"></div>
+            return <div data-selector="empty-emails-container" />
         }
     }
 
@@ -59,6 +59,7 @@ export const FormSenderModal = (props: {
         if (emails.length > 0) {
             return (
                 <Button
+                    data-selector={'dialog-send-email-button'}
                     fullWidth
                     color={'primary'}
                     variant={'flat'}
@@ -72,6 +73,7 @@ export const FormSenderModal = (props: {
         return (
             <div>
                 <Button
+                    data-selector={'dialog-cancel-send-button'}
                     fullWidth
                     color={'danger'}
                     variant={'flat'}
@@ -94,7 +96,7 @@ export const FormSenderModal = (props: {
     }, [email])
 
     return (
-        <div className={'my-5'}>
+        <div className={'my-5'} data-selector={'dialog-send-email'}>
             <h3 className={'text-2xl font-bold mb-3'}>
                 Formulário criado com sucesso
             </h3>
@@ -109,6 +111,7 @@ export const FormSenderModal = (props: {
 
             <div className={'flex items-center gap-2 mb-5'}>
                 <Input
+                    data-selector={'dialog-send-email-input'}
                     label={'E-mail'}
                     type={'email'}
                     variant={'underlined'}
@@ -120,7 +123,11 @@ export const FormSenderModal = (props: {
                     required
                     isRequired
                 />
-                <Button isIconOnly onClick={addEmail}>
+                <Button
+                    data-selector={'dialog-add-email-button'}
+                    isIconOnly
+                    onClick={addEmail}
+                >
                     <FaCirclePlus />
                 </Button>
             </div>
