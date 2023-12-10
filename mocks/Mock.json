@@ -17,7 +17,7 @@
       "responses": [
         {
           "uuid": "37ac1001-fc9f-4951-885c-282e259e29b4",
-          "body": "{\n  \"message\": \"\",\n  \"data\": {\n    \"access_token\": \"{{faker 'string.uuid'}}\"\n  }\n} ",
+          "body": "{\n  \"message\": \"\",\n  \"data\": {\n    \"access_token\": \"{{faker 'string.uuid'}}\"\n  }\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "",
