@@ -10,7 +10,7 @@
     .container-form {
         @apply container mx-auto max-w-[600px] px-6;
     }
-}
+};
 
 @tailwind components;
 @tailwind utilities;
