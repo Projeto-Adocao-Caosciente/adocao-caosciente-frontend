@@ -14,6 +14,7 @@ import useNotify from '../hooks/use-notify'
 import { useNavigate } from 'react-router'
 import LoginTemplate from '../templating/LoginTemplate'
 import { AuthContext } from '../contexts/AuthContext'
+import { InvalidCredentialsError } from '../../domain/exceptions/invalid-credentials-error'
 
 type LoginPageProps = {
     validationWrapper: LoginFieldsValidationWrapper
@@ -43,8 +44,15 @@ export default function LoginPage({ validationWrapper }: LoginPageProps) {
         navigate(AppRoutes.home)
     }
 
-    function onLoginFailed() {
-        notify('error', 'Usuário ou senha invalidos!')
+    function onLoginFailed(exception: unknown) {
+        if (exception instanceof InvalidCredentialsError) {
+            notify('error', 'Usuário ou senha invalidos!')
+        } else {
+            notify(
+                'error',
+                'Estamos enfrentando problemas em nossos serviços, tente novamente mais tarde'
+            )
+        }
     }
 
     const onSubmit: SubmitHandler<LoginFormFields> = (data) =>
