@@ -76,7 +76,6 @@ export const FormSenderModal = (props: {
                     color={'danger'}
                     variant={'flat'}
                     onClick={() => {
-                        navigate(-1)
                         props.onClose()
                     }}
                 >

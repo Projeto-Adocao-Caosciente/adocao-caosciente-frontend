@@ -227,7 +227,10 @@ export default function FormPage({ interactor }: FormPageProps) {
                         <>
                             <ModalBody>
                                 <FormSenderModal
-                                    onClose={onClose}
+                                    onClose={() => {
+                                        onClose()
+                                        navigate(-1)
+                                    }}
                                     onSendTriggered={(emails: string[]) => {
                                         sendEmailFetch
                                             .fetch({

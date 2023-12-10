@@ -6,6 +6,7 @@
     "@hookform/resolvers": "3.3.2",
     "@nextui-org/react": "2.1.13",
     "@reduxjs/toolkit": "1.9.7",
+    "@tailwindcss/line-clamp": "^0.4.4",
     "@vitejs/plugin-react": "4.1.0",
     "axios": "1.5.1",
     "framer-motion": "10.16.4",

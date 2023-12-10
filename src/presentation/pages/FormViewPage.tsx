@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import {
     Button,
+    Card,
     Checkbox,
     Input,
     Modal,
@@ -16,6 +17,7 @@ import { useParams } from 'react-router-dom'
 import { useFetch } from '../hooks/use-fetch'
 import { AnimalFormModel } from '../../domain/models/animal-form-model'
 import { FormSenderModal } from '../components/FormSenderModal'
+import { FaPaperPlane } from 'react-icons/fa6'
 
 type FormPageProps = {
     interactor: FormInteractor
@@ -107,27 +109,37 @@ export default function FormViewPage({ interactor }: FormPageProps) {
         if (formViewFetch.hasSucceeded()) {
             return (
                 <div>
-                    <h1
+                    <Card
                         className={
-                            'sm:text-xl md:text-3xl font-bold text-center sm:mb-4 md:mb-8'
+                            'bg-white sticky top-20 z-20 p-2 md:p-4 mb-16'
                         }
                     >
-                        {formViewFetch.state.data?.title}
-                    </h1>
-
-                    <div className={'bg-white pt-5 sticky top-16 z-20 mb-16'}>
-                        <Button
-                            fullWidth
-                            variant={'solid'}
-                            color={'primary'}
-                            isLoading={sendEmailFetch.isLoading()}
-                            onClick={() => formSenderModal.onOpen()}
+                        <div
+                            className={
+                                'flex items-center justify-between gap-1 sm:gap-2'
+                            }
                         >
-                            {sendEmailFetch.isLoading()
-                                ? 'Enviando...'
-                                : 'Enviar formulário'}
-                        </Button>
-                    </div>
+                            <h1
+                                className={
+                                    'text-xl md:text-2xl font-bold mb-0 line-clamp-1'
+                                }
+                            >
+                                {formViewFetch.state.data?.title}
+                            </h1>
+
+                            <Button
+                                variant={'solid'}
+                                color={'primary'}
+                                endContent={<FaPaperPlane />}
+                                isLoading={sendEmailFetch.isLoading()}
+                                onClick={() => formSenderModal.onOpen()}
+                            >
+                                {sendEmailFetch.isLoading()
+                                    ? 'Enviando...'
+                                    : 'Enviar'}
+                            </Button>
+                        </div>
+                    </Card>
 
                     <div>
                         {(formViewFetch.state.data?.questions ?? []).map(
