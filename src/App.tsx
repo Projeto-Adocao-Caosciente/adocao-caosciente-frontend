@@ -23,6 +23,7 @@ import { makeFormViewPage } from './factories/pages/form-view-page-factory'
 import { makeNGOPetPage } from './factories/pages/ngo-pet-page-factory'
 import { makeAdopterPetPage } from './factories/pages/adopter-pet-page-factory'
 import { makeProfilePage } from './factories/pages/profile-page-factory'
+import About from './presentation/pages/About'
 
 function App() {
     const { pathname } = useLocation()
@@ -100,6 +101,8 @@ function App() {
                         />
                     }
                 />
+                <Route path={AppRoutes.about} element={About()} />
+
                 <Route path={AppRoutes.notFound} element={NotFound()} />
             </Routes>
             <ToastContainer
