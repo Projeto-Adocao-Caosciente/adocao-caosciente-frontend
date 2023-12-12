@@ -156,11 +156,12 @@ export default function FormViewPage({ interactor }: FormPageProps) {
                                         >
                                             {question.title}
                                         </p>
-                                        <div data-selector={'question-option'}>
+                                        <div>
                                             {(question?.options ?? []).map(
                                                 (option, index) => {
                                                     return (
                                                         <div
+                                                            data-selector={'question-option'}
                                                             className={
                                                                 'flex items-center gap-2 mb-2'
                                                             }
