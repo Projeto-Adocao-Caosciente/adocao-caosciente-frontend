@@ -120,6 +120,7 @@ export default function FormViewPage({ interactor }: FormPageProps) {
                             }
                         >
                             <h1
+                                data-selector={'form-title'}
                                 className={
                                     'text-xl md:text-2xl font-bold mb-0 line-clamp-1'
                                 }
@@ -128,6 +129,7 @@ export default function FormViewPage({ interactor }: FormPageProps) {
                             </h1>
 
                             <Button
+                                data-selector={'send-email-button'}
                                 variant={'solid'}
                                 color={'primary'}
                                 endContent={<FaPaperPlane />}
@@ -141,19 +143,20 @@ export default function FormViewPage({ interactor }: FormPageProps) {
                         </div>
                     </Card>
 
-                    <div>
+                    <div data-selector={'form-list'}>
                         {(formViewFetch.state.data?.questions ?? []).map(
                             (question, index) => {
                                 return (
-                                    <div className={'mb-8'} key={index}>
+                                    <div data-selector={'question-form'} className={'mb-8'} key={index}>
                                         <p
                                             className={
                                                 'text-lg leading-7 font-semibold pb-2'
                                             }
+                                            data-selector={'question-title-input'}
                                         >
                                             {question.title}
                                         </p>
-                                        <div>
+                                        <div data-selector={'question-option'}>
                                             {(question?.options ?? []).map(
                                                 (option, index) => {
                                                     return (
@@ -164,6 +167,7 @@ export default function FormViewPage({ interactor }: FormPageProps) {
                                                             key={index}
                                                         >
                                                             <Checkbox
+                                                                data-selector={'question-option-checkbox'}
                                                                 size={'lg'}
                                                                 isSelected={
                                                                     option.isCorrect
@@ -175,6 +179,7 @@ export default function FormViewPage({ interactor }: FormPageProps) {
                                                                 disabled
                                                             />
                                                             <Input
+                                                                data-selector={'question-option-input'}
                                                                 size={'lg'}
                                                                 defaultValue={
                                                                     option.label
@@ -236,6 +241,7 @@ export default function FormViewPage({ interactor }: FormPageProps) {
                 <section>
                     <Skeleton isLoaded={!formViewFetch.isLoading()}>
                         <Button
+                            data-selector={'cancel-form-button'}
                             fullWidth
                             color="danger"
                             variant="flat"
